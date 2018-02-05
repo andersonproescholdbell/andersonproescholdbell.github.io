@@ -444,8 +444,6 @@ input {
 }
 
 #fcCombinationsText {
-  display: flex;
-  color: #000000;
   background-color: #536bff;
   font-weight: 2000;
   clear: both;
@@ -782,7 +780,6 @@ input {
 }
 
 #combinationstext {
-  color: #000000;
   background-color: #536bff;
   font-weight: 2000;
   clear: both;
