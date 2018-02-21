@@ -359,10 +359,6 @@ input {
   width: 100%;
 }
 
-#howmuchabovetext {
-  font-size: 18px;
-}
-
 #fcOnlyLowerDiv {
   margin-top: 0.4%;
   margin-bottom: 0.15%;
@@ -662,9 +658,24 @@ input {
   margin-top: 0.4%;
 }
 
+#comboInfo1 {
+  display: flex;
+  flex: 0.8;
+}
+
+#comboInfo2 {
+  display: flex;
+  flex: 0.8;
+}
+
+#comboInfo3 {
+  display: flex;
+  flex: 0.8;
+}
+
 #comboInfo4 {
   display: flex;
-  flex: 1.4;
+  flex: 1.6;
 }
 
 #numFloatsDiv {
