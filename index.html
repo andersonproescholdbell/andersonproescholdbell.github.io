@@ -430,8 +430,12 @@ Make sure to paste each set of data with two returns so that it is two lines bel
             <input id="Cspecificityinput" class="extrainfo CinfoInputs" type="number" value="0.01"/>
           </div>
           <div id="numFloatsDiv" class="comboInfo">
-            <h4 id="numFloats" class="infoText CinfoText">Number of Floats To Load From Each Set Of Data (10,25,36)</h4>
+            <h4 id="numFloats" class="infoText CinfoText">Num Floats To Load From Each Search first-last</h4>
             <input id="numFloatsInput" class="extrainfo CinfoInputs" onkeyup="updatecombinations()" value="25,25,25,25,25,25"/>
+          </div>
+          <div id="maxPriceDiv" class="comboInfo">
+            <h4 id="maxPriceText" class="infoText CinfoText">Max Price per Combo</h4>
+            <input id="maxPriceInput" class="extrainfo CinfoInputs" onkeyup="updatecombinations()" type="number" value="1000.00"/>
           </div>
         </div>
       </div>
@@ -439,7 +443,7 @@ Make sure to paste each set of data with two returns so that it is two lines bel
       <div id="OLParent" class="width100">
         <div class="centerFlex">
           <input id="onlyLowerChk" type="checkbox" onclick="ifOnlyLower()">
-          <label for="onlyLowerChk" id="onlyLowerText">Only Show Floats Lower Than Previous</label>
+          <label for="onlyLowerChk" id="onlyLowerText">Only Show Floats Lower Than or Equal to Previous</label>
         </div>
       </div>
 
