@@ -769,7 +769,7 @@ input {
   height: 22px;
   margin-bottom: 0px;
   margin-top: 0%;
-  transition: width 500ms ease;
+  transition: width 100ms ease;
   background-color: #38c158;
 }
 
