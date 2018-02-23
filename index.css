@@ -426,7 +426,6 @@ input {
   height: 22px;
   margin-top: 0%;
   margin-bottom: 0%;
-  transition: width 100ms ease;
   background-color: #38c158;
 }
 
@@ -521,7 +520,6 @@ input {
 #maxPriceDiv {
   display: flex;
   flex: 1;
-  width: 8.5%;
 }
 
 #minWearDiv {
@@ -683,7 +681,7 @@ input {
   flex: 2.25;
 }
 
-#maxPriceDiv  {
+#CmaxPriceDiv  {
   display: flex;
   flex: 1.25;
 }
@@ -769,7 +767,6 @@ input {
   height: 22px;
   margin-bottom: 0px;
   margin-top: 0%;
-  transition: width 100ms ease;
   background-color: #38c158;
 }
 
