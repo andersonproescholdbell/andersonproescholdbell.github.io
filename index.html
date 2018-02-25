@@ -19,9 +19,9 @@
 
     <div class="tab">
       <button class="tablinks tabButton" onclick="openTab(event, 'tfDiv')" id="defaultOpen">Simple Calculator for 10 Floats</button>
-      <button class="tablinks tabButton" onclick="openTab(event, 'ieee754Div')">IEEE754 Converter</button>
       <button class="tablinks tabButton" onclick="openTab(event, 'floatCombosDiv')">Float Combinations Generator</button>
       <button class="tablinks tabButton" onclick="openTab(event, 'opskinsFloatCombosDiv')">Opskins Float Combinations Generator</button>
+      <button class="tablinks tabButton" onclick="openTab(event, 'ieee754Div')">IEEE754 Converter</button>
 
       <div id="creatorInfo">
         <br><br>
@@ -200,34 +200,6 @@
       </div>
     </div>
 <!----------------------------------------------------------------------------------------------------------------------------------------- -->
-    <div id="ieee754Div" class="tabcontent">
-      <div class="width100">
-        <div id="ieee754">
-          <div class="IEEEs">
-            <p id="desiredIEEE" class="IEEEs ieeeLargeText">Desired Float</p>
-            <input id="desiredIEEEInput" class="IEEEsInput ieeeLargeText" value="0.50000" onkeyup="updateIeeeRange()"/>
-          </div>
-          <br>
-          <div class="IEEEs">
-            <p id="floatIEEE" class="IEEEs ieeeLargeText">IEEE754 of Desired Float</p>
-            <input id="floatIEEEInput" class="IEEEsInput ieeeLargeText" value="0.50000" onkeyup="updateIeeeRange()"/>
-          </div>
-          <br>
-          <div class="IEEEs">
-            <p id="minIEEE" class="IEEEs ieeeSmallerText">Lowest average to give Desired Float</p>
-            <input id="minIEEEinput" class="IEEEsInput ieeeSmallerText" value="0.00000" readonly/>
-            <p id="maxIEEE" class="IEEEs ieeeSmallerText">Highest average to give Desired Float</p>
-            <input id="maxIEEEinput" class="IEEEsInput ieeeSmallerText" value="0.00000" readonly/>
-          </div>
-          <br>
-          <div class="IEEEs">
-            <p id="middleIEEE" class="IEEEs ieeeLargeText">Middle of min and max IEEE754</p>
-            <input id="middleIEEEinput" class="IEEEsInput ieeeLargeText" value="0.00000" readonly/>
-          </div>
-        </div>
-      </div>
-    </div>
-<!--------------------------------------------------------------------------------------------------------------------------------------- -->
     <div id="floatCombosDiv" class="tabcontent width100">
       <div class="width100">
         <div class="centerFlex">
@@ -431,7 +403,7 @@ Make sure to paste each set of data with two returns so that it is two lines bel
           </div>
           <div id="numFloatsDiv" class="comboInfo">
             <h4 id="numFloats" class="infoText CinfoText">Num Floats To Load From Each Search first-last</h4>
-            <input id="numFloatsInput" class="extrainfo CinfoInputs" onkeyup="updatecombinations()" value="100,100,100,100,100"/>
+            <input id="numFloatsInput" class="extrainfo CinfoInputs" onkeyup="updatecombinations()" value="25,25,25,25,25"/>
           </div>
           <div id="CmaxPriceDiv" class="comboInfo">
             <h4 id="CmaxPriceText" class="infoText CinfoText">Max Price per Combo</h4>
@@ -491,6 +463,34 @@ Make sure to paste each set of data with two returns so that it is two lines bel
       <div id="combinationstext"></div>
     </div>
 <!-- ------------------------------------------------------------------------------------------------------------------------------------- -->
+    <div id="ieee754Div" class="tabcontent">
+      <div class="width100">
+        <div id="ieee754">
+          <div class="IEEEs">
+            <p id="desiredIEEE" class="IEEEs ieeeLargeText">Desired Float</p>
+            <input id="desiredIEEEInput" class="IEEEsInput ieeeLargeText" value="0.50000" onkeyup="updateIeeeRange()"/>
+          </div>
+          <br>
+          <div class="IEEEs">
+            <p id="floatIEEE" class="IEEEs ieeeLargeText">IEEE754 of Desired Float</p>
+            <input id="floatIEEEInput" class="IEEEsInput ieeeLargeText" value="0.50000" onkeyup="updateIeeeRange()"/>
+          </div>
+          <br>
+          <div class="IEEEs">
+            <p id="minIEEE" class="IEEEs ieeeSmallerText">Lowest average to give Desired Float</p>
+            <input id="minIEEEinput" class="IEEEsInput ieeeSmallerText" value="0.00000" readonly/>
+            <p id="maxIEEE" class="IEEEs ieeeSmallerText">Highest average to give Desired Float</p>
+            <input id="maxIEEEinput" class="IEEEsInput ieeeSmallerText" value="0.00000" readonly/>
+          </div>
+          <br>
+          <div class="IEEEs">
+            <p id="middleIEEE" class="IEEEs ieeeLargeText">Middle of min and max IEEE754</p>
+            <input id="middleIEEEinput" class="IEEEsInput ieeeLargeText" value="0.00000" readonly/>
+          </div>
+        </div>
+      </div>
+    </div>
+<!--------------------------------------------------------------------------------------------------------------------------------------- -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/async/2.6.0/async.min.js"></script>
     <script src="index.js"></script>
   </body>
