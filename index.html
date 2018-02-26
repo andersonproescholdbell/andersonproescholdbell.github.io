@@ -292,7 +292,7 @@
           <button id="fcStop" onclick="done = true;">Stop The Current Run</button>
         </div>
         <div class="centerFlex">
-          <p id="fcWarning">4s Delay Before Starting (to hopefully help browser) -- Uses Information Inputted Above</p>
+          <p id="fcWarning">3s Delay Before Starting (to hopefully help browser) -- Uses Information Inputted Above</p>
         </div>
       </div>
 
@@ -386,11 +386,11 @@ Make sure to paste each set of data with two returns so that it is two lines bel
       <div class="width100">
         <div class="centerFlex">
           <div id="comboInfo1" class="comboInfo flex1">
-            <h4 id="Centermaxweartext" class="infoText CinfoText">Enter Max Wear</h4>
+            <h4 id="Centermaxweartext" class="infoText CinfoText">Max Wear</h4>
             <input id="Cmaxwearinput" class="extrainfo CinfoInputs" type="number" value="1.00000"/>
           </div>
           <div id="comboInfo2" class="comboInfo flex1">
-            <h4 id="Centerminweartext" class="infoText CinfoText">Enter Min Wear</h4>
+            <h4 id="Centerminweartext" class="infoText CinfoText">Min Wear</h4>
             <input id="Cminwearinput" class="extrainfo CinfoInputs" type="number" value="0.00000"/>
           </div>
           <div id="comboInfo3" class="comboInfo flex1">
@@ -406,8 +406,12 @@ Make sure to paste each set of data with two returns so that it is two lines bel
             <input id="numFloatsInput" class="extrainfo CinfoInputs" onkeyup="updatecombinations()" value="25,25,25,25,25"/>
           </div>
           <div id="CmaxPriceDiv" class="comboInfo">
-            <h4 id="CmaxPriceText" class="infoText CinfoText">Max Price per Combo</h4>
+            <h4 id="CmaxPriceText" class="infoText CinfoText">Max Combo Price</h4>
             <input id="CmaxPriceInput" class="extrainfo CinfoInputs" type="number" value="1000.00"/>
+          </div>
+          <div id="CmatchesDiv" class="comboInfo">
+            <h4 id="CmatchesText" class="infoText CinfoText">Min Search0 in Combo</h4>
+            <input id="CmatchesInput" class="extrainfo CinfoInputs" type="number" value="0"/>
           </div>
         </div>
       </div>
@@ -415,7 +419,7 @@ Make sure to paste each set of data with two returns so that it is two lines bel
       <div id="OLParent" class="width100">
         <div class="centerFlex">
           <input id="onlyLowerChk" type="checkbox" onclick="ifOnlyLower()">
-          <label for="onlyLowerChk" id="onlyLowerText">Only Show Floats Lower Than or Equal to Previous</label>
+          <label for="onlyLowerChk" id="onlyLowerText">Only Show Floats Lower Than Previous</label>
         </div>
       </div>
 
@@ -441,7 +445,7 @@ Make sure to paste each set of data with two returns so that it is two lines bel
           <button id="stop" onclick="done = true;">Stop The Current Run</button>
         </div>
         <div class="centerFlex">
-          <p id="warning">4s Delay Before Starting (to hopefully help browser) -- Uses Information Inputted Above</p>
+          <p id="warning">3s Delay Before Starting (to hopefully help browser) -- Uses Information Inputted Above</p>
         </div>
       </div>
 

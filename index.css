@@ -658,12 +658,12 @@ input {
 
 #comboInfo1 {
   display: flex;
-  flex: 0.8;
+  flex: 0.6;
 }
 
 #comboInfo2 {
   display: flex;
-  flex: 0.8;
+  flex: 0.6;
 }
 
 #comboInfo3 {
@@ -683,7 +683,12 @@ input {
 
 #CmaxPriceDiv  {
   display: flex;
-  flex: 1.25;
+  flex: 0.9;
+}
+
+#CmatchesDiv {
+  display: flex;
+  flex: 1.1;
 }
 
 #onlyLowerDiv {
