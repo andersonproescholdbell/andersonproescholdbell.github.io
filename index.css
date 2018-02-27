@@ -486,7 +486,6 @@ input {
   font-size: 20px;
   background-color: #80DEEA;
   color: #000000;
-  border: 1px solid black;
 }
 
 .CinfoInputs {
@@ -688,7 +687,36 @@ input {
 
 #CmatchesDiv {
   display: flex;
-  flex: 1.1;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#CmatchesText {
+  margin-top: 0.3%;
+  color: #b5bfce;
+}
+
+#CmatchesInput {
+  margin-top: 0.15%;
+  display: flex;
+  width: 40%;
+}
+
+#hidingDiv {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#hideOpInfoButton {
+  text-align: center;
+  margin-top: 0.5%;
+  display: flex;
+  background-color: grey;
+  border: 0px solid black;
+  width: 8%;
+  font-size: 20pt;
 }
 
 #onlyLowerDiv {

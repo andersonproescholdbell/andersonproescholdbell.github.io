@@ -379,7 +379,16 @@ Make sure to paste each set of data with two returns so that it is two lines bel
         </div>
       </div>
 
-      <div id="opInfoOverlay" onclick="dontShowOpInfo()">
+      <div id="opInfoOverlay" class="centerFlex">
+        <div>
+          <div id="CmatchesDiv" class="comboInfo">
+            <h4 id="CmatchesText" class="infoText CinfoText">Minimum Floats From Searches 0-x in Combo (x,x,x,x,x)</h4>
+            <input id="CmatchesInput" class="extrainfo CinfoInputs" value="0,0,0,0,0,0,0" onkeyup="getMatches()"/>
+          </div>
+        </div>
+        <div id="hidingDiv" class="centerFlex">
+          <button id="hideOpInfoButton" onclick="dontShowOpInfo()">Hide Overlay</button>
+        </div>
         <div id="opInfoText"></div>
       </div>
 
@@ -408,10 +417,6 @@ Make sure to paste each set of data with two returns so that it is two lines bel
           <div id="CmaxPriceDiv" class="comboInfo">
             <h4 id="CmaxPriceText" class="infoText CinfoText">Max Combo Price</h4>
             <input id="CmaxPriceInput" class="extrainfo CinfoInputs" type="number" value="1000.00"/>
-          </div>
-          <div id="CmatchesDiv" class="comboInfo">
-            <h4 id="CmatchesText" class="infoText CinfoText">Min Search0 in Combo</h4>
-            <input id="CmatchesInput" class="extrainfo CinfoInputs" type="number" value="0"/>
           </div>
         </div>
       </div>
