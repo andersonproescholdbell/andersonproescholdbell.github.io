@@ -604,44 +604,6 @@ input {
   border: 1px solid black;
 }
 
-#opInfoButton {
-  display: flex;
-  font-size: 16px;
-  height: 80px;
-  border: 1px solid black;
-  margin-top: 0.25%;
-  margin-bottom: 0.5%;
-  margin-left: 0.25%;
-  text-align: center;
-  background-color: #a5afb7;
-  color: #16122b;
-}
-
-#opInfoOverlay {
-  position: fixed; /* Sit on top of the page content */
-  display: none; /* Hidden by default */
-  width: 100%; /* Full width (cover the whole page) */
-  height: 100%; /* Full height (cover the whole page) */
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0,0,0,0.85); /* Black background with opacity */
-  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
-  cursor: pointer; /* Add a pointer on hover */
-}
-
-#opInfoText {
-  position: absolute;
-  text-align: center;
-  top: 50%;
-  left: 50%;
-  color: #b5bfce;
-  font-size: 20px;
-  transform: translate(-50%,-50%);
-  -ms-transform: translate(-50%,-50%);
-}
-
 .comboInfo {
   display: flex;
   flex-direction: column;
@@ -702,6 +664,44 @@ input {
   width: 40%;
 }
 
+#opInfoButton {
+  display: flex;
+  font-size: 16px;
+  height: 80px;
+  border: 1px solid black;
+  margin-top: 0.25%;
+  margin-bottom: 0.5%;
+  margin-left: 0.25%;
+  text-align: center;
+  background-color: #a5afb7;
+  color: #16122b;
+}
+
+#opInfoOverlay {
+  position: fixed; /* Sit on top of the page content */
+  display: none; /* Hidden by default */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.85); /* Black background with opacity */
+  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+  cursor: pointer; /* Add a pointer on hover */
+}
+
+#opInfoText {
+  position: absolute;
+  text-align: center;
+  top: 62%;
+  left: 50%;
+  color: #b5bfce;
+  font-size: 20px;
+  transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+}
+
 #hidingDiv {
   text-align: center;
   display: flex;
@@ -715,8 +715,41 @@ input {
   display: flex;
   background-color: grey;
   border: 0px solid black;
-  width: 8%;
-  font-size: 20pt;
+  font-size: 35px;
+}
+
+#savedSearchesText {
+  color: #b5bfce;
+  margin-top: 0.5%;
+  display: flex;
+}
+
+#savedSearchesText2 {
+  font-size: 17px;
+  color: grey;
+  margin-top: 0%;
+  margin-bottom: 0%;
+  text-align: center;
+}
+
+#savedSearchesTextarea {
+  display: flex;
+  margin-top: 0.05%;
+  width: 85%;
+  height: 100px;
+  text-align: center;
+  background-color: #8eead5;
+  color: #000000;
+  border: 1px solid black;
+}
+
+#searchLinks {
+  margin-top: 0.25%;
+  text-align: center;
+  display: flex;
+  background-color: #0fa72c;
+  border: 1px solid black;
+  font-size: 20px;
 }
 
 #onlyLowerDiv {

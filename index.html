@@ -26,7 +26,7 @@
       <div id="creatorInfo">
         <br><br>
         <p id="steam">Created by <a class="link" href="https://steamcommunity.com/id/peckerpecker/">this guy</a></p>
-        <p>Send Me Bugs/Suggestions</p>
+        <p>Send Me Bugs/Suggestions (or donations!)</p>
         <br>
         <p id="reload">If something isn't working, reload the page! (or duplicate to preserve info)</p>
         <br><br>
@@ -384,6 +384,16 @@ Make sure to paste each set of data with two returns so that it is two lines bel
           <div id="CmatchesDiv" class="comboInfo">
             <h4 id="CmatchesText" class="infoText CinfoText">Minimum Floats From Searches 0-x in Combo (x,x,x,x,x)</h4>
             <input id="CmatchesInput" class="extrainfo CinfoInputs" value="0,0,0,0,0,0,0" onkeyup="getMatches()"/>
+          </div>
+        </div>
+        <div>
+          <h4 id="savedSearchesText" class="infoText CinfoText">Current Search History (Urls separated by ";")</h4>
+          <p id="savedSearchesText2"> ex: https://api.opskins.com/ISales/Search/v1/?key=YOURAPIKEY&app=730_2&search_item=ak%20redline&min=0.02&max=1000&wear_range_low=0&wear_range_high=100&stat=0&souvenir=0;url;url;</p>
+          <div class="centerFlex">
+            <textarea id="savedSearchesTextarea"></textarea>
+          </div>
+          <div class="centerFlex">
+            <button id="searchLinks" onclick="searchLinks()">Search All Links Above (requires apikey to be in links. Will not delete your previous data, must delete manually.)</button>
           </div>
         </div>
         <div id="hidingDiv" class="centerFlex">
