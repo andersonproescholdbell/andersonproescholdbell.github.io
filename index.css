@@ -39,14 +39,12 @@ input {
 
 /*-----------------------------------website wide ends--------------------------*/
 
-/* Style the tab */
 .tab {
     float: left;
     background-color: #a2a2a2;
     width: 10%;
 }
 
-/* Style the buttons inside the tab */
 .tabButton {
   display: block;
   background-color: inherit;
@@ -61,18 +59,12 @@ input {
   font-size: 17px;
 }
 
-/* Change background color of buttons on hover */
 .tab button:hover {
   background-color: #5cd6ff;
 }
 
-/* Create an active/current "tab button" class */
-.tab button.active {
-  background-color: #90CAF9;
-}
-
-/* Style the tab content */
 .tabcontent {
+  display: none;
   float: left;
   padding: 0px 12px;
   width: 90%;
@@ -373,7 +365,6 @@ input {
 #fcOnlyLowerText {
   display: flex;
   font-size: 18px;
-  font-weight: bold;
 }
 
 #fcGenerateCombos{
@@ -593,6 +584,7 @@ input {
 
 #formattedOpskins {
   display: flex;
+  flex: 15;
   font-size: 16px;
   width: 85%;
   height: 80px;
@@ -664,8 +656,25 @@ input {
   width: 40%;
 }
 
+#saveParams {
+  display: flex;
+  flex: 1.5;
+  flex-direction: column;
+  font-size: 16px;
+  height: 80px;
+  border: 1px solid black;
+  margin-top: 0.25%;
+  margin-bottom: 0.5%;
+  margin-right: 0.25%;
+  text-align: center;
+  background-color: #a5afb7;
+  color: #16122b;
+}
+
 #opInfoButton {
   display: flex;
+  flex: 1;
+  flex-direction: column;
   font-size: 16px;
   height: 80px;
   border: 1px solid black;
@@ -691,11 +700,22 @@ input {
   cursor: pointer; /* Add a pointer on hover */
 }
 
+#pastParams {
+  position: absolute;
+  text-align: center;
+  top: 62%;
+  left: 25%;
+  color: #b5bfce;
+  font-size: 20px;
+  transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+}
+
 #opInfoText {
   position: absolute;
   text-align: center;
   top: 62%;
-  left: 50%;
+  left: 75%;
   color: #b5bfce;
   font-size: 20px;
   transform: translate(-50%,-50%);
@@ -735,8 +755,8 @@ input {
 #savedSearchesTextarea {
   display: flex;
   margin-top: 0.05%;
-  width: 85%;
-  height: 100px;
+  width: 95%;
+  height: 60px;
   text-align: left;
   background-color: #8eead5;
   color: #000000;

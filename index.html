@@ -18,10 +18,10 @@
     <img src="downarrow.png" alt="Look Below" id="arrowPop">
 
     <div class="tab">
-      <button class="tablinks tabButton" onclick="openTab(event, 'tfDiv')" id="defaultOpen">Simple Calculator for 10 Floats</button>
-      <button class="tablinks tabButton" onclick="openTab(event, 'floatCombosDiv')">Float Combinations Generator</button>
-      <button class="tablinks tabButton" onclick="openTab(event, 'opskinsFloatCombosDiv')">Opskins Float Combinations Generator</button>
-      <button class="tablinks tabButton" onclick="openTab(event, 'ieee754Div')">IEEE754 Converter</button>
+      <button id="tfDivbtn" class="tablinks tabButton" onclick="openTab('tfDiv')">Simple Calculator for 10 Floats</button>
+      <button id="floatCombosDivbtn" class="tablinks tabButton" onclick="openTab('floatCombosDiv')">Float Combinations Generator</button>
+      <button id="opskinsFloatCombosDivbtn" class="tablinks tabButton" onclick="openTab('opskinsFloatCombosDiv')">Opskins Float Combinations Generator</button>
+      <button id="ieee754Divbtn" class="tablinks tabButton" onclick="openTab('ieee754Div')">IEEE754 Converter</button>
 
       <div id="creatorInfo">
         <br><br>
@@ -85,7 +85,7 @@
       Make sure to double check any combinations with <a class="link" href="https://www.csgozone.net/">https://www.csgozone.net/</a>. That way if the set of 10 skins are slightly off, you can sell them before failing a tradeup<br><br><br>
       Thanks to <a href="http://steamcommunity.com/id/Cygnusx1304/" class="link">Cygnus</a>, <a href="http://steamcommunity.com/id/n-64/" class="link">Jess</a>, <a href="http://steamcommunity.com/id/raphized/" class="link">Raph</a>, <a href="http://steamcommunity.com/id/LuckystrikeFTW/" class="link">Luckystrike</a>, and especially <a href="http://steamcommunity.com/id/dmnevius/" class="link">dmnevius</a> for helping.
     </div>
-<!-- ------------------------------------------------------------------------------------------------------------------------------------------ -->
+<!-- ********************************************************************************************************************************************************************* -->
     <div id="tfDiv" class="tabcontent">
       <div id=tfParent>
         <div id="tfEntering">
@@ -190,16 +190,10 @@
               <input type="text" class="tfOutputs" id="tfNewAverageNeededInput" readonly value="0.00000"/>
             </div>
           </div>
-          <div class="centerFlex">
-            <div class="tfOutcomesSpacing">
-              <h2 id="tfIeee754" class="tfOutputsText">IEEE754 Representation of the Output Wear</h2>
-              <input type="text" class="tfOutputs" id="tfIeee754Input" readonly value="0.00000"/>
-            </div>
-          </div>
         </div>
       </div>
     </div>
-<!----------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- ********************************************************************************************************************************************************************* -->
     <div id="floatCombosDiv" class="tabcontent width100">
       <div class="width100">
         <div class="centerFlex">
@@ -311,7 +305,7 @@
       </div>
       <div id="fcCombinationsText"></div>
     </div>
-<!-- ------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- ********************************************************************************************************************************************************************* -->
     <div id="opskinsFloatCombosDiv" class="tabcontent width100">
       <div class="centerFlex">
         <div id="apiKeyDiv" class="opskinsStuff opApiSpacing">
@@ -346,10 +340,10 @@
 
       <div id="addRemoveDiv" class="width100">
         <div id="getInfoDiv" class="opskinsStuff centerFlex">
-          <button id="getInfoInput" class="extrainfo" onclick="addOpData()"/>Add Floats From Search (can be done with multiple searches)</button>
+          <button id="getInfoInput" class="extrainfo" onclick="addOpData()">Add Floats From Search (can be done with multiple searches)</button>
         </div>
         <div id="removeInfoDiv" class="opskinsStuff centerFlex">
-          <button id="removeInfoInput" class="extrainfo" onclick="removeOpData()"/>Remove All Data (clear/reset)</button>
+          <button id="removeInfoInput" class="extrainfo" onclick="removeOpData()">Remove All Data (clear/reset)</button>
         </div>
       </div>
 
@@ -373,9 +367,10 @@ Make sure to paste each set of data with two returns so that it is two lines bel
       </div>
 
       <div class="width100">
-        <div class="centerFlex">
+        <div class="centerFlex" style="align-items: center; justify-content: center;">
+          <button id="saveParams" onclick="saveParams()">Save Current Search Parameters</button>
           <textarea readonly id="formattedOpskins">Float string that will work on other page will load here.</textarea>
-          <button id="opInfoButton" onclick="showOpInfo()">Check Opskins Data Info</button>
+          <button id="opInfoButton" onclick="showOpInfo()">More Info/Features</button>
         </div>
       </div>
 
@@ -387,8 +382,7 @@ Make sure to paste each set of data with two returns so that it is two lines bel
           </div>
         </div>
         <div>
-          <h4 id="savedSearchesText" class="infoText CinfoText">Current Search History (Urls separated by ";")</h4>
-          <p id="savedSearchesText2"> ex: https://api.opskins.com/ISales/Search/v1/?key=YOURAPIKEY&app=730_2&search_item=ak%20redline&min=0.02&max=1000&wear_range_low=0&wear_range_high=100&stat=0&souvenir=0;url;url;</p>
+          <h4 id="savedSearchesText" class="infoText CinfoText">Current Search History</h4>
           <div class="centerFlex">
             <textarea id="savedSearchesTextarea"></textarea>
           </div>
@@ -399,7 +393,10 @@ Make sure to paste each set of data with two returns so that it is two lines bel
         <div id="hidingDiv" class="centerFlex">
           <button id="hideOpInfoButton" onclick="dontShowOpInfo()">Hide Overlay</button>
         </div>
-        <div id="opInfoText"></div>
+        <div class="centerFlex">
+          <div id="pastParams"></div>
+          <div id="opInfoText"></div>
+        </div>
       </div>
 
       <div class="width100">
@@ -431,24 +428,20 @@ Make sure to paste each set of data with two returns so that it is two lines bel
         </div>
       </div>
 
-      <div id="OLParent" class="width100">
-        <div class="centerFlex">
-          <input id="onlyLowerChk" type="checkbox" onclick="ifOnlyLower()">
-          <label for="onlyLowerChk" id="onlyLowerText">Only Show Floats Lower Than Previous</label>
-        </div>
-      </div>
-
-      <div class="width100">
-        <div class="centerFlex">
-          <input id="priceChk" type="checkbox" onclick="ifLowerPrice()">
-          <label for="prceChk" id="priceText">Show Combos That Are The Correct Float and Lower Price</label>
-        </div>
-      </div>
-
-      <div class="width100">
-        <div class="centerFlex">
-          <input id="lowPriceChk" type="checkbox" onclick="ifOnlyLowerPrice()">
-          <label for="lowPriceChk" id="priceText">Show Combos With Progessively Lower Prices</label>
+      <div id="OLParent" class="width100" style="margin-top: 0.15%;">
+        <div class="centerFlex" style="justify-content: space-evenly;">
+          <div>
+            <input id="onlyLowerChk" type="checkbox" onclick="ifOnlyLower()">
+            <label for="onlyLowerChk" id="onlyLowerText">Only Show Floats Lower Than Previous</label>
+          </div>
+          <div>
+            <input id="priceChk" type="checkbox" onclick="ifLowerPrice()">
+            <label for="prceChk" id="priceText">Show Combos That Are The Correct Float and Lower Price</label>
+          </div>
+          <div>
+            <input id="lowPriceChk" type="checkbox" onclick="ifOnlyLowerPrice()">
+            <label for="lowPriceChk" id="priceText">Show Combos With Progessively Lower Prices</label>
+          </div>
         </div>
       </div>
 
@@ -481,7 +474,7 @@ Make sure to paste each set of data with two returns so that it is two lines bel
       </div>
       <div id="combinationstext"></div>
     </div>
-<!-- ------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- ********************************************************************************************************************************************************************* -->
     <div id="ieee754Div" class="tabcontent">
       <div class="width100">
         <div id="ieee754">
@@ -509,7 +502,7 @@ Make sure to paste each set of data with two returns so that it is two lines bel
         </div>
       </div>
     </div>
-<!--------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- ********************************************************************************************************************************************************************* -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/async/2.6.0/async.min.js"></script>
     <script src="index.js"></script>
   </body>
