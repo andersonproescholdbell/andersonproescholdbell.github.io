@@ -40,9 +40,9 @@ input {
 /*-----------------------------------website wide ends--------------------------*/
 
 .tab {
-    float: left;
-    background-color: #a2a2a2;
-    width: 10%;
+  float: left;
+  background-color: #a2a2a2;
+  width: 10%;
 }
 
 .tabButton {
@@ -92,17 +92,17 @@ input {
 }
 
 #overlay {
-    position: fixed; /* Sit on top of the page content */
-    display: none; /* Hidden by default */
-    width: 100%; /* Full width (cover the whole page) */
-    height: 100%; /* Full height (cover the whole page) */
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.80); /* Black background with opacity */
-    z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
-    cursor: pointer; /* Add a pointer on hover */
+  position: fixed; /* Sit on top of the page content */
+  display: none; /* Hidden by default */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.80); /* Black background with opacity */
+  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+  cursor: pointer; /* Add a pointer on hover */
 }
 
 #helpText {
@@ -528,26 +528,23 @@ input {
 }
 
 #addRemoveDiv {
+  display: flex;
   margin-top: 0%;
   text-align: center;
-}
-
-#getInfoDiv {
-  margin-top: 0%;
-  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
 
 #getInfoInput {
   background-color: #0fa72c;
 }
 
-#removeInfoDiv {
-  margin-top: 0%;
-  display: flex;
-}
-
 #removeInfoInput {
   background-color: #c10032;
+}
+
+#addCustomBtn {
+  background-color: #ea7d7d;
 }
 
 #opLinkDiv {
@@ -669,6 +666,7 @@ input {
   text-align: center;
   background-color: #a5afb7;
   color: #16122b;
+      justify-content: space-evenly;
 }
 
 #opInfoButton {
@@ -684,6 +682,7 @@ input {
   text-align: center;
   background-color: #a5afb7;
   color: #16122b;
+  justify-content: space-evenly;
 }
 
 #opInfoOverlay {
