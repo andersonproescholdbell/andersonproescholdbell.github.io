@@ -550,12 +550,17 @@ input {
 #opLinkDiv {
   display: flex;
   text-align: center;
-  margin-top: -0.95%;
+  margin-top: -0.90%;
   margin-bottom: 1.5%;
 }
 
 #susText {
   margin-bottom: 0.10%;
+}
+
+#noTradeLock {
+  display: flex;
+  margin-top: -0.10%;
 }
 
 #opLink {
