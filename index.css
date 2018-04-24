@@ -889,6 +889,17 @@ input {
 }
 
 /*-----------------------------------opskins combos styling ends--------------------------*/
+.FP {
+	border:1px solid #C0C0C0;
+	border-collapse:collapse;
+	padding:5px;
+}
+.FP td {
+	border:1px solid #C0C0C0;
+	padding:5px;
+}
+
+/*-----------------------------------float pyramid styling ends--------------------------*/
 #separator {
   margin-top: 0.75%;
   height: 1%;

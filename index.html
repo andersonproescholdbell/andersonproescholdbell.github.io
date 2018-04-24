@@ -22,6 +22,7 @@
       <button id="floatCombosDivbtn" class="tablinks tabButton" onclick="openTab('floatCombosDiv')">Float Combinations Generator</button>
       <button id="opskinsFloatCombosDivbtn" class="tablinks tabButton" onclick="openTab('opskinsFloatCombosDiv')">Opskins Float Combinations Generator</button>
       <button id="ieee754Divbtn" class="tablinks tabButton" onclick="openTab('ieee754Div')">IEEE754 Converter</button>
+      <button id="floatPyramidDivbtn" class="tablinks tabButton" onclick="openTab('floatPyramidDiv')">Float Pyramid</button>
 
       <div id="creatorInfo">
         <br><br>
@@ -83,6 +84,12 @@
       you can just enter in your specifications and the page will give you a link where you can put your own api key in <br> <br>
       Once you have a tab open with the data, copy+paste it into the textarea below "Total Combinations Possible" (make sure there is a full line of space inbetween sets of data)<br><br>
       Make sure to double check any combinations with <a class="link" href="https://www.csgozone.net/">https://www.csgozone.net/</a>. That way if the set of 10 skins are slightly off, you can sell them before failing a tradeup<br><br><br>
+      Thanks to <a href="http://steamcommunity.com/id/Cygnusx1304/" class="link">Cygnus</a>, <a href="http://steamcommunity.com/id/n-64/" class="link">Jess</a>, <a href="http://steamcommunity.com/id/raphized/" class="link">Raph</a>, <a href="http://steamcommunity.com/id/LuckystrikeFTW/" class="link">Luckystrike</a>, and especially <a href="http://steamcommunity.com/id/dmnevius/" class="link">dmnevius</a> for helping.
+    </div>
+    <div id="floatPyramidText" class="displayNone">
+      Click Anywhere To Exit
+      <br><br>
+      This page is dedicated to seeing the outcome multiple tradeups in advance
       Thanks to <a href="http://steamcommunity.com/id/Cygnusx1304/" class="link">Cygnus</a>, <a href="http://steamcommunity.com/id/n-64/" class="link">Jess</a>, <a href="http://steamcommunity.com/id/raphized/" class="link">Raph</a>, <a href="http://steamcommunity.com/id/LuckystrikeFTW/" class="link">Luckystrike</a>, and especially <a href="http://steamcommunity.com/id/dmnevius/" class="link">dmnevius</a> for helping.
     </div>
 <!-- ********************************************************************************************************************************************************************* -->
@@ -508,6 +515,12 @@ Make sure to paste each set of data with two returns so that it is two lines bel
             <input id="middleIEEEinput" class="IEEEsInput ieeeLargeText" value="0.00000" readonly/>
           </div>
         </div>
+      </div>
+    </div>
+<!-- ********************************************************************************************************************************************************************* -->
+    <div id="floatPyramidDiv" class="tabcontent" style="overflow-x:auto;">
+      <div class="width100">
+        <button onclick="FPadd();">Add 10 Purple(restricted) Floats</button>
       </div>
     </div>
 <!-- ********************************************************************************************************************************************************************* -->
