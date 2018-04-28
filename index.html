@@ -518,9 +518,169 @@ Make sure to paste each set of data with two returns so that it is two lines bel
       </div>
     </div>
 <!-- ********************************************************************************************************************************************************************* -->
-    <div id="floatPyramidDiv" class="tabcontent" style="overflow-x:auto;">
-      <div class="width100">
-        <button onclick="FPadd();">Add 10 Purple(restricted) Floats</button>
+    <div id="floatPyramidDiv" class="tabcontent" >
+      <div id="rowscontainer">
+        <div id="row1div">
+          <input id="r1min" value="float min"></input>
+          <input id="r1max" value="float max"></input>
+          <input id="row1float" class="fpFloats" ></input>
+          <button id="fpGo" onclick="fpGo()">Go!</button>
+        </div>
+        <hr id="separator">
+        <div id="row2div">
+          <input id="r2min" value="float min"></input>
+          <input id="r2max" value="float max"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+        </div>
+        <hr id="separator">
+        <div id="row3div">
+          <input id="r3min" value="" readonly></input>
+          <input id="r3max" value="" readonly></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+        </div><div id="row3div">
+          <input id="r3min" value="" readonly></input>
+          <input id="r3max" value="" readonly></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+        </div>
+        <div id="row3div">
+          <input id="r3min" value="" readonly></input>
+          <input id="r3max" value="" readonly></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+        </div>
+        <div id="row3div">
+          <input id="r3min" value="" readonly></input>
+          <input id="r3max" value="" readonly></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+        </div>
+        <div id="row3div">
+          <input id="r3min" value="" readonly></input>
+          <input id="r3max" value="" readonly></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+        </div>
+        <div id="row3div">
+          <input id="r3min" value="" readonly></input>
+          <input id="r3max" value="" readonly></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+        </div>
+        <div id="row3div">
+          <input id="r3min" value="" readonly></input>
+          <input id="r3max" value="" readonly></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+        </div>
+        <div id="row3div">
+          <input id="r3min" value="" readonly></input>
+          <input id="r3max" value="" readonly></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+        </div>
+        <div id="row3div">
+          <input id="r3min" value="" readonly></input>
+          <input id="r3max" value="" readonly></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+        </div>
+        <div id="row3div">
+          <input id="r3min" value="" readonly></input>
+          <input id="r3max" value="" readonly></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+          <input class="fpFloats fpGrey" value="0"></input>
+          <input class="fpFloats" value="0"></input>
+        </div>
       </div>
     </div>
 <!-- ********************************************************************************************************************************************************************* -->

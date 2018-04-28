@@ -889,14 +889,86 @@ input {
 }
 
 /*-----------------------------------opskins combos styling ends--------------------------*/
-.FP {
-	border:1px solid #C0C0C0;
-	border-collapse:collapse;
-	padding:5px;
+.fpFloats {
+  width: 8%;
+  text-align: center;
+  border: 1px solid black;
 }
-.FP td {
-	border:1px solid #C0C0C0;
-	padding:5px;
+
+.fpGrey {
+  background-color: #afafaf;
+}
+
+#fpGo {
+  width: 8%;
+  font-weight: bolder;
+  background-color: #22c722;
+  border: 1px solid black;
+  font-size: 22px;
+}
+
+#row1float {
+  background-color: #ffe559;
+}
+
+#row1div {
+  margin-top: 0.5%;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+#row2div {
+  margin-top: 0.5%;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+#row3div {
+  margin-top: 0.5%;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+#r1min {
+  text-align: center;
+  width: 6%;
+  background-color: #85add0;
+  border: 1px solid black;
+}
+
+#r1max {
+  text-align: center;
+  width: 6%;
+  background-color: #85add0;
+  border: 1px solid black;
+}
+
+#r2min {
+  text-align: center;
+  width: 6%;
+  background-color: #85add0;
+  border: 1px solid black;
+}
+
+#r2max {
+  text-align: center;
+  width: 6%;
+  background-color: #85add0;
+  border: 1px solid black;
+}
+
+#r3min {
+  text-align: center;
+  width: 6%;
+  background-color: #85add0;
+  border: 1px solid black;
+}
+
+#r3max {
+  text-align: center;
+  width: 6%;
+  background-color: #85add0;
+  border: 1px solid black;
 }
 
 /*-----------------------------------float pyramid styling ends--------------------------*/
