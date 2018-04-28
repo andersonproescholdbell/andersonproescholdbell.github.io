@@ -890,7 +890,7 @@ input {
 
 /*-----------------------------------opskins combos styling ends--------------------------*/
 .fpFloats {
-  width: 8%;
+  width: 8.35%;
   text-align: center;
   border: 1px solid black;
 }
@@ -900,11 +900,11 @@ input {
 }
 
 #fpGo {
-  width: 8%;
+  width: 76.25%;
   font-weight: bolder;
   background-color: #22c722;
   border: 1px solid black;
-  font-size: 22px;
+  font-size: 20px;
 }
 
 #row1float {
