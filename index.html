@@ -20,7 +20,8 @@
     <div class="tab">
       <button id="tfDivbtn" class="tablinks tabButton" onclick="openTab('tfDiv')">Simple Calculator for 10 Floats</button>
       <button id="floatCombosDivbtn" class="tablinks tabButton" onclick="openTab('floatCombosDiv')">Float Combinations Generator</button>
-      <button id="opskinsFloatCombosDivbtn" class="tablinks tabButton" onclick="openTab('opskinsFloatCombosDiv')">Opskins Float Combinations Generator</button>
+      <button id="opskinsFloatCombosDivbtn" class="tablinks tabButton" onclick="openTab('opskinsFloatCombosDiv')">BitSkins Float Combinations Generator</button>
+      <button id="ATCDivbtn" class="tablinks tabButton" onclick="openTab('ATCDiv')">Add Skins to BitSkins Cart</button>
       <button id="ieee754Divbtn" class="tablinks tabButton" onclick="openTab('ieee754Div')">IEEE754 Converter</button>
       <button id="floatPyramidDivbtn" class="tablinks tabButton" onclick="openTab('floatPyramidDiv')">Float Pyramid</button>
 
@@ -75,7 +76,7 @@
       <br><br>
       This page is basically the same as the regular float combinations page, except you can load in data from opskins <br><br>
       You need to use your own api key for this <br><br>
-      To get yours, go to: <a class=link href="https://opskins.com/?loc=store_account#collapseAA">https://opskins.com/?loc=store_account#collapseAA</a><br><br>
+      To get yours, go to BitSkins settings. You will need to enable 2fa to get your own api key.<br><br>
       Input in the specifications of your search and click the "Add" button to add the data to the section below <br><br>
       To find minimum and maximum float values for a skin that you want to trade up to, check out <a class="link" href="https://csgostash.com/">https://csgostash.com/</a><br><br>
       You can add more than one search and select how many floats from each should be used to generate combinations <br> <br>
@@ -90,6 +91,14 @@
       Click Anywhere To Exit
       <br><br>
       This page is dedicated to seeing the outcome multiple tradeups in advance
+      Thanks to <a href="http://steamcommunity.com/id/Cygnusx1304/" class="link">Cygnus</a>, <a href="http://steamcommunity.com/id/n-64/" class="link">Jess</a>, <a href="http://steamcommunity.com/id/raphized/" class="link">Raph</a>, <a href="http://steamcommunity.com/id/LuckystrikeFTW/" class="link">Luckystrike</a>, and especially <a href="http://steamcommunity.com/id/dmnevius/" class="link">dmnevius</a> for helping.
+    </div>
+    <div id="ATCText" class="displayNone">
+      Click Anywhere To Exit
+      <br><br>
+      This is a way to add 10 items to your BitSkins cart
+      This requires some info none of which is saved
+      Looking for a better way as of 6/29/2018
       Thanks to <a href="http://steamcommunity.com/id/Cygnusx1304/" class="link">Cygnus</a>, <a href="http://steamcommunity.com/id/n-64/" class="link">Jess</a>, <a href="http://steamcommunity.com/id/raphized/" class="link">Raph</a>, <a href="http://steamcommunity.com/id/LuckystrikeFTW/" class="link">Luckystrike</a>, and especially <a href="http://steamcommunity.com/id/dmnevius/" class="link">dmnevius</a> for helping.
     </div>
 <!-- ********************************************************************************************************************************************************************* -->
@@ -316,32 +325,64 @@
     <div id="opskinsFloatCombosDiv" class="tabcontent width100">
       <div class="centerFlex">
         <div id="apiKeyDiv" class="opskinsStuff opApiSpacing">
-          <h4 id="apiKey" class="infoText CinfoText opSearchClass opApiSpacing">Enter Opskins api Key (information not saved)</h4>
-          <input id="apiInput" class="extrainfo CinfoInputs opskinsStuff opApiSpacing" value="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"/>
+          <h4 id="apiKey" class="infoText CinfoText opSearchClass opApiSpacing">BitSkins Api Key</h4>
+          <input id="apiInput" class="extrainfo CinfoInputs opskinsStuff opApiSpacing" onkeydown="updateOpLink()" onkeyup="updateOpLink()" value="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"/>
+        </div>
+        <div id="secCodeDiv" class="opskinsStuff opApiSpacing">
+          <h4 id="secCode" class="infoText CinfoText opSearchClass opApiSpacing">BitSkins Secure Code</h4>
+          <input id="secCodeInput" class="extrainfo CinfoInputs opskinsStuff opApiSpacing" onkeydown="updateOpLink()" onkeyup="updateOpLink()" value="xxxxxx"/>
         </div>
         <div id="searchDiv" class="opskinsStuff opApiSpacing">
-          <h4 id="search" class="infoText CinfoText opSearchClass opApiSpacing">Search Opskins For</h4>
-          <input id="searchInput" class="extrainfo CinfoInputs opskinsStuff opApiSpacing" onkeydown="updateOpLink()" value="ak redline"/>
+          <h4 id="search" class="infoText CinfoText opSearchClass opApiSpacing">Search BitSkins For</h4>
+          <input id="searchInput" class="extrainfo CinfoInputs opskinsStuff opApiSpacing" onkeydown="updateOpLink()" onkeyup="updateOpLink()" value="ak redline"/>
         </div>
         <div id="minPriceDiv" class="opskinsStuff opApiSpacing">
           <h4 id="minPrice" class="infoText CinfoText opSearchClass opApiSpacing">Min Price ($)</h4>
-          <input id="minPriceInput" class="extrainfo CinfoInputs opskinsStuff opApiSpacing" type="number" onkeydown="updateOpLink()" value="0.02"/>
+          <input id="minPriceInput" class="extrainfo CinfoInputs opskinsStuff opApiSpacing" type="number" onkeydown="updateOpLink()" onkeyup="updateOpLink()" value="0.02"/>
         </div>
         <div id="maxPriceDiv" class="opskinsStuff opApiSpacing">
           <h4 id="maxPrice" class="infoText CinfoText opSearchClass opApiSpacing">Max Price ($)</h4>
-          <input id="maxPriceInput" class="extrainfo CinfoInputs opskinsStuff opApiSpacing" type="number" onkeydown="updateOpLink()" value="1000.00"/>
+          <input id="maxPriceInput" class="extrainfo CinfoInputs opskinsStuff opApiSpacing" type="number" onkeydown="updateOpLink()" onkeyup="updateOpLink()" value="1000.00"/>
         </div>
-        <div id="minWearDiv" class="opskinsStuff opApiSpacing">
-          <h4 id="minWear" class="infoText CinfoText opSearchClass opApiSpacing">Min Wear</h4>
-          <input id="minWearInput" class="extrainfo CinfoInputs opskinsStuff opApiSpacing" type="number" onkeydown="updateOpLink()" value="0.00000"/>
+
+        <div id="wearDiv" class="centerFlex">
+          <div class="wears">
+            <div>
+              <input id="any" type="checkbox" onchange='whichWear("any");updateOpLink()'>
+              <label for="any">Any</label>
+            </div>
+            <div>
+              <input id="factoryNew" type="checkbox" onchange='whichWear("fn");updateOpLink()'>
+              <label for="factoryNew">Factory New</label>
+            </div>
+            <div>
+              <input id="minimalWear" type="checkbox" onchange='whichWear("mw");updateOpLink()'>
+              <label for="minimalWear">Minimal Wear</label>
+            </div>
+          </div>
+          <div class="wears">
+            <div>
+              <input id="fieldTested" type="checkbox" onchange='whichWear("ft");updateOpLink()'>
+              <label for="fieldTested">Field-Tested</label>
+            </div>
+            <div>
+              <input id="wellWorn" type="checkbox" onchange='whichWear("ww");updateOpLink()'>
+              <label for="wellWorn">Well-Worn</label>
+            </div>
+            <div>
+              <input id="battleScarred" type="checkbox" onchange='whichWear("bs");updateOpLink()'>
+              <label for="battleScarred">Battle-Scarred</label>
+            </div>
+          </div>
         </div>
-        <div id="maxWearDiv" class="opskinsStuff opApiSpacing">
-          <h4 id="maxWear" class="infoText CinfoText opSearchClass opApiSpacing">Max Wear</h4>
-          <input id="maxWearInput" class="extrainfo CinfoInputs opskinsStuff opApiSpacing" type="number" onkeydown="updateOpLink()" value="1.00000"/>
-        </div>
+
         <div id="statDiv" class="opskinsStuff opApiSpacing">
-          <h4 id="stat" class="infoText CinfoText opSearchClass opApiSpacing">Stattrack Yes/No (1/0)</h4>
-          <input id="statInput" class="extrainfo CinfoInputs opskinsStuff opApiSpacing" type="number" onkeydown="updateOpLink()" value="0"/>
+          <h4 id="stat" class="infoText CinfoText opSearchClass opApiSpacing">Stattrack Yes/No (1/-1)</h4>
+          <input id="statInput" class="extrainfo CinfoInputs opskinsStuff opApiSpacing" type="number" onkeydown="updateOpLink()" onkeyup="updateOpLink()" value="-1"/>
+        </div>
+        <div id="delayDiv" class="opskinsStuff opApiSpacing">
+          <h4 id="delay" class="infoText CinfoText opSearchClass opApiSpacing">Tradelock Yes/No (1/-1)</h4>
+          <input id="delayInput" class="extrainfo CinfoInputs opskinsStuff opApiSpacing" type="number" onkeydown="updateOpLink()" onkeyup="updateOpLink()" value="-1"/>
         </div>
       </div>
 
@@ -353,22 +394,17 @@
           <button id="removeInfoInput" class="extrainfo" onclick="removeOpData()">Remove All Data (clear/reset)</button>
         </div>
         <div>
-          <button id="addCustomBtn" class="extrainfo" onclick="addCustomFloat()">Add a Float Not From Opskins</button>
+          <button id="addCustomBtn" class="extrainfo" onclick="addCustomFloat()">Add a Float Not From BitSkins</button>
         </div>
       </div>
 
       <div id="opLinkDiv" class="width100">
         <div class="centerFlex">
-          <p id="susText">Or Use link below (with your api key) if you don't want to put in your api key</p>
+          <p id="susText">Or Use link below inputting in needed attributes</p>
         </div>
         <div class="centerFlex">
           <textarea readonly id="opLink">https://api.opskins.com/ISales/Search/v1/?key=YOURAPIKEY&app=730_2&search_item=ak%20redlinee&min=0.02&max=1000&wear_range_low=0&wear_range_high=100&stat=0&souvenir=0</textarea>
         </div>
-      </div>
-
-      <div class="centerFlex">
-        <input id="noTradeLock" type="checkbox">
-        <label for="noTradeLock" id="noTradeLockText">Only Search for Items Without Tradelock</label>
       </div>
 
       <div class="width100">
@@ -451,7 +487,7 @@ Make sure to paste each set of data with two returns so that it is two lines bel
           </div>
           <div>
             <input id="priceChk" type="checkbox" onclick="ifLowerPrice()">
-            <label for="prceChk" id="priceText">Show Combos That Are The Correct Float and Lower Price</label>
+            <label for="priceChk" id="priceText">Show Combos That Are The Correct Float and Lower Price</label>
           </div>
           <div>
             <input id="lowPriceChk" type="checkbox" onclick="ifOnlyLowerPrice()">
@@ -681,6 +717,27 @@ Make sure to paste each set of data with two returns so that it is two lines bel
           <input class="fpFloats fpGrey" value="0"></input>
           <input class="fpFloats" value="0"></input>
         </div>
+      </div>
+    </div>
+    <div id="ATCDiv" class="tabcontent">
+      <div class="centerFlex">
+        <div id="ATCApiKeyDiv" class="opskinsStuff opApiSpacing">
+          <h4 id="ATCApiKey" class="infoText CinfoText opSearchClass opApiSpacing">BitSkins Api Key</h4>
+          <input id="ATCApiKeyInput" class="extrainfo CinfoInputs opskinsStuff opApiSpacing" value="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"/>
+        </div>
+        <div id="ATCSecCodeDiv" class="opskinsStuff opApiSpacing">
+          <h4 id="ATCSecCode" class="infoText CinfoText opSearchClass opApiSpacing">BitSkins Secure Code</h4>
+          <input id="ATCSecCodeInput" class="extrainfo CinfoInputs opskinsStuff opApiSpacing" value="xxxxxx"/>
+        </div>
+      </div>
+      <div>
+        <div id="ATCCodeDiv">
+          <h4 id="ATCCode" class="infoText CinfoText opSearchClass opApiSpacing">BitSkins Add To Cart Code</h4>
+          <input id="ATCCodeInput" class="extrainfo CinfoInputs opskinsStuff opApiSpacing" value="-----"/>
+        </div>
+      </div>
+      <div class="centerFlex">
+        <button id="ATC" class="extrainfo" onclick="addToCart()">Add 10 Items to BitSkins Cart</button>
       </div>
     </div>
 <!-- ********************************************************************************************************************************************************************* -->

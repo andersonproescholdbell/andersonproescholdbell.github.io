@@ -493,38 +493,47 @@ input {
 
 #apiKeyDiv {
   display: flex;
-  flex: 3;
+  flex: 3.05;
   margin-left: 0%;
+}
+
+#secCodeDiv {
+  display: flex;
+  flex: 1.7;
 }
 
 #searchDiv {
   display: flex;
-  flex: 2;
+  flex: 1.6;
 }
 
 #minPriceDiv {
   display: flex;
-  flex: 1;
+  flex: 1.13;
 }
 
 #maxPriceDiv {
   display: flex;
-  flex: 1;
+  flex: 1.1;
 }
 
-#minWearDiv {
-  display: flex;
-  flex: 1;
+#wearDiv {
+  margin-right: 0.3%;
 }
 
-#maxWearDiv {
+.wears {
   display: flex;
-  flex: 1;
+  flex-direction: column;
 }
 
 #statDiv {
   display: flex;
-  flex: 2;
+  flex: 1.65;
+}
+
+#delayDiv {
+  display: flex;
+  flex: 1.7;
 }
 
 #addRemoveDiv {
@@ -558,14 +567,9 @@ input {
   margin-bottom: 0.10%;
 }
 
-#noTradeLock {
-  display: flex;
-  margin-top: -0.10%;
-}
-
 #opLink {
   display: flex;
-  width: 80%;
+  width: 90%;
   text-align: center;
   margin-bottom: -1.25%;
   background-color: #a9e5ff;
@@ -889,6 +893,26 @@ input {
 }
 
 /*-----------------------------------opskins combos styling ends--------------------------*/
+#ATCDiv {
+  display: flex;
+  width: 90%;
+}
+#ATCApiKeyDiv {
+  display: flex;
+  flex: 5;
+}
+
+#ATCSecCodeDiv {
+  display: flex;
+  flex: 5;
+}
+
+#ATC {
+  margin-top: 2%;
+  background-color: #5abd81;
+}
+
+/*-----------------------------------add to cart styling ends--------------------------*/
 .fpFloats {
   width: 8.35%;
   text-align: center;
