@@ -316,7 +316,6 @@ async function combinations() {
           document.getElementById("generatecombos").innerHTML = n + "/" + (numFloatsArr[i]+tempnull) + " floats loaded";
           if (parsedOpData[i].data.items[n].inspect_link !== undefined) {
             try {
-              console.log("https://api.csgofloat.com:1738/?url=" + String(parsedOpData[i].data.items[n].inspect_link).replace("%asset_id%", String(parsedOpData[i].data.items[n].asset_id)))
               const csgoFloat = await opskinsSearch("https://api.csgofloat.com:1738/?url=" + String(parsedOpData[i].data.items[n].inspect_link).replace("%asset_id%", String(parsedOpData[i].data.items[n].asset_id)));
               wears.push(Number(csgoFloat.iteminfo.floatvalue));
               //console.log(Number(csgoFloat.iteminfo.floatvalue));
