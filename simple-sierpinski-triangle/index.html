@@ -5,10 +5,49 @@
     <title>Cool Things Here</title>
   </head>
   <body>
-    <div id="canvasContainer">
-      <canvas id="ctx" width="10" height="10"></canvas>
+    <div id="app">
+      <div id="canvasContainer">
+        <canvas id="ctx" width="10" height="10"></canvas>
+      </div>
+
+      <div>
+        <button v-on:click="start">Start!</button>
+        <button v-on:click="stop">Stop!</button>
+        <br>
+        <input id="polySidesInput" type="number" v-model="polySides"/>
+        <label for="polySidesInput">Sides of Polygon</label>
+        <br>
+        <input id="minAreaInput" type="number" v-model="minArea"/>
+        <label for="minAreaInput">Minimum Area of Polygon</label>
+        <br>
+        <input id="sideDotRadInput" type="number" v-model="sideDotRad"/>
+        <label for="sideDotRadInput">Radii of Side Dots</label>
+        <br>
+        <input id="sideDotColorInput" v-model="sideDotColor"/>
+        <label for="sideDotColorInput">Side Dots' Color (random, color name, or hex)</label>
+        <br>
+        <input id="dotRadInput" type="number" v-model="dotRad"/>
+        <label for="dotRadInput">Radii Of Generated Dots</label>
+        <br>
+        <input id="dotColorInput" v-model="dotColor"/>
+        <label for="dotColorInput">Color of Generated Dots (random, color name, or hex)</label>
+        <br>
+        <input id="dotMoveInput" type="number" v-model="dotMove"/>
+        <label for="dotMoveInput">1/x How Far Dots are Placed</label>
+        <br>
+        <input id="cycleInput" type="number" v-model="cycle"/>
+        <label for="cycleInput">How Often Dots are Generated in MS</label>
+        <br>
+        <input id="canvasBgColorInput" v-model="canvasBgColor"/>
+        <label for="canvasBgColorInput">Background Color of Canvas (random, color name, or hex)</label>
+        <br>
+        <input id="dotCounterBgColorInput" v-model="dotCounterBgColor"/>
+        <label for="dotCounterBgColorInput">Background Color of Dot Counter (random, color name, or hex)</label>
+      </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
     <script src="script.js"></script>
   </body>
 </html>
