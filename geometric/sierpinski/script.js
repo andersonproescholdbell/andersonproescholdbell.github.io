@@ -8,9 +8,8 @@ var app = new Vue({
     sideDotRad: 3,//the dots that make up the side's radii
     sideDotColor: 'blue',//the dots that make up the side's colorl either random or color name or hex
     dotRad: 1,//radius of the dots being generated in px
-    dotColor: 'random',//color of generated dots. either random or color name or hex
     dotMove: 2,// 1/dotMove will be how far dots are placed towards their destination
-    cycle: 10,//how often a dot is generated in milleseconds
+    cycle: 1000/60,//how often a dot is generated in milleseconds
     canw: 10,
     canh: 10,
     can: undefined,
@@ -74,6 +73,16 @@ var app = new Vue({
       this.ctx.lineTo(x2, y2);
       this.ctx.stroke();
     },
+    inside: function(x, y, vs) {
+      var inside = false;
+      for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+        var xi = vs[i].x, yi = vs[i].y;
+        var xj = vs[j].x, yj = vs[j].y;
+        var intersect = ((yi > y) != (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+        if (intersect) inside = !inside;
+      }
+      return inside;
+    },
     canvas: function() {
       var points = [];
       while (1) {
@@ -109,31 +118,43 @@ var app = new Vue({
         }
       }
 
-      var lastx = points[0].x, lasty = points[0].y, dots = 0;
+      var lastx = points[0].x, lasty = points[0].y, dots = 0, allDots = [];
       this.active = true;
       var loop = setInterval(() => {
         if (!this.active) {
           clearInterval(loop);
         }
-        var dir = this.randInt(0,points.length), newx, newy;
-        newx = (lastx+points[dir].x)/this.dotMove;
-        newy = (lasty+points[dir].y)/this.dotMove;
 
-        if (this.dotColor == 'random') {
-          this.drawCircle(newx, newy, this.dotRad, this.randColor());
-        }else {
-          this.drawCircle(newx, newy, this.dotRad, this.dotColor);
-        }
-        lastx = newx;
-        lasty = newy;
+        allDots = [];
+        data = this.createDots(points, lastx, lasty, dots, allDots);
+        lastx = data.lastx, lasty = data.lasty, lastDir = data.lastDir, dots = data.dots, allDots = data.allDots;
 
-        dots++;
+        allDots.forEach((dot) => {
+          this.drawCircle(dot.x, dot.y, 1, 'black');
+        });
+
         this.ctx.fillStyle = this.dotCounterBgColor;
         this.ctx.fillRect(this.canw-120, 0, 150, 30);
         this.ctx.fillStyle = 'black';
         this.ctx.textAlign = 'right';
         this.ctx.fillText(('Dots:'+dots), this.canw-5, 20);
       }, this.cycle);
+    },
+    createDots: function(points, lastx, lasty, dots, allDots) {
+      for (var i = 0; i < 7; i++) {
+        var dir = this.randInt(0,points.length);
+
+        var newx = (lastx+points[dir].x)/this.dotMove;
+        var newy = (lasty+points[dir].y)/this.dotMove;
+
+        allDots.push({x:newx, y:newy});
+
+        lastx = newx;
+        lasty = newy;
+
+        dots++;
+      }
+      return {lastx:lastx, lasty:lasty, dots:dots, allDots:allDots};
     },
     start: async function() {
       this.active = false;
