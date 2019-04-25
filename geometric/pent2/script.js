@@ -90,26 +90,30 @@ var app = new Vue({
       this.ctx.fill();
     },
     start: function() {
-      //this.drawCircle((this.canw/2), (this.canh/2), 4, 'red');
+      // hexagon
+      var numberOfSides = 5,
+        size = (this.canh*this.canw)/2500,
+        points = [],
+        step = 2 * Math.PI / numberOfSides,//Precalculate step value
+        shift = (Math.PI / 180.0) * -18;//Quick fix ;)
 
-      var points = [{x:(this.canw/2 - 300), y:(this.canh/2 - 300)},
-                    {x:(this.canw/2 - 300), y:(this.canh/2 + 300)},
-                    {x:(this.canw/2 + 300), y:(this.canh/2 + 300)},
-                    {x:(this.canw/2 + 300), y:(this.canh/2 - 300)}];
-
+      for (var i = 0; i <= numberOfSides; i++) {
+        var curStep = i * step + shift;
+        points.push({x: ((this.canw/2) + size * Math.cos(curStep)), y: ((this.canh/2) + size * Math.sin(curStep))});
+      }
+      points.splice(-1);
+      points.forEach((point) => {
+        point.y += 33;
+      });
       this.ctx.beginPath();
       this.ctx.moveTo(points[0].x, points[0].y);
       this.ctx.lineTo(points[1].x, points[1].y);
       this.ctx.lineTo(points[2].x, points[2].y);
       this.ctx.lineTo(points[3].x, points[3].y);
+      this.ctx.lineTo(points[4].x, points[4].y);
       this.ctx.lineTo(points[0].x, points[0].y);
       this.ctx.stroke();
 
-      points.forEach((cords) => {
-        this.drawCircle(cords.x, cords.y, 2, 'black');
-      });
-
-      //adding points
       var lastx = this.canw/2, lasty = this.canh/2, lastDir = [-2,-1], dots = 0, allDots = [];
       setInterval(() => {
         allDots = [];
@@ -132,11 +136,11 @@ var app = new Vue({
       for (var i = 0; i < 7; i++) {
         var dir;
         while (1) {
-          dir = this.randInt(0,4);
+          dir = this.randInt(0,5);
           if (lastDir[0] !== lastDir[1]) {
             break;
-          }else if ((lastDir[1] == 0 && dir !== 1 && dir !== 3) || (lastDir[1] == 1 && dir !== 0 && dir !== 2) ||
-              (lastDir[1] == 2 && dir !== 1 && dir !== 3) || (lastDir[1] == 3 && dir !== 2 && dir !== 0)){
+          }else if ((lastDir[1] == 0 && dir !== 1 && dir !== 4) || (lastDir[1] == 1 && dir !== 0 && dir !== 2) ||
+              (lastDir[1] == 2 && dir !== 1 && dir !== 3) || (lastDir[1] == 3 && dir !== 2 && dir !== 4) || (lastDir[1] == 4 && dir !== 3 && dir !== 0)){
             break;
           }
         }
@@ -153,8 +157,9 @@ var app = new Vue({
       return {lastx:lastx, lasty:lasty, lastDir:lastDir, dots:dots, allDots:allDots};
     }
   },
-  mounted: function() {
+  mounted: async function() {
     this.createCtx();
+    await this.sleep(150);
     this.start();
   }
 });

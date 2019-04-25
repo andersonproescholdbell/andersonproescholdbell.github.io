@@ -126,10 +126,10 @@ var app = new Vue({
         this.ctx.fillStyle = 'black';
         this.ctx.textAlign = 'right';
         this.ctx.fillText(('Dots:'+dots), this.canw-5, 20);
-      }, 66);
+      }, 1000/60);
     },
     createDots: function(points, lastx, lasty, lastDir, dots, allDots) {
-      for (var i = 0; i < 17; i++) {
+      for (var i = 0; i < 7; i++) {
         var dir;
         while (1) {
           dir = this.randInt(0,4);
