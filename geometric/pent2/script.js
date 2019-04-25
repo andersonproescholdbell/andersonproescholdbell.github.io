@@ -92,7 +92,7 @@ var app = new Vue({
     start: function() {
       // hexagon
       var numberOfSides = 5,
-        size = (this.canh*this.canw)/2500,
+        size = (this.canh*this.canw)/2600,
         points = [],
         step = 2 * Math.PI / numberOfSides,//Precalculate step value
         shift = (Math.PI / 180.0) * -18;//Quick fix ;)

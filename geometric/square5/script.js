@@ -90,32 +90,27 @@ var app = new Vue({
       this.ctx.fill();
     },
     start: function() {
-      // hexagon
-      var numberOfSides = 5,
-        size = (this.canh*this.canw)/2600,
-        points = [],
-        step = 2 * Math.PI / numberOfSides,//Precalculate step value
-        shift = (Math.PI / 180.0) * -18;//Quick fix ;)
+      //this.drawCircle((this.canw/2), (this.canh/2), 4, 'red');
 
-      for (var i = 0; i <= numberOfSides; i++) {
-        var curStep = i * step + shift;
-        points.push({x: ((this.canw/2) + size * Math.cos(curStep)), y: ((this.canh/2) + size * Math.sin(curStep))});
-      }
-      points.splice(-1);
-      points.forEach((point) => {
-        point.y += 33;
-      });
+      var points = [{x:(this.canw/2 - 300), y:(this.canh/2 - 300)},
+                    {x:(this.canw/2 - 300), y:(this.canh/2 + 300)},
+                    {x:(this.canw/2 + 300), y:(this.canh/2 + 300)},
+                    {x:(this.canw/2 + 300), y:(this.canh/2 - 300)}];
 
       this.ctx.beginPath();
       this.ctx.moveTo(points[0].x, points[0].y);
       this.ctx.lineTo(points[1].x, points[1].y);
       this.ctx.lineTo(points[2].x, points[2].y);
       this.ctx.lineTo(points[3].x, points[3].y);
-      this.ctx.lineTo(points[4].x, points[4].y);
       this.ctx.lineTo(points[0].x, points[0].y);
       this.ctx.stroke();
 
-      var lastx = this.canw/2, lasty = this.canh/2, lastDir = -1, dots = 0, allDots = [];
+      points.forEach((cords) => {
+        this.drawCircle(cords.x, cords.y, 2, 'black');
+      });
+
+      //adding points
+      var lastx = points[0].x, lasty = points[0].y, lastDir = [-1,-1], dots = 0, allDots = [];
       setInterval(() => {
         allDots = [];
         data = this.createDots(points, lastx, lasty, lastDir, dots, allDots);
@@ -135,16 +130,16 @@ var app = new Vue({
     },
     createDots: function(points, lastx, lasty, lastDir, dots, allDots) {
       for (var i = 0; i < 7; i++) {
-        var dir;
+        var dir = [];
         while (1) {
-          dir = this.randInt(0,5);
-          if (dir !== lastDir) {
+          dir = [this.randInt(0,4), this.randInt(0,4)];
+          if (dir != lastDir) {
             lastDir = dir;
             break;
           }
         }
-        var newx = (lastx+points[dir].x)/2;
-        var newy = (lasty+points[dir].y)/2;
+        var newx = (lastx+points[dir[0]].x)/2;
+        var newy = (lasty+points[dir[1]].y)/2;
         allDots.push({x:newx, y:newy});
 
         lastx = newx;
@@ -155,9 +150,8 @@ var app = new Vue({
       return {lastx:lastx, lasty:lasty, lastDir:lastDir, dots:dots, allDots:allDots};
     }
   },
-  mounted: async function() {
+  mounted: function() {
     this.createCtx();
-    await this.sleep(150);
     this.start();
   }
 });
