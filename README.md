@@ -1,3 +1,3 @@
-# andersonp196.github.io
+# andersonproescholdbell.github.io
 
-This is a simple reorganization of my projects that are hosted
+This contains a few of my javascript projects that don't require a server.
