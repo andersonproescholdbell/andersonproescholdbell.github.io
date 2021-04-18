@@ -1,7 +1,16 @@
+html {
+  background-image: linear-gradient(45deg, #3f51b5, #002b1b)
+}
+
 #main {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  font-size: 7vh;
+}
+
+.link {
+  color: #579ebf;
 }
