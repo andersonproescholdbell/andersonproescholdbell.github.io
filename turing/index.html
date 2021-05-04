@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Turing Machine Simulator</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body onload="load()">
+    <div id="parent">
+        <div id="container">
+            <div id="container2">
+                <div id="statesContainer">
+                    <label for="states">States</label>
+                    <textarea id="states" class="textarea" rows="20"></textarea>
+                </div>
+                <div id="transitionsContainer">
+                    <label for="states">Transitions</label>
+                    <textarea id="transitions" class="textarea" rows="20"></textarea>
+                </div>
+            </div>
+            <label for="delay">Delay (ms)</label>
+            <input id="delay" value="200">
+            <label for="input">Input</label>
+            <input id="input" onkeyup="resizeInput()" value="101010110">
+            <button id="runButton" onclick="run()">Run Turing Machine</button>
+            <textarea id="output" class="textarea" rows="2"></textarea>
+        </div>
+    </div>
+	<script src="main.js"></script>
+</body>
+</html>
