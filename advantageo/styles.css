@@ -1,0 +1,43 @@
+#container {
+    height: 100vh;
+    width: 100vw;
+    background-color: #1f3a33;
+}
+
+#container2 {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-height: 98%;
+    max-width: 98%;
+}
+
+#canvas {
+    max-height: 98%;
+    max-width: 98%;
+}
+
+#infoContainer {
+    max-width: 95%;
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    flex-direction: column;
+}
+
+html, body {
+    margin: 0; 
+    height: 100%; 
+    overflow: hidden
+}
+
+label {
+    display: block;
+    color: #cf3838;
+}
+
+textarea {
+    display: block;
+}
