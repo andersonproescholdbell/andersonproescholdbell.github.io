@@ -1,0 +1,26 @@
+body {
+  width: 100%;
+  height: 100%;
+  background-color: aquamarine;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+#chooseSkin {
+  text-align: center;
+}
+
+#searchContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 1%;
+}
