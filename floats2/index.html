@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,300" rel="stylesheet" type="text/css">
     <title>Float Creator 2</title>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112244519-1"></script>
     <script>
@@ -14,13 +15,20 @@
     </script>
   </head>
   <body onload="load()">
-    <div class="row">
-      <h2 id="chooseSkin">Choose a skin to craft</h2>
-      <div id="searchContainer">
-        <input id="search" onkeyup="search()">
+
+    <div class="centered col skinSelection">
+      <h1 id="chooseSkin">Choose a skin to craft</h2>
+      <input id="search" onkeyup="search()" placeholder="search skin name">
+      <div id="skins" class="col"></div>
+    </div>
+    
+    <div id="floats" class="col centered">
+      <div id="chosen"></div>
+      <div id="chooseFloat" class="col centered">
+        <p>What float would you like to craft?</p>
+        <input id="floatInput">
       </div>
     </div>
-    <div id="skins" class="col"></div>
 
     <script src="index.js"></script>
     <script src="skinData.js"></script>

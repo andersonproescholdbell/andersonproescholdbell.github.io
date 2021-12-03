@@ -1,7 +1,8 @@
 body {
-  width: 100%;
-  height: 100%;
-  background-color: aquamarine;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(#000c0b, black);
+  font-family: "Open Sans";
 }
 
 .col {
@@ -14,13 +15,74 @@ body {
   flex-direction: row;
 }
 
-#chooseSkin {
-  text-align: center;
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-#searchContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 1%;
+#chooseSkin {
+  color: #bdbdbd;
+  text-align: center;
+  margin-top: 20%;
+}
+
+#search {
+  text-align: center;
+  margin-top: -15px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+}
+
+#floats {
+  height: 100vh;
+  display: none;
+}
+
+#chooseFloat {
+  text-align: center;
+  border-radius: 10px;
+}
+
+.bgConsumer {
+  background-color: #b0c3d9;
+}
+
+.bgIndustrial {
+  background-color: #5e98d9;
+}
+
+.bgMilSpec {
+  background-color: #4b69ff;
+}
+
+.bgRestricted {
+  background-color: #8847ff;
+}
+
+.bgClassified {
+  background-color: #d32ee6;
+}
+
+.bgCovert {
+  background-color: #eb4b4b;
+}
+
+.skinImg {
+  margin: 0.5%;
+  border-radius: 40px;
+  height: 84%;
+  width: 63%;
+}
+
+.skinLabel {
+  background-color: black;
+  font-family: "Open Sans";
+  color: white;
+  font-weight: bold;
+  font-size: 24px;
+  position: absolute;
+  padding-left: 7px;
+  padding-right: 7px;
+  border-radius: 10px;
 }
