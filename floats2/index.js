@@ -96,9 +96,68 @@ function loadSkin(collection, skin) {
   for (var element of document.getElementsByClassName('skinSelection')) {
     element.style.display = 'none';
   }
+  for (var element of document.getElementById('chosen').children) {
+    element.remove();
+  }
+
   var floats = document.getElementById('floats');
   floats.style.display = "flex";
 
+  var item = skinData[collection][skin];
+  var collection = skinData[collection];
+
+  var div = document.createElement("div");
+  div.classList.add("col");
+  div.classList.add("centered");
+  div.style.position = 'relative';
+  div.style.margin = "10px";
+  
+  var text1 = document.createElement("p");
+  text1.innerText = item.skin;
+  text1.classList.add('skinLabel');
+  text1.style.top = "-15px";
+  div.appendChild(text1);
+
+  var text2 = document.createElement("p");
+  var minFloat = item.minFloat.toString();
+  while (minFloat.length < 4) {
+    if (minFloat.length == 1) {
+      minFloat += ".";
+    } else {
+      minFloat += "0";
+    }
+  }
+  var maxFloat = item.maxFloat.toString();
+  while (maxFloat.length < 4) {
+    if (maxFloat.length == 1) {
+      maxFloat += ".";
+    } else {
+      maxFloat += "0";
+    }
+  }
+  text2.innerText = minFloat + " - " + maxFloat;
+  text2.classList.add('skinLabel');
+  text2.style.bottom = "-15px";
+  div.appendChild(text2);
+
+  var img = document.createElement("img");
+  img.setAttribute("src", item.img);
+  img.setAttribute("alt", item.skin);
+  img.setAttribute("data-skin", item.skin);
+  img.classList.add("skinImg");
+  img.classList.add(rarityClass(item.rarity));
+  div.appendChild(img);
+
+  document.getElementById('chosen').appendChild(div);
+
+  document.getElementById('floatInput').placeholder = minFloat + " - " + maxFloat;
+}
+
+function enterFloats() {
+  var float = document.getElementById('floatInput').value;
+  if (float == '') return null;
+
+  
 }
 //   for (var element of document.getElementsByClassName('skinSelection')) {
 //     element.style.display = 'none';

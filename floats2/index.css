@@ -86,3 +86,33 @@ body {
   padding-right: 7px;
   border-radius: 10px;
 }
+
+#floats {
+  display: flex;
+  align-items: center;
+  top: 20%;
+  position: relative;
+}
+
+#chooseFloatMsg {
+  color: white;
+  font-family: "Open Sans";
+  font-weight: bold;
+  font-size: 24px;
+}
+
+#floatInput {
+  text-align: center;
+  border-radius: 10px;
+  margin-top: -15px;
+}
+
+#proceed {
+  border-radius: 10px;
+  background-color: cadetblue;
+  font-family: "Open Sans";
+  font-weight: bold;
+  font-size: 24px;
+  margin-top: 10px;
+  border: 3px solid black;
+}
