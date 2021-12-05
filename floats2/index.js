@@ -1,3 +1,10 @@
+function ieee(x) {
+  x = Number(x);
+  var float = new Float32Array(1);
+  float[0] = x;
+  return float[0];
+}
+
 function rarityClass(rarity) {
   switch(rarity) {
     case "Consumer":
@@ -17,6 +24,65 @@ function rarityClass(rarity) {
   }
 }
 
+function formatFloat(float) {
+  float = float.toString();
+  while (float.length < 4) {
+    if (float.length == 1) {
+      float += ".";
+    } else {
+      float += "0";
+    }
+  }
+  return float;
+}
+
+function createDiv(classes) {
+  var div = document.createElement("div");
+  for (var c of classes) {
+    div.classList.add(c);
+  }
+  return div;
+}
+
+function createP(text, classes) {
+  var p = document.createElement("p");
+  p.innerText = text;
+  for (var c of classes) {
+    p.classList.add(c);
+  }
+  return p;
+}
+
+function createInput(classes, placeholder, onkeyup) {
+  var i = document.createElement("input");
+  i.placeholder = placeholder;
+  i.setAttribute("onkeyup", onkeyup);
+  for (var c of classes) {
+    i.classList.add(c);
+  }
+  return i;
+}
+
+function skinImg(item, onclick) {
+  var img = document.createElement("img");
+  img.setAttribute("src", item.img);
+  img.setAttribute("alt", item.skin);
+  img.setAttribute("data-skin", item.skin);
+  img.setAttribute("data-collection", item.collection);
+  img.classList.add("skinImg");
+  img.classList.add(rarityClass(item.rarity));
+  img.setAttribute("onclick", onclick);
+  return img;
+}
+
+function getSkinMaterials(skin, collection) {
+  var materials = []
+  for (var s in collection) {
+    if (collection[s].rarityNumber == skin.rarityNumber - 1) materials.push(collection[s]);
+  }
+  return materials;
+}
+
 function load() {
   var main = document.getElementById('skins');
 
@@ -24,48 +90,19 @@ function load() {
     for (var skin in skinData[collection]) {
       var item = skinData[collection][skin];
       if (!item.lowestRarity) {
-        var div = document.createElement("div");
-        div.classList.add("col");
-        div.classList.add("centered");
+        var div = createDiv(['col', 'centered']);
         div.style.position = 'relative';
         div.style.margin = "10px";
         
-        var text1 = document.createElement("p");
-        text1.innerText = item.skin;
-        text1.classList.add('skinLabel');
+        var text1 = createP(item.skin, ['skinLabel']);
         text1.style.top = "-15px";
         div.appendChild(text1);
 
-        var text2 = document.createElement("p");
-        var minFloat = item.minFloat.toString();
-        while (minFloat.length < 4) {
-          if (minFloat.length == 1) {
-            minFloat += ".";
-          } else {
-            minFloat += "0";
-          }
-        }
-        var maxFloat = item.maxFloat.toString();
-        while (maxFloat.length < 4) {
-          if (maxFloat.length == 1) {
-            maxFloat += ".";
-          } else {
-            maxFloat += "0";
-          }
-        }
-        text2.innerText = minFloat + " - " + maxFloat;
-        text2.classList.add('skinLabel');
+        var text2 = createP((formatFloat(item.minFloat.toString())+" - "+formatFloat(item.maxFloat.toString())), ['skinLabel'])
         text2.style.bottom = "-15px";
         div.appendChild(text2);
 
-        var img = document.createElement("img");
-        img.setAttribute("src", item.img);
-        img.setAttribute("alt", item.skin);
-        img.setAttribute("onclick", "loadSkin('"+item.collection+"', '"+item.skin+"')");
-        img.setAttribute("data-skin", item.skin);
-        img.classList.add("skinImg");
-        img.classList.add(rarityClass(item.rarity));
-        div.appendChild(img);
+        div.appendChild(skinImg(item, `loadSkin("${item.collection}", "${item.skin}")`));
 
         main.appendChild(div);
       }
@@ -84,18 +121,9 @@ function search() {
   }
 }
 
-function getSkinMaterials(skin, collection) {
-  var materials = []
-  for (var s in collection) {
-    if (collection[s].rarityNumber == skin.rarityNumber - 1) materials.push(collection[s]);
-  }
-  return materials;
-}
+async function loadSkin(collection, skin) {
+  document.getElementById('allSkins').style.display = 'none';
 
-function loadSkin(collection, skin) {
-  for (var element of document.getElementsByClassName('skinSelection')) {
-    element.style.display = 'none';
-  }
   for (var element of document.getElementById('chosen').children) {
     element.remove();
   }
@@ -106,133 +134,150 @@ function loadSkin(collection, skin) {
   var item = skinData[collection][skin];
   var collection = skinData[collection];
 
-  var div = document.createElement("div");
-  div.classList.add("col");
-  div.classList.add("centered");
+  var minFloat = formatFloat(item.minFloat.toString());
+  var maxFloat = formatFloat(item.maxFloat.toString());
+
+  document.getElementById('chosen').appendChild(skinImgWithText(item, (minFloat + " - " + maxFloat)));
+
+  document.getElementById('floatInput').placeholder = minFloat + " - " + maxFloat;
+}
+
+function skinImgWithText(item, bottomText) {
+  var div = createDiv(['col', 'centered']);
   div.style.position = 'relative';
   div.style.margin = "10px";
-  
-  var text1 = document.createElement("p");
-  text1.innerText = item.skin;
-  text1.classList.add('skinLabel');
+
+  var text1 = createP(item.skin, ['skinLabel']);
   text1.style.top = "-15px";
   div.appendChild(text1);
 
-  var text2 = document.createElement("p");
-  var minFloat = item.minFloat.toString();
-  while (minFloat.length < 4) {
-    if (minFloat.length == 1) {
-      minFloat += ".";
-    } else {
-      minFloat += "0";
-    }
-  }
-  var maxFloat = item.maxFloat.toString();
-  while (maxFloat.length < 4) {
-    if (maxFloat.length == 1) {
-      maxFloat += ".";
-    } else {
-      maxFloat += "0";
-    }
-  }
-  text2.innerText = minFloat + " - " + maxFloat;
-  text2.classList.add('skinLabel');
+  var text2 = createP(bottomText, ['skinLabel'])
   text2.style.bottom = "-15px";
   div.appendChild(text2);
 
-  var img = document.createElement("img");
-  img.setAttribute("src", item.img);
-  img.setAttribute("alt", item.skin);
-  img.setAttribute("data-skin", item.skin);
-  img.classList.add("skinImg");
-  img.classList.add(rarityClass(item.rarity));
-  div.appendChild(img);
+  div.appendChild(skinImg(item));
 
-  document.getElementById('chosen').appendChild(div);
-
-  document.getElementById('floatInput').placeholder = minFloat + " - " + maxFloat;
+  return div;
 }
 
 function enterFloats() {
   var float = document.getElementById('floatInput').value;
   if (float == '') return null;
 
-  
+  document.getElementById('floats').style.display = 'none';
+  document.getElementById('addFloats').style.display = 'flex';
+
+  var skin = skinData[document.getElementById('chosen').children[0].children[2].getAttribute('data-collection')][document.getElementById('chosen').children[0].children[2].getAttribute('data-skin')];
+
+  var neededAvg = formatFloat(ieee(ieee(ieee(float)-ieee(skin.minFloat))/ieee(ieee(skin.maxFloat)-ieee(skin.minFloat))));
+
+  document.getElementById('addFloats').prepend(skinImgWithText(skin, formatFloat(ieee(parseFloat(float)))));
+
+  var div = createDiv(['row', 'centered']);
+  div.appendChild(createInput(['floatInput'], `Needed average: ${neededAvg}`, 'addFloatInput()'));
+  document.getElementById('floatInputs').appendChild(div);
 }
-//   for (var element of document.getElementsByClassName('skinSelection')) {
-//     element.style.display = 'none';
-//   }
-//   var floats = document.getElementById('floats');
-//   floats.style.display = 'flex';
 
-//   var skin = skinData[collection][skin];
-//   var collection = skinData[collection];
+function addFloatInput() {
+  var floatInputs = document.getElementsByClassName('floatInput');
+  var lastInput = floatInputs[floatInputs.length - 1];
+  if (lastInput.value != '') {
+    if (floatInputs.length >= 10) {
+      document.querySelector('#addFloats > button').style.display = 'flex';
+    }
+    if (lastInput.parentElement.childElementCount < 3) {
+      lastInput.parentElement.appendChild(createInput(['floatInput'], lastInput.placeholder, 'addFloatInput()'));
+    } else {
+      var addFloats = document.getElementById('addFloats');
+      var dim = addFloats.getBoundingClientRect();
+      if (dim.top > 0) addFloats.style.top = `${Math.max(dim.top-30, 0)}px`;
+
+      var div = createDiv(['row', 'centered']);
+      div.appendChild(createInput(['floatInput'], lastInput.placeholder, 'addFloatInput()'));
+      lastInput.parentElement.parentElement.appendChild(div);
+    }
+  }
+}
+
+function getFloat(min, max, arr) {
+  var wear = 0;
+  for (var i = 0; i < 10; i++) {
+    wear = ieee(wear + arr[i]);
+  }
+  return ieee(ieee((ieee(wear/ieee(10)))*ieee(max-min))+min);
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function getCombo(arr, p) {
+  var results = [];
+  for (var i = 0; i < arr.length; i++) {
+    results.push(arr[p[i]]);
+  }
+  return results;
+}
+
+async function combs(arr, k, goal, min, max) {
+  var fact = [1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800, 39916800, 479001600, 6227020800, 87178291200, 1307674368000, 20922789888000, 355687428096000, 6402373705728000, 121645100408832000, 2432902008176640000, 51090942171709440000, 1124000727777607680000, 25852016738884976640000, 620448401733239439360000, 15511210043330985984000000, 403291461126605635584000000, 10888869450418352160768000000, 304888344611713860501504000000, 8841761993739701954543616000000, 265252859812191058636308480000000, 8222838654177922817725562880000000, 263130836933693530167218012160000000, 8683317618811886495518194401280000000, 295232799039604140847618609643520000000, 10333147966386144929666651337523200000000, 371993326789901217467999448150835200000000, 13763753091226345046315979581580902400000000, 523022617466601111760007224100074291200000000, 20397882081197443358640281739902897356800000000, 815915283247897734345611269596115894272000000000, 33452526613163807108170062053440751665152000000000, 1405006117752879898543142606244511569936384000000000, 60415263063373835637355132068513997507264512000000000, 2658271574788448768043625811014615890319638528000000000, 119622220865480194561963161495657715064383733760000000000, 5502622159812088949850305428800254892961651752960000000000, 258623241511168180642964355153611979969197632389120000000000, 12413915592536072670862289047373375038521486354677760000000000, 608281864034267560872252163321295376887552831379210240000000000, 30414093201713378043612608166064768844377641568960512000000000000, 1551118753287382280224243016469303211063259720016986112000000000000, 80658175170943878571660636856403766975289505440883277824000000000000, 4274883284060025564298013753389399649690343788366813724672000000000000, 230843697339241380472092742683027581083278564571807941132288000000000000, 12696403353658275925965100847566516959580321051449436762275840000000000000, 710998587804863451854045647463724949736497978881168458687447040000000000000, 40526919504877216755680601905432322134980384796226602145184481280000000000000, 2350561331282878571829474910515074683828862318181142924420699914240000000000000, 138683118545689835737939019720389406345902876772687432540821294940160000000000000, 8320987112741390144276341183223364380754172606361245952449277696409600000000000000];
+	var combos = Math.floor(fact[arr.length] / (fact[arr.length - k] * fact[k]));
+  var increment = Math.min(10000000, Math.ceil(combos*0.01));
   
-
-//   var table = document.createElement("table");
-//   var tr = document.createElement("tr");
-//   var td1 = document.createElement("td");
+  var N = arr.length;
+  var pointers = new Array(k).fill(0);
   
-//   var img = document.createElement("img");
-//   img.style.margin = "0.5%";
-//   img.style.backgroundColor = rarityColor(skin.rarity);
-//   img.style.borderRadius = "10px";
-//   img.style.border = "5px solid black";
-//   img.setAttribute("src", skin.img);
-//   img.setAttribute("height", "64%");
-//   img.setAttribute("width", "48%");
-//   td1.appendChild(img);
-//   tr.appendChild(td1);
+  var r = 0, i = 0;
+  
+  var results = [];
+  
+  var c = 0;
+  while (r >= 0) {
+  	if (i <= (N + (r - k))) {
+    	pointers[r] = i;
+      
+      if (r == k-1) {
+        c++;
+        results.push(pointers);
+        if (c%increment === 0 || c == combos) {
+          document.getElementById('done').innerText = (`${c} / ${combos}`);
+          for (var combo of results) {
+            var float = getFloat(min, max, getCombo(arr, combo));
+            if (float == goal) {
+              var p = createP(formatFloat(float), []);
+              p.style.color = 'white';
+              document.getElementById('combinations').appendChild(p);
+            }
+          }
+          results = [];
+          await sleep(1);
+        }
+        i++;
+      } else {
+      	i = pointers[r]+1;
+        r++;
+      }
+    } else {
+    	r--;
+      if (r >= 0) {
+      	i = pointers[r]+1;
+      }
+    }
+  }
+  return results;
+}
 
-//   var td2 = document.createElement("td");
-//   td2.style.display = 'flex';
-//   td2.style.justifyContent = 'center';
-//   td2.style.alignItems = 'center';
-//   td2.style.flexDirection = 'column';
-//   var p = document.createElement("p");
-//   p.innerHTML = "What float would you like to trade up to?";
-//   var input = document.createElement("input");
-//   input.placeholder = skin.minFloat + " - " + skin.maxFloat;
-//   var button = document.createElement("button");
-//   button.value = "Go";
-//   button.onclick = ""
-//   td2.appendChild(p);
-//   td2.appendChild(input);
-//   tr.appendChild(td2);
+function generateCombinations() {
+  document.getElementById('addFloats').style.display = 'none';
+  var combinations = document.getElementById('combinations');
+  combinations.style.display = 'flex';
 
-//   tr.style.display = 'flex';
-//   tr.style.justifyContent = 'center';
-//   tr.style.alignItems = 'center';
-//   tr.style.flexDirection = 'row';
+  var floats = [];
+  for (var f of document.getElementsByClassName('floatInput')) {
+    if (f.value !== '') floats.push(ieee(parseFloat(f.value)));
+  }
 
-//   table.appendChild(tr);
-//   floats.appendChild(table);
-
-
-  // var materials = getSkinMaterials(skinData[collection][skin], skinData[collection]);
-
-  // var table = document.createElement("table");
-  // var topRow = document.createElement("tr");
-  // topRow.colSpan = materials.length;
-  // var topTd = document.createElement("td");
-  // const needed_average = (userFloat-skin.minWear)/(skin.maxWear-skin.minWear);
-  // topTd.innerHTML = "Use at least one of the following skins in your tradeup contract with the average float of ";
-  // var tr = document.createElement("tr");
-
-  // for (var skin of materials) {
-  //   var td = document.createElement("td");
-  //   var img = document.createElement("img");
-  //   img.style.margin = "0.5%";
-  //   img.style.backgroundColor = rarityColor(skin.rarity);
-  //   img.style.borderRadius = "10px";
-  //   img.style.border = "5px solid black";
-  //   img.setAttribute("src", skin.img);
-  //   img.setAttribute("height", "64%");
-  //   img.setAttribute("width", "48%");
-    
-  //   td.appendChild(img);
-  //   tr.appendChild(td);
-  // } 
-  // table.appendChild(tr);
-  // floats.appendChild(table);
-// }
+  var skin = skinData[document.querySelector('#addFloats > div > img').getAttribute('data-collection')][document.querySelector('#addFloats > div > img').getAttribute('data-skin')];
+  var goal = parseFloat(document.querySelectorAll('#addFloats > div > p')[1].innerHTML);
+  combs(floats, 10, goal, ieee(skin.minFloat), ieee(skin.maxFloat));
+}

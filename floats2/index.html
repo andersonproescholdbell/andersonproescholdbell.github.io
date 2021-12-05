@@ -16,19 +16,28 @@
   </head>
   <body onload="load()">
 
-    <div class="centered col skinSelection">
-      <h1 id="chooseSkin">Choose a skin to craft</h2>
+    <div id="allSkins" class="centered col">
+      <h1 class="instructionText1">Choose a skin to craft</h2>
       <input id="search" onkeyup="search()" placeholder="search skin name">
       <div id="skins" class="col"></div>
     </div>
     
     <div id="floats" class="col">
-      <div id="chosen"></div>
       <div id="chooseFloat" class="col centered">
-        <p id="chooseFloatMsg">What float would you like to craft?</p>
+        <h1 class="instructionText1">What float would you like to craft?</h2>
         <input id="floatInput">
-        <button id="proceed" onclick="enterFloats()">Proceed</button>
+        <button class="button" onclick="enterFloats()">Proceed</button>
       </div>
+      <div id="chosen"></div>
+    </div>
+
+    <div id="addFloats" class="col">
+      <button class="button" onclick="generateCombinations()">Proceed</button>
+      <div id="floatInputs"></div>
+    </div>
+
+    <div id="combinations" class="col centered">
+      <h2 id="done" class="instructionText1"></h2>
     </div>
 
     <script src="index.js"></script>
