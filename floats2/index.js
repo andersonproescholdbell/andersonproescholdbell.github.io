@@ -36,31 +36,27 @@ function formatFloat(float) {
   return float;
 }
 
-function createDiv(classes) {
-  var div = document.createElement("div");
-  for (var c of classes) {
-    div.classList.add(c);
-  }
-  return div;
-}
+function createEl(el, classes, styles, innerText, placeholder, onkeyup, onclick) {
+  var el = document.createElement(el);
 
-function createP(text, classes) {
-  var p = document.createElement("p");
-  p.innerText = text;
-  for (var c of classes) {
-    p.classList.add(c);
+  if (classes) {
+    for (var c of classes) {
+      el.classList.add(c);
+    }
   }
-  return p;
-}
 
-function createInput(classes, placeholder, onkeyup) {
-  var i = document.createElement("input");
-  i.placeholder = placeholder;
-  i.setAttribute("onkeyup", onkeyup);
-  for (var c of classes) {
-    i.classList.add(c);
+  if (styles) {
+    for (var s in styles) {
+      el.style[s] = styles[s];
+    }
   }
-  return i;
+  
+  if (innerText) el.innerText = innerText;
+  if (placeholder) el.placeholder = placeholder;
+  if (onkeyup) el.setAttribute("onkeyup", onkeyup);
+  if (onclick) el.setAttribute("onclick", onclick);
+  
+  return el;
 }
 
 function skinImg(item, onclick) {
@@ -76,7 +72,7 @@ function skinImg(item, onclick) {
 }
 
 function getSkinMaterials(skin, collection) {
-  var materials = []
+  var materials = [];
   for (var s in collection) {
     if (collection[s].rarityNumber == skin.rarityNumber - 1) materials.push(collection[s]);
   }
@@ -90,16 +86,12 @@ function load() {
     for (var skin in skinData[collection]) {
       var item = skinData[collection][skin];
       if (!item.lowestRarity) {
-        var div = createDiv(['col', 'centered']);
-        div.style.position = 'relative';
-        div.style.margin = "10px";
+        var div = createEl('div', ['col', 'centered'], {'position':'relative', 'margin':'10px'});
         
-        var text1 = createP(item.skin, ['skinLabel']);
-        text1.style.top = "-15px";
+        var text1 = createEl('p', ['skinLabel'], {'top':'-15px'}, item.skin);
         div.appendChild(text1);
 
-        var text2 = createP((formatFloat(item.minFloat.toString())+" - "+formatFloat(item.maxFloat.toString())), ['skinLabel'])
-        text2.style.bottom = "-15px";
+        var text2 = createEl('p', ['skinLabel'], {'bottom':'-15px'}, (formatFloat(item.minFloat.toString())+" - "+formatFloat(item.maxFloat.toString())))
         div.appendChild(text2);
 
         div.appendChild(skinImg(item, `loadSkin("${item.collection}", "${item.skin}")`));
@@ -143,16 +135,12 @@ async function loadSkin(collection, skin) {
 }
 
 function skinImgWithText(item, bottomText) {
-  var div = createDiv(['col', 'centered']);
-  div.style.position = 'relative';
-  div.style.margin = "10px";
+  var div = createEl('div', ['col', 'centered'], {'position':'relative', 'margin':'10px'});
 
-  var text1 = createP(item.skin, ['skinLabel']);
-  text1.style.top = "-15px";
+  var text1 = createEl('p', ['skinLabel'], {'top':'-15px'}, item.skin);
   div.appendChild(text1);
 
-  var text2 = createP(bottomText, ['skinLabel'])
-  text2.style.bottom = "-15px";
+  var text2 = createEl('p', ['skinLabel'], {'bottom':'-15px'}, bottomText);
   div.appendChild(text2);
 
   div.appendChild(skinImg(item));
@@ -173,8 +161,8 @@ function enterFloats() {
 
   document.getElementById('addFloats').prepend(skinImgWithText(skin, formatFloat(ieee(parseFloat(float)))));
 
-  var div = createDiv(['row', 'centered']);
-  div.appendChild(createInput(['floatInput'], `Needed average: ${neededAvg}`, 'addFloatInput()'));
+  var div = createEl('div', ['row', 'centered']);
+  div.appendChild(createEl('input', ['floatInput'], false, false, `Needed average: ${neededAvg}`, 'addFloatInput()'));
   document.getElementById('floatInputs').appendChild(div);
 }
 
@@ -186,14 +174,14 @@ function addFloatInput() {
       document.querySelector('#addFloats > button').style.display = 'flex';
     }
     if (lastInput.parentElement.childElementCount < 3) {
-      lastInput.parentElement.appendChild(createInput(['floatInput'], lastInput.placeholder, 'addFloatInput()'));
+      lastInput.parentElement.appendChild(createEl('input', ['floatInput'], false, false, lastInput.placeholder, 'addFloatInput()'));
     } else {
       var addFloats = document.getElementById('addFloats');
       var dim = addFloats.getBoundingClientRect();
       if (dim.top > 0) addFloats.style.top = `${Math.max(dim.top-30, 0)}px`;
 
-      var div = createDiv(['row', 'centered']);
-      div.appendChild(createInput(['floatInput'], lastInput.placeholder, 'addFloatInput()'));
+      var div = createEl('div', ['row', 'centered']);
+      div.appendChild(lastInput.parentElement.appendChild(createEl('input', ['floatInput'], false, false, lastInput.placeholder, 'addFloatInput()')));
       lastInput.parentElement.parentElement.appendChild(div);
     }
   }
@@ -213,9 +201,10 @@ function sleep(ms) {
 
 function getCombo(arr, p) {
   var results = [];
-  for (var i = 0; i < arr.length; i++) {
+  for (var i = 0; i < p.length; i++) {
     results.push(arr[p[i]]);
   }
+  console.log(results);
   return results;
 }
 
@@ -230,6 +219,9 @@ async function combs(arr, k, goal, min, max) {
   var r = 0, i = 0;
   
   var results = [];
+  var bestDelta = Number.MAX_SAFE_INTEGER;
+  var bestCombo;
+  var newBest = false;
   
   var c = 0;
   while (r >= 0) {
@@ -243,12 +235,23 @@ async function combs(arr, k, goal, min, max) {
           document.getElementById('done').innerText = (`${c} / ${combos}`);
           for (var combo of results) {
             var float = getFloat(min, max, getCombo(arr, combo));
-            if (float == goal) {
-              var p = createP(formatFloat(float), []);
-              p.style.color = 'white';
-              document.getElementById('combinations').appendChild(p);
+            if (Math.abs(float-goal) < bestDelta) {
+              bestDelta = Math.abs(float-goal);
+              bestCombo = float + ": " + getCombo(arr, combo).join(", ");
+              newBest = true;
+            } else {
+              if (float == goal) {
+                var p = createEl('p', ['white'], false, formatFloat(float) + ": " + getCombo(arr, combo).join(", "));
+                document.getElementById('combinations').appendChild(p);
+              }
             }
           }
+          if (newBest) {
+            var p = createEl('p', ['white'], false, formatFloat(bestCombo));
+            document.getElementById('combinations').appendChild(p);
+            newBest = false;
+          }
+          
           results = [];
           await sleep(1);
         }
@@ -279,5 +282,6 @@ function generateCombinations() {
 
   var skin = skinData[document.querySelector('#addFloats > div > img').getAttribute('data-collection')][document.querySelector('#addFloats > div > img').getAttribute('data-skin')];
   var goal = parseFloat(document.querySelectorAll('#addFloats > div > p')[1].innerHTML);
+  document.getElementById('combinations').prepend(createEl('h1', ['white'], false, goal.toString()));
   combs(floats, 10, goal, ieee(skin.minFloat), ieee(skin.maxFloat));
 }

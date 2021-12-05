@@ -26,6 +26,10 @@ body {
   text-align: center;
 }
 
+.white {
+  color: white;
+}
+
 #search {
   text-align: center;
   margin-top: -15px;
@@ -145,4 +149,8 @@ body {
 
 #combinations {
   display: none;
+}
+
+#done {
+  margin: 0;
 }
