@@ -172,3 +172,7 @@ body {
 .text-center {
   text-align: center;
 }
+
+#enterFloatsBtn {
+  margin-top: 5px;
+}

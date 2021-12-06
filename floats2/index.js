@@ -217,51 +217,58 @@ function getTotalCombos(arrSize, k) {
 }
 
 function formatComboFloats(combo) {
+  var s = '';
   for (var i = 0; i < combo.length; i++) {
-    if (i == 1+combo.length/2) combo[i] += '\n';
-    combo[i] = formatFloat(combo[i]);
+    s += formatFloat(combo[i]);
+    if (i !== combo.length) s += ', ';
+    if (i == combo.length/2) s += '\n';
   }
-  return combo;
+  return s;
 }
 
 async function combs(arr, k, goal, min, max) {
   var combos = getTotalCombos(arr.length, 10);
-  var increment = Math.min(10000000, Math.ceil(combos*0.01));
-  
-  var N = arr.length;
-  var pointers = new Array(k).fill(0);
-  
-  var r = 0, i = 0;
-  
+  var statusIncrement = Math.min(1291877, Math.ceil(combos*0.001));
+  var renderIncrement = statusIncrement*10;
   var results = [];
   var bestDelta = Number.MAX_SAFE_INTEGER;
   var bestCombo;
   var newBest = false;
-  
   var c = 0;
+
+  var N = arr.length;
+  var pointers = new Array(k).fill(0);
+  var r = 0, i = 0;
   while (r >= 0) {
   	if (i <= (N + (r - k))) {
     	pointers[r] = i;
-      
       if (r == k-1) {
         // valid combination has been found \/ \/ \/ \/ \/
         c++;
         results.push(pointers);
-        if (c%increment === 0 || c === combos) {
+        
+        if (c%statusIncrement === 0 || c === combos) {
           document.getElementById('done').innerText = (`${c.toLocaleString()} / ${combos.toLocaleString()}`);
+          await sleep(1);
+        }
+
+        if (c%renderIncrement === 0 || c === combos) {
           for (var combo of results) {
             var thisCombo = getCombo(arr, combo);
             var float = getFloat(min, max, thisCombo);
             if (Math.abs(float-goal) < bestDelta || float === goal) {
               bestDelta = Math.abs(float-goal);
-              bestCombo = {'outcome':(formatFloat(float)), 'combo':formatComboFloats(thisCombo).join(", ")};
+              bestCombo = {'outcome':(formatFloat(float)), 'combo':formatComboFloats(thisCombo), 'goal':false};
+              if (float === goal) bestCombo.goal = true;
               newBest = true;
             }
           }
           if (newBest) {
-            var d1 = createEl('div', ['col', 'centered'], false, false, false, false, 'showCombo(this)');
+            var d1 = createEl('div', ['col', 'centered']);
             var d2 = createEl('div', ['col', 'centered']);
-            var p1 = createEl('p', ['combo'], false, bestCombo.outcome);
+            var p1 = (bestCombo.goal) ? createEl('p', ['combo'], {'background-color':'burlywood'}, bestCombo.outcome, 
+                                        false, false, 'showCombo(this)') : createEl('p', ['combo'], false, 
+                                        bestCombo.outcome, false, false, 'showCombo(this)');
             var p2 = createEl('p', ['text-center', 'instructionText1'], {'display':'none', 'margin-top':'0'}, bestCombo.combo);
             d2.appendChild(p1);
             d1.appendChild(d2);
@@ -272,7 +279,6 @@ async function combs(arr, k, goal, min, max) {
           }
           
           results = [];
-          await sleep(1);
         }
         // valid combination has been found /\ /\ /\ /\ /\
         i++;
@@ -291,7 +297,7 @@ async function combs(arr, k, goal, min, max) {
 }
 
 function showCombo(el) {
-  el = el.querySelectorAll('p')[1];
+  el = el.parentElement.parentElement.querySelectorAll('p')[1];
   el.style.display = (el.style.display === 'none') ? 'flex' : 'none';
 }
 
