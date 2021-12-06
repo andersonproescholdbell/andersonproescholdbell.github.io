@@ -1,12 +1,11 @@
-body {
-  height: 100vh;
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
   background: radial-gradient(#000c0b, black);
   font-family: "Open Sans";
 }
 
-* {
-  font-family: Open Sans;
-}
 .col {
   display: flex;
   flex-direction: column;
@@ -23,6 +22,18 @@ body {
   align-items: center;
 }
 
+.flex {
+  display: flex;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.margin-zero {
+  margin: 0;
+}
+
 .instructionText1 {
   color: #bdbdbd;
   text-align: center;
@@ -30,23 +41,6 @@ body {
 
 .white {
   color: white;
-}
-
-#search {
-  text-align: center;
-  margin-top: -15px;
-  margin-bottom: 15px;
-  border-radius: 10px;
-}
-
-#floats {
-  height: 100vh;
-  display: none;
-}
-
-#chooseFloat {
-  text-align: center;
-  border-radius: 10px;
 }
 
 .bgConsumer {
@@ -73,6 +67,28 @@ body {
   background-color: #eb4b4b;
 }
 
+#search {
+  text-align: center;
+  margin-top: -15px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+}
+
+#floats {
+  display: none;
+}
+
+#floatsInner {
+  position: absolute;
+  bottom: 60%;
+  transform: translateY(50%);
+}
+
+#chooseFloat {
+  text-align: center;
+  border-radius: 10px;
+}
+
 .skinImg {
   margin: 0;
   border-style: outset;
@@ -93,7 +109,6 @@ body {
 
 .skinLabel {
   background-color: black;
-  font-family: "Open Sans";
   color: white;
   font-weight: bold;
   font-size: 24px;
@@ -103,16 +118,8 @@ body {
   border-radius: 10px;
 }
 
-#floats {
-  display: none;
-  align-items: center;
-  top: 10%;
-  position: relative;
-}
-
 #chooseFloatMsg {
   color: white;
-  font-family: "Open Sans";
   font-weight: bold;
   font-size: 24px;
 }
@@ -120,7 +127,6 @@ body {
 input {
   text-align: center;
   border-radius: 10px;
-  margin-top: -15px;
   background-color: #bdbdbd;
   font-size: 16pt;
   outline: none;
@@ -130,7 +136,6 @@ input {
 .button {
   border-radius: 10px;
   background-color: cadetblue;
-  font-family: "Open Sans";
   font-weight: bold;
   font-size: 24px;
   border: 3px solid black;
@@ -140,8 +145,6 @@ input {
   display: none;
   flex-direction: column;
   align-items: center;
-  height: 100%;
-  width: 100%;
   position: relative;
   top: 21%;
 }
@@ -153,8 +156,8 @@ input {
 .floatInput {
   text-align: center;
   border-radius: 10px;
-  padding: 5px;
-  margin: 7px;
+  padding: 0;
+  margin: 0.5%;
 }
 
 #allSkins {
@@ -181,16 +184,4 @@ input {
   border: 3px solid black;
   padding: 5px;
   text-align: center;
-}
-
-.flex {
-  display: flex;
-}
-
-.text-center {
-  text-align: center;
-}
-
-#enterFloatsBtn {
-  margin-top: 5px;
 }

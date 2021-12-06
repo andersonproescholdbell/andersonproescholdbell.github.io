@@ -23,13 +23,21 @@
       <div id="hiddenSkins"></div>
     </div>
     
-    <div id="floats" class="col">
-      <div id="chooseFloat" class="col centered">
-        <h1 class="instructionText1">What float would you like to craft?</h2>
-        <input id="floatInput">
-        <button id="enterFloatsBtn" class="button" onclick="enterFloats()">Proceed</button>
+    <div id="floats" class="col centered">
+      <div id="floatsInner" class="col">
+        <div id="chooseFloat" class="col centered">
+          <h1 class="instructionText1 margin-zero">What float would you like to craft?</h1>
+          <div class="row centered">
+            <div class="col centered">
+              <input id="floatInput" class="margin-zero" type="number" onkeyup="convertFloat()">
+            </div>
+            <div class="col centered">
+              <button id="enterFloatsBtn" class="button margin-zero" onclick="enterFloats()">Proceed</button>
+            </div>
+          </div>
+        </div>
+        <div id="chosen"></div>
       </div>
-      <div id="chosen"></div>
     </div>
 
     <div id="addFloats" class="col">

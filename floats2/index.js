@@ -174,10 +174,16 @@ async function loadSkin(collection, skin) {
   var maxFloat = formatFloat(item.maxFloat.toString());
 
   document.getElementById('chosen').appendChild(skinImgWithText(item, (minFloat + " - " + maxFloat)));
+  var text = createEl('p', ['skinLabel'], {'bottom':'25px'}, '0');
+  document.querySelector('#chosen > div > p:nth-child(2)').parentNode.insertBefore(text, document.querySelector('#chosen > div > p:nth-child(2)').nextSibling);
 
-  document.getElementById('floatInput').placeholder = minFloat + " - " + maxFloat;
+  var floatInput = document.getElementById('floatInput');
+  floatInput.placeholder = minFloat + " - " + maxFloat;
+  floatInput.select();
+}
 
-  document.getElementById('floatInput').select();
+function convertFloat() {
+  document.querySelector('#chosen > div > p:nth-child(3)').innerText = ieee(parseFloat(document.querySelector('#floatInput').value));
 }
 
 function skinImgWithText(item, bottomText) {
@@ -201,14 +207,14 @@ function enterFloats() {
   document.getElementById('floats').style.display = 'none';
   document.getElementById('addFloats').style.display = 'flex';
 
-  var skin = skinData[document.getElementById('chosen').children[0].children[2].getAttribute('data-collection')][document.getElementById('chosen').children[0].children[2].getAttribute('data-skin')];
+  var skin = skinData[document.querySelector('#chosen > div > img').getAttribute('data-collection')][document.querySelector('#chosen > div > img').getAttribute('data-skin')];
 
-  var neededAvg = formatFloat(ieee(ieee(ieee(float)-ieee(skin.minFloat))/ieee(ieee(skin.maxFloat)-ieee(skin.minFloat))));
+  var neededAvg = formatFloat(ieee(ieee(ieee(float)-ieee(skin.minFloat))/ieee(ieee(skin.maxFloat)-ieee(skin.minFloat)))).substring(0, 6);
 
   document.getElementById('addFloats').prepend(skinImgWithText(skin, formatFloat(ieee(parseFloat(float)))));
 
   var div = createEl('div', ['row', 'centered']);
-  div.appendChild(createEl('input', ['floatInput'], false, false, `Needed average: ${neededAvg}`, 'addFloatInput()'));
+  div.appendChild(createEl('input', ['floatInput'], {'padding-left':'10px', 'padding-right':'10px'}, false, `Needed average: ${neededAvg}`, 'addFloatInput()'));
   document.getElementById('floatInputs').appendChild(div);
 
   document.querySelector('.floatInput').select();
@@ -222,14 +228,14 @@ function addFloatInput() {
       document.querySelector('#addFloats > button').style.display = 'flex';
     }
     if (lastInput.parentElement.childElementCount < 4) {
-      lastInput.parentElement.appendChild(createEl('input', ['floatInput'], false, false, lastInput.placeholder, 'addFloatInput()'));
+      lastInput.parentElement.appendChild(createEl('input', ['floatInput'], {'padding-left':'10px', 'padding-right':'10px'}, false, lastInput.placeholder, 'addFloatInput()'));
     } else {
       var addFloats = document.getElementById('addFloats');
       var dim = addFloats.getBoundingClientRect();
       if (dim.top > 0) addFloats.style.top = `${Math.max(dim.top-30, 0)}px`;
 
       var div = createEl('div', ['row', 'centered']);
-      div.appendChild(lastInput.parentElement.appendChild(createEl('input', ['floatInput'], false, false, lastInput.placeholder, 'addFloatInput()')));
+      div.appendChild(lastInput.parentElement.appendChild(createEl('input', ['floatInput'], {'padding-left':'10px', 'padding-right':'10px'}, false, lastInput.placeholder, 'addFloatInput()')));
       lastInput.parentElement.parentElement.appendChild(div);
     }
   }
