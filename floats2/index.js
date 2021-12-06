@@ -169,7 +169,7 @@ function enterFloats() {
 function addFloatInput() {
   var floatInputs = document.getElementsByClassName('floatInput');
   var lastInput = floatInputs[floatInputs.length - 1];
-  if (lastInput.value != '') {
+  if (!isNaN(parseFloat(lastInput.value))) {
     if (floatInputs.length >= 10) {
       document.querySelector('#addFloats > button').style.display = 'flex';
     }
@@ -185,6 +185,10 @@ function addFloatInput() {
       lastInput.parentElement.parentElement.appendChild(div);
     }
   }
+
+  var inputCount = floatInputs.length - 1;
+  var totalCombos = (inputCount >= 10) ? getTotalCombos(inputCount, 10) : 0;
+  document.getElementById('totalCombos').innerText = totalCombos.toLocaleString() + " possible combinations";
 }
 
 function getFloat(min, max, arr) {
@@ -204,13 +208,24 @@ function getCombo(arr, p) {
   for (var i = 0; i < p.length; i++) {
     results.push(arr[p[i]]);
   }
-  console.log(results);
   return results;
 }
 
-async function combs(arr, k, goal, min, max) {
+function getTotalCombos(arrSize, k) {
   var fact = [1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800, 39916800, 479001600, 6227020800, 87178291200, 1307674368000, 20922789888000, 355687428096000, 6402373705728000, 121645100408832000, 2432902008176640000, 51090942171709440000, 1124000727777607680000, 25852016738884976640000, 620448401733239439360000, 15511210043330985984000000, 403291461126605635584000000, 10888869450418352160768000000, 304888344611713860501504000000, 8841761993739701954543616000000, 265252859812191058636308480000000, 8222838654177922817725562880000000, 263130836933693530167218012160000000, 8683317618811886495518194401280000000, 295232799039604140847618609643520000000, 10333147966386144929666651337523200000000, 371993326789901217467999448150835200000000, 13763753091226345046315979581580902400000000, 523022617466601111760007224100074291200000000, 20397882081197443358640281739902897356800000000, 815915283247897734345611269596115894272000000000, 33452526613163807108170062053440751665152000000000, 1405006117752879898543142606244511569936384000000000, 60415263063373835637355132068513997507264512000000000, 2658271574788448768043625811014615890319638528000000000, 119622220865480194561963161495657715064383733760000000000, 5502622159812088949850305428800254892961651752960000000000, 258623241511168180642964355153611979969197632389120000000000, 12413915592536072670862289047373375038521486354677760000000000, 608281864034267560872252163321295376887552831379210240000000000, 30414093201713378043612608166064768844377641568960512000000000000, 1551118753287382280224243016469303211063259720016986112000000000000, 80658175170943878571660636856403766975289505440883277824000000000000, 4274883284060025564298013753389399649690343788366813724672000000000000, 230843697339241380472092742683027581083278564571807941132288000000000000, 12696403353658275925965100847566516959580321051449436762275840000000000000, 710998587804863451854045647463724949736497978881168458687447040000000000000, 40526919504877216755680601905432322134980384796226602145184481280000000000000, 2350561331282878571829474910515074683828862318181142924420699914240000000000000, 138683118545689835737939019720389406345902876772687432540821294940160000000000000, 8320987112741390144276341183223364380754172606361245952449277696409600000000000000];
-	var combos = Math.floor(fact[arr.length] / (fact[arr.length - k] * fact[k]));
+	return Math.floor(fact[arrSize] / (fact[arrSize - k] * fact[k]));
+}
+
+function formatComboFloats(combo) {
+  for (var i = 0; i < combo.length; i++) {
+    if (i == 1+combo.length/2) combo[i] += '\n';
+    combo[i] = formatFloat(combo[i]);
+  }
+  return combo;
+}
+
+async function combs(arr, k, goal, min, max) {
+  var combos = getTotalCombos(arr.length, 10);
   var increment = Math.min(10000000, Math.ceil(combos*0.01));
   
   var N = arr.length;
@@ -229,32 +244,37 @@ async function combs(arr, k, goal, min, max) {
     	pointers[r] = i;
       
       if (r == k-1) {
+        // valid combination has been found \/ \/ \/ \/ \/
         c++;
         results.push(pointers);
-        if (c%increment === 0 || c == combos) {
-          document.getElementById('done').innerText = (`${c} / ${combos}`);
+        if (c%increment === 0 || c === combos) {
+          document.getElementById('done').innerText = (`${c.toLocaleString()} / ${combos.toLocaleString()}`);
           for (var combo of results) {
-            var float = getFloat(min, max, getCombo(arr, combo));
-            if (Math.abs(float-goal) < bestDelta) {
+            var thisCombo = getCombo(arr, combo);
+            var float = getFloat(min, max, thisCombo);
+            if (Math.abs(float-goal) < bestDelta || float === goal) {
               bestDelta = Math.abs(float-goal);
-              bestCombo = float + ": " + getCombo(arr, combo).join(", ");
+              bestCombo = {'outcome':(formatFloat(float)), 'combo':formatComboFloats(thisCombo).join(", ")};
               newBest = true;
-            } else {
-              if (float == goal) {
-                var p = createEl('p', ['white'], false, formatFloat(float) + ": " + getCombo(arr, combo).join(", "));
-                document.getElementById('combinations').appendChild(p);
-              }
             }
           }
           if (newBest) {
-            var p = createEl('p', ['white'], false, formatFloat(bestCombo));
-            document.getElementById('combinations').appendChild(p);
+            var d1 = createEl('div', ['col', 'centered'], false, false, false, false, 'showCombo(this)');
+            var d2 = createEl('div', ['col', 'centered']);
+            var p1 = createEl('p', ['combo'], false, bestCombo.outcome);
+            var p2 = createEl('p', ['text-center', 'instructionText1'], {'display':'none', 'margin-top':'0'}, bestCombo.combo);
+            d2.appendChild(p1);
+            d1.appendChild(d2);
+            d1.appendChild(p2);
+            document.getElementById('combinations').appendChild(d1)
+            d2.style.height = p1.getBoundingClientRect().height + 'px';
             newBest = false;
           }
           
           results = [];
           await sleep(1);
         }
+        // valid combination has been found /\ /\ /\ /\ /\
         i++;
       } else {
       	i = pointers[r]+1;
@@ -270,6 +290,11 @@ async function combs(arr, k, goal, min, max) {
   return results;
 }
 
+function showCombo(el) {
+  el = el.querySelectorAll('p')[1];
+  el.style.display = (el.style.display === 'none') ? 'flex' : 'none';
+}
+
 function generateCombinations() {
   document.getElementById('addFloats').style.display = 'none';
   var combinations = document.getElementById('combinations');
@@ -282,6 +307,6 @@ function generateCombinations() {
 
   var skin = skinData[document.querySelector('#addFloats > div > img').getAttribute('data-collection')][document.querySelector('#addFloats > div > img').getAttribute('data-skin')];
   var goal = parseFloat(document.querySelectorAll('#addFloats > div > p')[1].innerHTML);
-  document.getElementById('combinations').prepend(createEl('h1', ['white'], false, goal.toString()));
+  document.getElementById('combinations').prepend(createEl('h1', ['white'], {'margin':'0', 'margin-bottom':'2px'}, goal.toString()));
   combs(floats, 10, goal, ieee(skin.minFloat), ieee(skin.maxFloat));
 }
