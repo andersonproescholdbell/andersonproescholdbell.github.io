@@ -104,6 +104,26 @@ function load() {
   document.getElementById('search').select();
 }
 
+function back() {
+  terminate = true;
+  var one = document.getElementById('allSkins');
+  var two = document.getElementById('floats');
+  var three = document.getElementById('addFloats');
+  var four = document.getElementById('combinations').parentElement;
+  if (two.style.display !== 'none') {
+    two.style.display = 'none';
+    one.style.display = 'flex';
+    document.getElementById('search').select();
+  } else if (three.style.display !== 'none') {
+    three.style.display = 'none';
+    two.style.display = 'flex';
+    document.querySelector('.floatInput').select();
+  } else if (four.style.display !== 'none') {
+    four.style.display = 'none';
+    three.style.display = 'flex';
+  }
+}
+
 function distributeSkinImgs() {
   var imgs = document.querySelectorAll('.skinImgCon');
   var nonHidden = document.getElementById('skins');
@@ -159,6 +179,7 @@ function search() {
 
 async function loadSkin(collection, skin) {
   document.getElementById('allSkins').style.display = 'none';
+  document.getElementById('back').style.display = 'flex';
 
   for (var element of document.getElementById('chosen').children) {
     element.remove();
@@ -202,22 +223,37 @@ function skinImgWithText(item, bottomText) {
 
 function enterFloats() {
   var float = document.getElementById('floatInput').value;
+  var formattedFloat = formatFloat(ieee(parseFloat(float)))
   if (float == '') return null;
 
+  var addFloats = document.getElementById('addFloats');
+
   document.getElementById('floats').style.display = 'none';
-  document.getElementById('addFloats').style.display = 'flex';
+  addFloats.style.display = 'flex';
 
   var skin = skinData[document.querySelector('#chosen > div > img').getAttribute('data-collection')][document.querySelector('#chosen > div > img').getAttribute('data-skin')];
 
   var neededAvg = formatFloat(ieee(ieee(ieee(float)-ieee(skin.minFloat))/ieee(ieee(skin.maxFloat)-ieee(skin.minFloat)))).substring(0, 6);
 
-  document.getElementById('addFloats').prepend(skinImgWithText(skin, formatFloat(ieee(parseFloat(float)))));
+  var existing = document.querySelector('#addFloats > div.col');
 
-  var div = createEl('div', ['row', 'centered']);
-  div.appendChild(createEl('input', ['floatInput'], {'padding-left':'10px', 'padding-right':'10px'}, false, `Needed average: ${neededAvg}`, 'addFloatInput()'));
-  document.getElementById('floatInputs').appendChild(div);
+  if (!existing) {
+    addFloats.prepend(skinImgWithText(skin, formattedFloat));
 
-  document.querySelector('.floatInput').select();
+    var div = createEl('div', ['row', 'centered']);
+    var inp = createEl('input', ['floatInput'], {'padding-left':'10px', 'padding-right':'10px'}, false, `Needed average: ${neededAvg}`, 'addFloatInput()');
+    inp.setAttribute('type', 'number');
+    div.appendChild(inp);
+    document.getElementById('floatInputs').appendChild(div);
+
+    document.querySelector('.floatInput').select();
+  } else if (formattedFloat !== existing.querySelector('p:nth-child(2)').innerText) {
+    existing.remove(); 
+    addFloats.prepend(skinImgWithText(skin, formattedFloat));
+    for (var inp of document.querySelectorAll('.floatInput')) {
+      inp.placeholder = formattedFloat;
+    }
+  }
 }
 
 function addFloatInput() {
@@ -288,7 +324,7 @@ function showCombo(el) {
 function generateCombinations() {
   document.getElementById('addFloats').style.display = 'none';
   var combinations = document.getElementById('combinations');
-  combinations.style.display = 'flex';
+  combinations.parentElement.style.display = 'flex';
 
   var floats = [];
   for (var f of document.getElementsByClassName('floatInput')) {
@@ -297,8 +333,14 @@ function generateCombinations() {
 
   var skin = skinData[document.querySelector('#addFloats > div > img').getAttribute('data-collection')][document.querySelector('#addFloats > div > img').getAttribute('data-skin')];
   var goal = parseFloat(document.querySelectorAll('#addFloats > div > p')[1].innerHTML);
+
+  if (combinations.childElementCount > 1) {
+    for (var el of combinations.querySelectorAll('div')) {
+      el.remove();
+    }
+  }
+
   document.getElementById('combinations').prepend(skinImgWithText(skin, formatFloat(goal)));
-  // document.getElementById('combinations').prepend(createEl('h1', ['white'], {'margin':'0', 'margin-bottom':'2px'}, goal.toString()));
   
   runBatches(floats, goal, ieee(skin.minFloat), ieee(skin.maxFloat));
 }
@@ -330,7 +372,10 @@ async function batch(arr, r, i, n, pointers, end) {
   return {'r':r, 'i':i, 'n':n, 'pointers':pointers, 'found':found};
 }
 
+var terminate = false;
+
 async function runBatches(arr, goal, min, max) {
+  terminate = false;
   var totalCombos = getTotalCombos(arr.length, 10);
   var inc = Math.max(124025, Math.ceil(totalCombos*0.00003));
   var done = 0, r = 0, i = 0, n = arr.length, pointers = new Array(10).fill(0), found = [];
@@ -340,7 +385,7 @@ async function runBatches(arr, goal, min, max) {
 
   await sleep(100);
 
-  while (done < totalCombos) {
+  while (done < totalCombos && !terminate) {
     var res = await batch(arr, r, i, n, pointers, inc);
     r = res.r;
     i = res.i;
@@ -351,7 +396,6 @@ async function runBatches(arr, goal, min, max) {
     document.getElementById('done').innerText = (`${(done+inc).toLocaleString()} / ${totalCombos.toLocaleString()}`);
     var toAdd = [];
     var newBest = false;
-    if (done === inc) console.time('part2')
     for (var combo of res.found) {
       var float = getFloat(min, max, combo);
       if (Math.abs(float-goal) < bestDelta || float === goal) {
