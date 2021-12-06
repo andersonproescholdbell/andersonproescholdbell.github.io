@@ -80,13 +80,11 @@ function getSkinMaterials(skin, collection) {
 }
 
 function load() {
-  var main = document.getElementById('skins');
-
   for (var collection in skinData) {
     for (var skin in skinData[collection]) {
       var item = skinData[collection][skin];
       if (!item.lowestRarity) {
-        var div = createEl('div', ['col', 'centered'], {'position':'relative', 'margin':'10px'});
+        var div = createEl('div', ['col', 'centered', 'skinImgCon'], {'position':'relative', 'margin':'10px'});
         
         var text1 = createEl('p', ['skinLabel'], {'top':'-15px'}, item.skin);
         div.appendChild(text1);
@@ -96,7 +94,52 @@ function load() {
 
         div.appendChild(skinImg(item, `loadSkin("${item.collection}", "${item.skin}")`));
 
-        main.appendChild(div);
+        document.getElementById('hiddenSkins').appendChild(div);
+      }
+    }
+  }
+
+  distributeSkinImgs();
+
+  document.getElementById('search').select();
+}
+
+function distributeSkinImgs() {
+  var imgs = document.querySelectorAll('.skinImgCon');
+  var nonHidden = document.getElementById('skins');
+  var hidden = document.getElementById('hiddenSkins');
+
+  for (var img of imgs) {
+    hidden.appendChild(img);
+  }
+
+  for (var div of document.querySelectorAll('.skinImgOutterCon')) {
+    div.remove();
+  }
+
+  function compare(a, b) {
+    var c = a.querySelector('.skinLabel').innerText;
+    var d = b.querySelector('.skinLabel').innerText;
+    if (c < d) {
+        return -1;
+    }
+    if (c > d) {
+        return 1;
+    }
+    return 0;
+  }
+
+  imgs = [...imgs].sort(compare);
+
+  for (var img of imgs) {
+    if (img.style.display !== 'none') {
+      var cons = document.querySelectorAll('.skinImgOutterCon');
+      if (cons.length === 0 || cons[cons.length-1].childElementCount === 4) {
+        var div = createEl('div', ['row', 'centered', 'skinImgOutterCon']);
+        div.appendChild(img);
+        nonHidden.appendChild(div);
+      } else {
+        cons[cons.length-1].appendChild(img);
       }
     }
   }
@@ -105,12 +148,13 @@ function load() {
 function search() {
   var term = document.getElementById("search").value;
   for (var skinImg of document.getElementsByClassName("skinImg")) {
-    if (!skinImg.getAttribute("data-skin").toLowerCase().includes(term.toLowerCase())) {
+    if (!skinImg.getAttribute("data-skin").toLowerCase().includes(term.toLowerCase())/* && !skinImg.getAttribute("data-collection").toLowerCase().includes(term.toLowerCase())*/) {
       skinImg.parentElement.style.display = "none";
     } else {
       skinImg.parentElement.style.display = "flex";
     }
   }
+  distributeSkinImgs();
 }
 
 async function loadSkin(collection, skin) {
@@ -132,6 +176,8 @@ async function loadSkin(collection, skin) {
   document.getElementById('chosen').appendChild(skinImgWithText(item, (minFloat + " - " + maxFloat)));
 
   document.getElementById('floatInput').placeholder = minFloat + " - " + maxFloat;
+
+  document.getElementById('floatInput').select();
 }
 
 function skinImgWithText(item, bottomText) {
@@ -164,6 +210,8 @@ function enterFloats() {
   var div = createEl('div', ['row', 'centered']);
   div.appendChild(createEl('input', ['floatInput'], false, false, `Needed average: ${neededAvg}`, 'addFloatInput()'));
   document.getElementById('floatInputs').appendChild(div);
+
+  document.querySelector('.floatInput').select();
 }
 
 function addFloatInput() {
@@ -173,7 +221,7 @@ function addFloatInput() {
     if (floatInputs.length >= 10) {
       document.querySelector('#addFloats > button').style.display = 'flex';
     }
-    if (lastInput.parentElement.childElementCount < 3) {
+    if (lastInput.parentElement.childElementCount < 4) {
       lastInput.parentElement.appendChild(createEl('input', ['floatInput'], false, false, lastInput.placeholder, 'addFloatInput()'));
     } else {
       var addFloats = document.getElementById('addFloats');
@@ -226,76 +274,6 @@ function formatComboFloats(combo) {
   return s;
 }
 
-async function combs(arr, k, goal, min, max) {
-  var combos = getTotalCombos(arr.length, 10);
-  var statusIncrement = Math.min(1291877, Math.ceil(combos*0.001));
-  var renderIncrement = statusIncrement*10;
-  var results = [];
-  var bestDelta = Number.MAX_SAFE_INTEGER;
-  var bestCombo;
-  var newBest = false;
-  var c = 0;
-
-  var N = arr.length;
-  var pointers = new Array(k).fill(0);
-  var r = 0, i = 0;
-  while (r >= 0) {
-  	if (i <= (N + (r - k))) {
-    	pointers[r] = i;
-      if (r == k-1) {
-        // valid combination has been found \/ \/ \/ \/ \/
-        c++;
-        results.push(pointers);
-        
-        if (c%statusIncrement === 0 || c === combos) {
-          document.getElementById('done').innerText = (`${c.toLocaleString()} / ${combos.toLocaleString()}`);
-          await sleep(1);
-        }
-
-        if (c%renderIncrement === 0 || c === combos) {
-          for (var combo of results) {
-            var thisCombo = getCombo(arr, combo);
-            var float = getFloat(min, max, thisCombo);
-            if (Math.abs(float-goal) < bestDelta || float === goal) {
-              bestDelta = Math.abs(float-goal);
-              bestCombo = {'outcome':(formatFloat(float)), 'combo':formatComboFloats(thisCombo), 'goal':false};
-              if (float === goal) bestCombo.goal = true;
-              newBest = true;
-            }
-          }
-          if (newBest) {
-            var d1 = createEl('div', ['col', 'centered']);
-            var d2 = createEl('div', ['col', 'centered']);
-            var p1 = (bestCombo.goal) ? createEl('p', ['combo'], {'background-color':'burlywood'}, bestCombo.outcome, 
-                                        false, false, 'showCombo(this)') : createEl('p', ['combo'], false, 
-                                        bestCombo.outcome, false, false, 'showCombo(this)');
-            var p2 = createEl('p', ['text-center', 'instructionText1'], {'display':'none', 'margin-top':'0'}, bestCombo.combo);
-            d2.appendChild(p1);
-            d1.appendChild(d2);
-            d1.appendChild(p2);
-            document.getElementById('combinations').appendChild(d1)
-            d2.style.height = p1.getBoundingClientRect().height + 'px';
-            newBest = false;
-          }
-          
-          results = [];
-        }
-        // valid combination has been found /\ /\ /\ /\ /\
-        i++;
-      } else {
-      	i = pointers[r]+1;
-        r++;
-      }
-    } else {
-    	r--;
-      if (r >= 0) {
-      	i = pointers[r]+1;
-      }
-    }
-  }
-  return results;
-}
-
 function showCombo(el) {
   el = el.parentElement.parentElement.querySelectorAll('p')[1];
   el.style.display = (el.style.display === 'none') ? 'flex' : 'none';
@@ -308,11 +286,108 @@ function generateCombinations() {
 
   var floats = [];
   for (var f of document.getElementsByClassName('floatInput')) {
-    if (f.value !== '') floats.push(ieee(parseFloat(f.value)));
+    if (!isNaN(parseFloat(f.value))) floats.push(ieee(parseFloat(f.value)));
   }
 
   var skin = skinData[document.querySelector('#addFloats > div > img').getAttribute('data-collection')][document.querySelector('#addFloats > div > img').getAttribute('data-skin')];
   var goal = parseFloat(document.querySelectorAll('#addFloats > div > p')[1].innerHTML);
-  document.getElementById('combinations').prepend(createEl('h1', ['white'], {'margin':'0', 'margin-bottom':'2px'}, goal.toString()));
-  combs(floats, 10, goal, ieee(skin.minFloat), ieee(skin.maxFloat));
+  document.getElementById('combinations').prepend(skinImgWithText(skin, formatFloat(goal)));
+  // document.getElementById('combinations').prepend(createEl('h1', ['white'], {'margin':'0', 'margin-bottom':'2px'}, goal.toString()));
+  
+  runBatches(floats, goal, ieee(skin.minFloat), ieee(skin.maxFloat));
+}
+
+async function batch(arr, r, i, n, pointers, end) {
+  var done = 0;
+  var found = [];
+
+  while (r >= 0 && done < end) {
+    if (i <= (n + (r - 10))) {
+      pointers[r] = i;
+      if (r == 9) {
+        found.push(getCombo(arr, pointers));
+        done++;
+
+        i++;
+      } else {
+        i = pointers[r]+1;
+        r++;
+      }
+    } else {
+      r--;
+      if (r >= 0) {
+        i = pointers[r]+1;
+      }
+    }
+  }
+
+  return {'r':r, 'i':i, 'n':n, 'pointers':pointers, 'found':found};
+}
+
+async function runBatches(arr, goal, min, max) {
+  var totalCombos = getTotalCombos(arr.length, 10);
+  var inc = Math.max(124025, Math.ceil(totalCombos*0.00003));
+  var done = 0, r = 0, i = 0, n = arr.length, pointers = new Array(10).fill(0), found = [];
+
+  var bestDelta = Number.MAX_SAFE_INTEGER;
+  var totalGoals = 0;
+
+  await sleep(100);
+
+  while (done < totalCombos) {
+    var res = await batch(arr, r, i, n, pointers, inc);
+    r = res.r;
+    i = res.i;
+    n = res.n;
+    pointers = res.pointers;
+    
+    // Operate here
+    document.getElementById('done').innerText = (`${(done+inc).toLocaleString()} / ${totalCombos.toLocaleString()}`);
+    var toAdd = [];
+    var newBest = false;
+    if (done === inc) console.time('part2')
+    for (var combo of res.found) {
+      var float = getFloat(min, max, combo);
+      if (Math.abs(float-goal) < bestDelta || float === goal) {
+        bestDelta = Math.abs(float-goal);
+        (float === goal) ? toAdd.push({'outcome':(formatFloat(float)), 'combo':formatComboFloats(combo), 'goal':true}) : toAdd.push({'outcome':(formatFloat(float)), 'combo':formatComboFloats(combo), 'goal':false});
+        if (float === goal) totalGoals++;
+        newBest = true;
+        if (totalGoals >= 10) break;
+      }
+    }
+    if (newBest) {
+      for (combo of toAdd) {
+        var comboNodes = document.querySelectorAll('.combo');
+        if (comboNodes.length >= 1) {
+          var clone = comboNodes[0].parentElement.parentElement.cloneNode(true);
+          clone.querySelector('.combo').innerText = combo.outcome;
+          clone.querySelector('.text-center').innerText = combo.combo;
+          if (combo.goal) clone.querySelector('.combo').style.backgroundColor = 'burlywood';
+          document.getElementById('done').parentNode.insertBefore(clone, document.getElementById('done').nextSibling);
+        } else {
+          var d1 = createEl('div', ['col', 'centered']);
+          var d2 = createEl('div', ['col', 'centered']);
+          var p1 = (combo.goal) ? createEl('p', ['combo'], {'background-color':'burlywood'}, combo.outcome, false, false, 'showCombo(this)') 
+                                : createEl('p', ['combo'], false, combo.outcome, false, false, 'showCombo(this)');
+          var p2 = createEl('p', ['text-center', 'instructionText1'], {'display':'none', 'margin-top':'0'}, combo.combo);
+          d2.appendChild(p1);
+          d1.appendChild(d2);
+          d1.appendChild(p2);
+          document.getElementById('done').parentNode.insertBefore(d1, document.getElementById('done').nextSibling);
+          d2.style.height = p1.getBoundingClientRect().height + 'px';
+        }
+      }
+      newBest = false;
+    }
+    if (totalGoals >= 10) {
+      document.getElementById('done').innerText = 'Found 10 perfect combinations, stopping at\n' + document.getElementById('done').innerText;
+      break;
+    }
+
+    // Operate above here
+    await sleep(1);
+    done += inc;
+  }
+  if (totalGoals < 10) document.getElementById('done').innerText = (`${totalCombos.toLocaleString()} / ${totalCombos.toLocaleString()}`);
 }

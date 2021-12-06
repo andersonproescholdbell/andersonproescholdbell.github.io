@@ -1,10 +1,12 @@
 body {
-  width: 100vw;
   height: 100vh;
   background: radial-gradient(#000c0b, black);
   font-family: "Open Sans";
 }
 
+* {
+  font-family: Open Sans;
+}
 .col {
   display: flex;
   flex-direction: column;
@@ -72,9 +74,21 @@ body {
 }
 
 .skinImg {
-  margin: 0.5%;
+  margin: 0;
+  border-style: outset;
   border-radius: 40px;
-  width: 63%;
+  border: 2px solid black;
+  width: 90%;
+}
+
+.skinImgCon {
+  margin: 0;
+  padding: 0;
+}
+
+.skinImgOutterCon {
+  margin-top: 1%;
+  margin-bottom: 1%;
 }
 
 .skinLabel {
@@ -103,10 +117,14 @@ body {
   font-size: 24px;
 }
 
-#floatInput {
+input {
   text-align: center;
   border-radius: 10px;
   margin-top: -15px;
+  background-color: #bdbdbd;
+  font-size: 16pt;
+  outline: none;
+  border: 2px solid black;
 }
 
 .button {
