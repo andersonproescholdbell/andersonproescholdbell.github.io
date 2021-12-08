@@ -310,7 +310,7 @@ function formatComboFloats(combo) {
   var s = '';
   for (var i = 0; i < combo.length; i++) {
     s += formatFloat(combo[i]);
-    if (i !== combo.length) s += ', ';
+    if (i !== combo.length-1) s += ', ';
     if (i == combo.length/2) s += '\n';
   }
   return s;
