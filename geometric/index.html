@@ -4,17 +4,29 @@
     <meta charset="utf-8">
     <title>Geometric Projects</title>
     <link id="cssFile" rel="stylesheet" href="index.css"/>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112244519-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-112244519-1');
+    </script>
   </head>
   <body>
     <div id="main">
-      <a class="link" href="./sierpinski/index.html">Sierpinski's Triangle (standard rules)</a>
-      <a class="link" href="./square1/index.html">Square1 Fractal (not same vertice twice)</a>
-      <a class="link" href="./square2/index.html">Square2 Fractal (not vertice clockwise or counterclockwise of previous)</a>
-      <a class="link" href="./square3/index.html">Square3 Fractal (not vertice 2 away from previous)</a>
-      <a class="link" href="./square4/index.html">Square4 Fractal (if two previous verticies are the same, cannot neighbor them)</a>
-      <a class="link" href="./pent1/index.html">Pentagon1 Fractal (not the same vertice twice)</a>
-      <a class="link" href="./pent2/index.html">Pentagon2 Fractal (if two previous verticies are the same, cannot neighbor them)</a>
-      <a class="link" href="./hex1/index.html">Hexagon1 Fractal (not the same vertice twice)</a>
+      <a id="back" class="link" href="../index.html">Back</a>
+      <div id="container">
+        <a class="link" href="./sierpinski/index.html">Sierpinski's Triangle (standard rules)</a>
+        <a class="link" href="./square1/index.html">Square1 Fractal (not same vertice twice)</a>
+        <a class="link" href="./square2/index.html">Square2 Fractal (not vertice clockwise or counterclockwise of previous)</a>
+        <a class="link" href="./square3/index.html">Square3 Fractal (not vertice 2 away from previous)</a>
+        <a class="link" href="./square4/index.html">Square4 Fractal (if two previous verticies are the same, cannot neighbor them)</a>
+        <a class="link" href="./pent1/index.html">Pentagon1 Fractal (not the same vertice twice)</a>
+        <a class="link" href="./pent2/index.html">Pentagon2 Fractal (if two previous verticies are the same, cannot neighbor them)</a>
+        <a class="link" href="./hex1/index.html">Hexagon1 Fractal (not the same vertice twice)</a>
+      </div>
     </div>
   </body>
 </html>

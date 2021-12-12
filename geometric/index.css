@@ -1,16 +1,33 @@
-html {
-  background-image: linear-gradient(45deg, #3f51b5, #002b1b)
+body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: radial-gradient(#000c0b, black);
 }
 
 #main {
-  min-height: 100vh;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+#container {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  font-size: 5vh;
+  font-size: 44pt;
 }
 
 .link {
-  color: #579ebf;
+  color: #bdbdbd;
+}
+
+#back {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-size: 24pt;
 }
