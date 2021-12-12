@@ -441,3 +441,12 @@ async function runBatches(arr, goal, min, max) {
   }
   if (totalGoals < 10) document.getElementById('done').innerText = (`${totalCombos.toLocaleString()} / ${totalCombos.toLocaleString()}`);
 }
+
+/* 
+TODO
+  - When combinations are being generated, if one is clicked to show the floats, any generated after
+    that will also show their floats.
+  - Generated combinations with dragon lore and can go back once, but not twice for some reason.
+
+
+*/
