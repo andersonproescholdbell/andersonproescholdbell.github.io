@@ -14,6 +14,15 @@ function checkIfCraftable(min, max, float) {
     return float === getFloat(min, max, arr);
 }
 
+// don't currently need this, maybe in the future
+function getSkinMaterials(skin, collection) {
+    var materials = [];
+    for (var s in collection) {
+      if (collection[s].rarityNumber == skin.rarityNumber - 1) materials.push(collection[s]);
+    }
+    return materials;
+}
+
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
