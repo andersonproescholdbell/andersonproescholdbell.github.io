@@ -1,24 +1,27 @@
 function load() {
-  for (var collection in skinData) {
-    for (var skin in skinData[collection]) {
-      var item = skinData[collection][skin];
-      if (!item.lowestRarity) {
-        var div = createEl('div', ['col', 'centered', 'skinImgCon'], {'position':'relative', 'margin':'10px'});
+  var nonHidden = document.getElementById('skins');
+  for (var item of skinDataBySearch) {
+    var div = createEl('div', ['col', 'centered', 'skinImgCon'], {'position':'relative', 'margin':'10px'});
         
-        var text1 = createEl('p', ['skinLabel'], {'top':'-15px'}, item.skin);
-        div.appendChild(text1);
+    var text1 = createEl('p', ['skinLabel'], {'top':'-15px'}, item.skin);
+    div.appendChild(text1);
 
-        var text2 = createEl('p', ['skinLabel'], {'bottom':'-15px'}, (formatFloat(item.minFloat.toString())+" - "+formatFloat(item.maxFloat.toString())))
-        div.appendChild(text2);
+    var text2 = createEl('p', ['skinLabel'], {'bottom':'-15px'}, (formatFloat(item.minFloat.toString())+" - "+formatFloat(item.maxFloat.toString())))
+    div.appendChild(text2);
 
-        div.appendChild(skinImg(item, `loadSkin("${item.collection}", "${item.skin}")`));
+    div.appendChild(skinImg(item, `loadSkin("${item.collection}", "${item.skin}")`));
 
-        document.getElementById('hiddenSkins').appendChild(div);
-      }
+    var cons = document.querySelectorAll('.skinImgOutterCon');
+    if (cons.length === 0 || cons[cons.length-1].childElementCount === 4) {
+      var con = createEl('div', ['row', 'centered', 'skinImgOutterCon']);
+      con.appendChild(div);
+      nonHidden.appendChild(con);
+    } else {
+      cons[cons.length-1].appendChild(div);
     }
-  }
 
-  distributeSkinImgs();
+    document.getElementById('hiddenSkins').appendChild(con);
+  }
 
   document.getElementById('search').select();
 }
