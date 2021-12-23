@@ -50,8 +50,20 @@ function formatComboFloats(combo) {
     return s;
 }
 
-function skinImgWithText(item, bottomText) {
-    var div = createEl('div', ['col', 'centered'], {'position':'relative', 'margin':'10px'});
+function skinImg(item, onclick) {
+    var img = document.createElement("img");
+    img.setAttribute("src", item.img);
+    img.setAttribute("alt", item.skin);
+    img.setAttribute("data-skin", item.skin);
+    img.setAttribute("data-collection", item.collection);
+    img.classList.add("skinImg");
+    img.classList.add(rarityClass(item.rarity));
+    img.setAttribute("onclick", onclick);
+    return img;
+}
+
+function skinImgWithText(item, classes, bottomText, onclick) {
+    var div = createEl('div', ['col', 'centered'].concat(classes), {'position':'relative', 'margin':'10px'});
   
     var text1 = createEl('p', ['skinLabel'], {'top':'-15px'}, item.skin);
     div.appendChild(text1);
@@ -59,7 +71,7 @@ function skinImgWithText(item, bottomText) {
     var text2 = createEl('p', ['skinLabel'], {'bottom':'-15px'}, bottomText);
     div.appendChild(text2);
   
-    div.appendChild(skinImg(item));
+    div.appendChild(skinImg(item, onclick));
   
     return div;
 }
@@ -123,16 +135,4 @@ function createEl(el, classes, styles, innerText, placeholder, onkeyup, onclick)
     if (onclick) el.setAttribute("onclick", onclick);
 
     return el;
-}
-
-function skinImg(item, onclick) {
-    var img = document.createElement("img");
-    img.setAttribute("src", item.img);
-    img.setAttribute("alt", item.skin);
-    img.setAttribute("data-skin", item.skin);
-    img.setAttribute("data-collection", item.collection);
-    img.classList.add("skinImg");
-    img.classList.add(rarityClass(item.rarity));
-    img.setAttribute("onclick", onclick);
-    return img;
 }

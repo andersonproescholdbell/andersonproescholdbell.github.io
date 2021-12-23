@@ -52,6 +52,12 @@
   flex-direction: column;
 }
 
+#skins {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
 #done {
   margin-top: 0;
 }

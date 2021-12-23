@@ -1,26 +1,7 @@
 function load() {
-  var nonHidden = document.getElementById('skins');
+  var skins = document.getElementById('skins');
   for (var item of skinDataBySearch) {
-    var div = createEl('div', ['col', 'centered', 'skinImgCon'], {'position':'relative', 'margin':'10px'});
-        
-    var text1 = createEl('p', ['skinLabel'], {'top':'-15px'}, item.skin);
-    div.appendChild(text1);
-
-    var text2 = createEl('p', ['skinLabel'], {'bottom':'-15px'}, (formatFloat(item.minFloat.toString())+" - "+formatFloat(item.maxFloat.toString())))
-    div.appendChild(text2);
-
-    div.appendChild(skinImg(item, `loadSkin("${item.collection}", "${item.skin}")`));
-
-    var cons = document.querySelectorAll('.skinImgOutterCon');
-    if (cons.length === 0 || cons[cons.length-1].childElementCount === 4) {
-      var con = createEl('div', ['row', 'centered', 'skinImgOutterCon']);
-      con.appendChild(div);
-      nonHidden.appendChild(con);
-    } else {
-      cons[cons.length-1].appendChild(div);
-    }
-
-    document.getElementById('hiddenSkins').appendChild(con);
+    skins.appendChild(skinImgWithText(item, ['skinImgCon'], (formatFloat(item.minFloat.toString())+" - "+formatFloat(item.maxFloat.toString())), `loadSkin("${item.collection}", "${item.skin}")`));
   }
 
   document.getElementById('search').select();
@@ -48,57 +29,15 @@ function back() {
   }
 }
 
-function distributeSkinImgs() {
-  var imgs = document.querySelectorAll('.skinImgCon');
-  var nonHidden = document.getElementById('skins');
-  var hidden = document.getElementById('hiddenSkins');
-
-  for (var img of imgs) {
-    hidden.appendChild(img);
-  }
-
-  for (var div of document.querySelectorAll('.skinImgOutterCon')) {
-    div.remove();
-  }
-
-  function compare(a, b) {
-    var c = a.querySelector('.skinLabel').innerText;
-    var d = b.querySelector('.skinLabel').innerText;
-    if (c < d) {
-        return -1;
-    }
-    if (c > d) {
-        return 1;
-    }
-    return 0;
-  }
-
-  imgs = [...imgs].sort(compare);
-
-  for (var img of imgs) {
-    if (img.style.display !== 'none') {
-      var cons = document.querySelectorAll('.skinImgOutterCon');
-      if (cons.length === 0 || cons[cons.length-1].childElementCount === 4) {
-        var div = createEl('div', ['row', 'centered', 'skinImgOutterCon']);
-        div.appendChild(img);
-        nonHidden.appendChild(div);
-      } else {
-        cons[cons.length-1].appendChild(img);
-      }
-    }
-  }
-}
-
 function search() {
-  var term = document.getElementById("search").value;
+  var term = document.getElementById("search").value.toLowerCase();
   for (var skinImg of document.getElementsByClassName("skinImg")) {
-    if (!skinImg.getAttribute("data-skin").toLowerCase().includes(term.toLowerCase())/* && !skinImg.getAttribute("data-collection").toLowerCase().includes(term.toLowerCase())*/) {
+    if (!skinImg.getAttribute("data-skin").toLowerCase().includes(term)) {
       skinImg.parentElement.style.display = "none";
     } else {
       skinImg.parentElement.style.display = "flex";
     }
   }
-  distributeSkinImgs();
 }
 
 async function loadSkin(collection, skin) {
@@ -118,7 +57,7 @@ async function loadSkin(collection, skin) {
   var minFloat = formatFloat(item.minFloat.toString());
   var maxFloat = formatFloat(item.maxFloat.toString());
 
-  document.getElementById('chosen').appendChild(skinImgWithText(item, (minFloat + " - " + maxFloat)));
+  document.getElementById('chosen').appendChild(skinImgWithText(item, [], (minFloat + " - " + maxFloat)));
   var text = createEl('p', ['skinLabel'], {'bottom':'25px'}, '0');
   document.querySelector('#chosen > div > p:nth-child(2)').parentNode.insertBefore(text, document.querySelector('#chosen > div > p:nth-child(2)').nextSibling);
 
@@ -148,7 +87,7 @@ function enterFloats() {
   var existing = document.querySelector('#addFloats > div.col');
 
   if (!existing) {
-    addFloats.insertBefore(skinImgWithText(skin, formattedFloat), addFloats.querySelector('button'));
+    addFloats.insertBefore(skinImgWithText(skin, [], formattedFloat), addFloats.querySelector('button'));
 
     var div = createEl('div', ['row', 'centered']);
     var inp = createEl('input', ['floatInput'], {'padding-left':'10px', 'padding-right':'10px'}, false, `Needed average: ${neededAvg}`, 'addFloatInput()');
@@ -159,7 +98,7 @@ function enterFloats() {
     document.querySelector('.floatInput').select();
   } else if (formattedFloat !== existing.querySelector('p:nth-child(2)').innerText) {
     existing.remove(); 
-    addFloats.prepend(skinImgWithText(skin, formattedFloat));
+    addFloats.prepend(skinImgWithText(skin, [], formattedFloat));
     for (var inp of document.querySelectorAll('.floatInput')) {
       inp.placeholder = formattedFloat;
     }
@@ -215,7 +154,7 @@ function generateCombinations() {
     }
   }
 
-  document.getElementById('combinations').prepend(skinImgWithText(skin, formatFloat(goal)));
+  document.getElementById('combinations').prepend(skinImgWithText(skin, [], formatFloat(goal)));
   
   runBatches(floats, goal, ieee(skin.minFloat), ieee(skin.maxFloat));
 }

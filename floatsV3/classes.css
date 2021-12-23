@@ -60,21 +60,16 @@
 }
 
 .skinImg {
-  margin: 0;
   border-style: outset;
   border-radius: 40px;
   border: 2px solid black;
-  width: 90%;
+  width: 100%;
 }
 
 .skinImgCon {
-  margin: 0;
+  margin: 0 0 20px 0;
   padding: 0;
-}
-
-.skinImgOutterCon {
-  margin-top: 1%;
-  margin-bottom: 1%;
+  zoom: 0.85;
 }
 
 .skinLabel {
