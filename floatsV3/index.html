@@ -27,7 +27,7 @@
     </div>
     
     <div id="chooseFloat" class="col centered display-none">
-      <h1 class="instructionText margin-zero">What float would you like to craft?</h1>
+      <h1 class="instructionText text-center margin-zero">What float would you like to craft?</h1>
       <div class="row centered">
         <input id="floatInput" class="margin-zero" type="number" onkeyup="convertFloat()">
         <button id="enterFloatsBtn" class="button margin-zero" onclick="enterFloats()">Proceed</button>
@@ -35,21 +35,21 @@
     </div>
 
     <div id="addFloats" class="col display-none">
-      <h1 class="instructionText margin-zero">Add 10+ floats to continue</h1>
+      <h1 class="instructionText text-center margin-zero">Add 10+ floats to continue</h1>
       <button class="button" onclick="generateCombinations()">Proceed</button>
       <div id="floatInputs"></div>
-      <h2 id="totalCombos" class="instructionText">0 possible combinations</h2>
+      <h2 id="totalCombos" class="instructionText text-center">0 possible combinations</h2>
     </div>
 
     <div class="col centered display-none">
-      <div id="combinations" class="col centered">
-        <h2 id="done" class="instructionText"></h2>
+      <div id="combinations" class="col centered width-100">
+        <h2 id="done" class="instructionText text-center"></h2>
       </div>
     </div>
 
     <script src="index.js"></script>
     <script src="global.js"></script>
     <script src="skinDataBySearch.js"></script>
-    <script src="skinData.js"></script>
+    <script src="skinDataBySkin.js"></script>
   </body>
 </html>

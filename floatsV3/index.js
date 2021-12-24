@@ -2,8 +2,8 @@ function load() {
   var skins = document.getElementById('skins');
   for (var item of skinDataBySearch) {
     var text = (formatFloat(item.minFloat.toString())+" - "+formatFloat(item.maxFloat.toString()));
-    var onclick = `loadSkin("${item.collection}", "${item.skin}")`;
-    skins.appendChild(skinImgWithText(item, ['skinImgCon'], [{"text":text, "offset": {'bottom':'-15px'}}], onclick));
+    var onclick = `loadSkin("${item.skin}")`;
+    skins.appendChild(skinImgWithText(item, ['skinImgCon'], [{"text":text, "offset":{'bottom':'-15px'}}], onclick));
   }
 
   document.getElementById('search').select();
@@ -42,7 +42,7 @@ function search() {
   }
 }
 
-function loadSkin(collection, skin) {
+function loadSkin(skin) {
   document.getElementById('chooseSkin').style.display = 'none';
   var chooseFloat = document.querySelector('#chooseFloat');
 
@@ -51,8 +51,7 @@ function loadSkin(collection, skin) {
   }
   chooseFloat.style.display = "flex";
 
-  var item = skinData[collection][skin];
-  var collection = skinData[collection];
+  var item = skinDataBySkin[skin];
 
   var minFloat = formatFloat(item.minFloat.toString());
   var maxFloat = formatFloat(item.maxFloat.toString());
@@ -83,14 +82,14 @@ function enterFloats() {
   document.getElementById('chooseFloat').style.display = 'none';
   addFloats.style.display = 'flex';
 
-  var skin = skinData[document.querySelector('#chosen > div > img').getAttribute('data-collection')][document.querySelector('#chosen > div > img').getAttribute('data-skin')];
+  var skin = skinDataBySkin[document.querySelector('#chooseFloat > div:nth-child(3) > img').getAttribute('data-skin')];
 
   var neededAvg = formatFloat(ieee(ieee(ieee(float)-ieee(skin.minFloat))/ieee(ieee(skin.maxFloat)-ieee(skin.minFloat)))).substring(0, 6);
 
   var existing = document.querySelector('#addFloats > div.col');
 
   if (!existing) {
-    addFloats.insertBefore(skinImgWithText(skin, [], formattedFloat), addFloats.querySelector('button'));
+    addFloats.insertBefore(skinImgWithText(skin, [], [{"text":formattedFloat, "offset":{'bottom':'-15px'}}]), addFloats.querySelector('button'));
 
     var div = createEl('div', ['row', 'centered']);
     var inp = createEl('input', ['floatInput'], {'padding-left':'10px', 'padding-right':'10px'}, false, `Needed average: ${neededAvg}`, 'addFloatInput()');
@@ -101,7 +100,7 @@ function enterFloats() {
     document.querySelector('.floatInput').select();
   } else if (formattedFloat !== existing.querySelector('p:nth-child(2)').innerText) {
     existing.remove(); 
-    addFloats.prepend(skinImgWithText(skin, [], formattedFloat));
+    addFloats.prepend(skinImgWithText(skin, [], [{"text":formattedFloat, "offset":{'bottom':'-15px'}}]));
     for (var inp of document.querySelectorAll('.floatInput')) {
       inp.placeholder = formattedFloat;
     }
@@ -148,7 +147,7 @@ function generateCombinations() {
     if (!isNaN(parseFloat(f.value))) floats.push(ieee(parseFloat(f.value)));
   }
 
-  var skin = skinData[document.querySelector('#addFloats > div > img').getAttribute('data-collection')][document.querySelector('#addFloats > div > img').getAttribute('data-skin')];
+  var skin = skinDataBySkin[document.querySelector('#addFloats > div > img').getAttribute('data-skin')];
   var goal = parseFloat(document.querySelectorAll('#addFloats > div > p')[1].innerHTML);
 
   if (combinations.childElementCount > 1) {
@@ -157,7 +156,7 @@ function generateCombinations() {
     }
   }
 
-  document.getElementById('combinations').prepend(skinImgWithText(skin, [], formatFloat(goal)));
+  document.getElementById('combinations').prepend(skinImgWithText(skin, [], [{"text":formatFloat(goal), "offset":{'bottom':'-15px'}}]));
   
   runBatches(floats, goal, ieee(skin.minFloat), ieee(skin.maxFloat));
 }
@@ -224,7 +223,7 @@ async function runBatches(arr, goal, min, max) {
       }
     }
     if (newBest) {
-      for (combo of toAdd) {
+      for (var combo of toAdd) {
         var comboNodes = document.querySelectorAll('.combo');
         if (comboNodes.length >= 1) {
           var clone = comboNodes[0].parentElement.parentElement.cloneNode(true);
@@ -233,11 +232,11 @@ async function runBatches(arr, goal, min, max) {
           if (combo.goal) clone.querySelector('.combo').style.backgroundColor = 'burlywood';
           document.getElementById('done').parentNode.insertBefore(clone, document.getElementById('done').nextSibling);
         } else {
-          var d1 = createEl('div', ['col', 'centered']);
+          var d1 = createEl('div', ['col', 'centered', 'width-100'], {"width":"60%", "flex-wrap":"wrap"});
           var d2 = createEl('div', ['col', 'centered']);
           var p1 = (combo.goal) ? createEl('p', ['combo'], {'background-color':'burlywood'}, combo.outcome, false, false, 'showCombo(this)') 
                                 : createEl('p', ['combo'], false, combo.outcome, false, false, 'showCombo(this)');
-          var p2 = createEl('p', ['text-center', 'instructionText1'], {'display':'none', 'margin-top':'0'}, combo.combo);
+          var p2 = createEl('p', ['text-center', 'instructionText'], {'display':'none', 'margin-top':'0'}, combo.combo);
           d2.appendChild(p1);
           d1.appendChild(d2);
           d1.appendChild(p2);
