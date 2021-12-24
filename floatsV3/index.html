@@ -27,19 +27,10 @@
     </div>
     
     <div id="chooseFloat" class="col centered display-none">
-      <div id="floatsInner" class="col">
-        <div id="chooseFloat" class="col centered">
-          <h1 class="instructionText margin-zero">What float would you like to craft?</h1>
-          <div class="row centered">
-            <div class="col centered">
-              <input id="floatInput" class="margin-zero" type="number" onkeyup="convertFloat()">
-            </div>
-            <div class="col centered">
-              <button id="enterFloatsBtn" class="button margin-zero" onclick="enterFloats()">Proceed</button>
-            </div>
-          </div>
-        </div>
-        <div id="chosen"></div>
+      <h1 class="instructionText margin-zero">What float would you like to craft?</h1>
+      <div class="row centered">
+        <input id="floatInput" class="margin-zero" type="number" onkeyup="convertFloat()">
+        <button id="enterFloatsBtn" class="button margin-zero" onclick="enterFloats()">Proceed</button>
       </div>
     </div>
 
@@ -50,7 +41,7 @@
       <h2 id="totalCombos" class="instructionText">0 possible combinations</h2>
     </div>
 
-    <div class="col centered">
+    <div class="col centered display-none">
       <div id="combinations" class="col centered">
         <h2 id="done" class="instructionText"></h2>
       </div>

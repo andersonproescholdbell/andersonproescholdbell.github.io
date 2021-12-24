@@ -1,7 +1,9 @@
 function load() {
   var skins = document.getElementById('skins');
   for (var item of skinDataBySearch) {
-    skins.appendChild(skinImgWithText(item, ['skinImgCon'], (formatFloat(item.minFloat.toString())+" - "+formatFloat(item.maxFloat.toString())), `loadSkin("${item.collection}", "${item.skin}")`));
+    var text = (formatFloat(item.minFloat.toString())+" - "+formatFloat(item.maxFloat.toString()));
+    var onclick = `loadSkin("${item.collection}", "${item.skin}")`;
+    skins.appendChild(skinImgWithText(item, ['skinImgCon'], [{"text":text, "offset": {'bottom':'-15px'}}], onclick));
   }
 
   document.getElementById('search').select();
@@ -40,15 +42,13 @@ function search() {
   }
 }
 
-async function loadSkin(collection, skin) {
+function loadSkin(collection, skin) {
   document.getElementById('chooseSkin').style.display = 'none';
-  document.getElementById('back').style.display = 'flex';
+  var chooseFloat = document.querySelector('#chooseFloat');
 
-  for (var element of document.getElementById('chosen').children) {
-    element.remove();
+  if (chooseFloat.childElementCount > 2) {
+    chooseFloat.querySelector('.skinLabel').parentElement.remove();
   }
-
-  var chooseFloat = document.getElementById('chooseFloat');
   chooseFloat.style.display = "flex";
 
   var item = skinData[collection][skin];
@@ -56,18 +56,21 @@ async function loadSkin(collection, skin) {
 
   var minFloat = formatFloat(item.minFloat.toString());
   var maxFloat = formatFloat(item.maxFloat.toString());
+  var floatText = minFloat + " - " + maxFloat;
 
-  document.getElementById('chosen').appendChild(skinImgWithText(item, [], (minFloat + " - " + maxFloat)));
-  var text = createEl('p', ['skinLabel'], {'bottom':'25px'}, '0');
-  document.querySelector('#chosen > div > p:nth-child(2)').parentNode.insertBefore(text, document.querySelector('#chosen > div > p:nth-child(2)').nextSibling);
-
+  chooseFloat.appendChild(skinImgWithText(item, [], [{"text":floatText, "offset":{'bottom':'-15px'}}, {"text":'0', "offset":{'bottom':'25px'}}]));
+  
   var floatInput = document.getElementById('floatInput');
-  floatInput.placeholder = minFloat + " - " + maxFloat;
+  floatInput.placeholder = floatText;
+  convertFloat();
   floatInput.select();
 }
 
 function convertFloat() {
-  document.querySelector('#chosen > div > p:nth-child(3)').innerText = ieee(parseFloat(document.querySelector('#floatInput').value));
+  var input = document.querySelector('#floatInput').value;
+  if (input !== '') {
+    document.querySelector('#chooseFloat > div:nth-child(3) > p:nth-child(3)').innerText = ieee(parseFloat(input));
+  }
 }
 
 function enterFloats() {
@@ -262,5 +265,6 @@ TODO
     that will also show their floats.
   - Generated combinations with dragon lore and can go back once, but not twice for some reason.
   - Find a way to check if floats are craftable given min and max of skin.
-
+  - Mobile is a disaster
+  - skin names with special characters: aug joamunder
 */

@@ -1,3 +1,41 @@
+function ieee(x) {
+    x = Number(x);
+    var float = new Float32Array(1);
+    float[0] = x;
+    return float[0];
+}
+
+function rarityClass(rarity) {
+    switch(rarity) {
+        case "Consumer":
+        return "bgConsumer";
+        case "Industrial":
+        return "bgIndustrial";
+        case "Mil-Spec":
+        return "bgMilSpec";
+        case "Restricted":
+        return "bgRestricted";
+        case "Classified":
+        return "bgClassified";
+        case "Covert":
+        return "bgCovert";
+        default:
+        return "bgConsumer";
+    }
+}
+
+function formatFloat(float) {
+    float = float.toString();
+    while (float.length < 4) {
+        if (float.length == 1) {
+        float += ".";
+        } else {
+        float += "0";
+        }
+    }
+    return float;
+}
+
 function getFloat(min, max, arr) {
     var wear = 0;
     for (var i = 0; i < 10; i++) {
@@ -62,56 +100,19 @@ function skinImg(item, onclick) {
     return img;
 }
 
-function skinImgWithText(item, classes, bottomText, onclick) {
+function skinImgWithText(item, classes, texts, onclick) {
     var div = createEl('div', ['col', 'centered'].concat(classes), {'position':'relative', 'margin':'10px'});
-  
+
     var text1 = createEl('p', ['skinLabel'], {'top':'-15px'}, item.skin);
     div.appendChild(text1);
-  
-    var text2 = createEl('p', ['skinLabel'], {'bottom':'-15px'}, bottomText);
-    div.appendChild(text2);
-  
+
+    for (var t of texts) {
+        div.appendChild(createEl('p', ['skinLabel'], t.offset, t.text));
+    }
+
     div.appendChild(skinImg(item, onclick));
   
     return div;
-}
-
-function ieee(x) {
-    x = Number(x);
-    var float = new Float32Array(1);
-    float[0] = x;
-    return float[0];
-}
-
-function rarityClass(rarity) {
-    switch(rarity) {
-        case "Consumer":
-        return "bgConsumer";
-        case "Industrial":
-        return "bgIndustrial";
-        case "Mil-Spec":
-        return "bgMilSpec";
-        case "Restricted":
-        return "bgRestricted";
-        case "Classified":
-        return "bgClassified";
-        case "Covert":
-        return "bgCovert";
-        default:
-        return "bgConsumer";
-    }
-}
-
-function formatFloat(float) {
-    float = float.toString();
-    while (float.length < 4) {
-        if (float.length == 1) {
-        float += ".";
-        } else {
-        float += "0";
-        }
-    }
-    return float;
 }
 
 function createEl(el, classes, styles, innerText, placeholder, onkeyup, onclick) {
