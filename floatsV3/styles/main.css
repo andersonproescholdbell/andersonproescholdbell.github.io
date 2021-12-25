@@ -11,7 +11,7 @@
 
 #chooseSkin {
   position: relative;
-  top: 10%;
+  top: 10px;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -31,22 +31,38 @@
 }
 
 #chooseFloat {
+  display: none;
   text-align: center;
-  position: relative;
-  top: 20%;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
 }
 
 #addFloats {
+  display: none;
   flex-direction: column;
-  align-items: center;
-  position: relative;
-  top: 21%;
+  justify-content: center;
+  min-height: 100%;
 }
 
 #addFloats > button {
   display: none;
+  text-align: center;
+  align-self: center;
 }
 
-#done {
-  margin-top: 0;
+#totalCombos {
+  margin: 10px 0 0 0;
+}
+
+#floatInputs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin-top: 10px;
+}
+
+#combinations {
+  display: none;
+  min-height: 100%;
 }
