@@ -89,7 +89,7 @@ async function runBatches(arr, goal, min, max) {
           d.querySelector('div > p').innerText = c.outcome;
           d.querySelector('div > p').addEventListener('click', function() { showCombo(this) });
           d.querySelector('p.instructionText').innerText = c.combo;
-          if (c.goal) d.querySelector('div').style.backgroundColor = 'burlywood';
+          if (c.goal) d.style.backgroundColor = 'burlywood';
         } else {
           var d = createEl('div', ['col', 'centered', 'combo'], {"max-width":"90%"});
           var p1 = createEl('p', ['margin-zero'], false, {'innerText':c.outcome});

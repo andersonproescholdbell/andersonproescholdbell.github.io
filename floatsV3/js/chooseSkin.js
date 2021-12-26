@@ -14,10 +14,19 @@ function search() {
     for (var skinImg of document.getElementsByClassName("skinImg")) {
         var skin = skinImg.getAttribute("data-skin").toLowerCase();
         var skinSplit = skin.split(' | ');
+        skinImg.parentElement.classList.remove('displayed');
         if (skin.includes(term) || (skinSplit[0].includes(termSplit[0]) && skinSplit[1].includes(termSplit[1]))) {
             skinImg.parentElement.style.display = "flex";
+            skinImg.parentElement.classList.add('displayed');
         } else {
             skinImg.parentElement.style.display = "none";
         }
     }
 }
+
+document.getElementById('search').addEventListener("keyup", function(e) {
+    if (e.key === 'Enter' && document.querySelectorAll('div.displayed').length === 1) {
+      e.preventDefault();
+      loadSkin(document.querySelector('div.displayed > img').getAttribute('data-skin'));
+    }
+});

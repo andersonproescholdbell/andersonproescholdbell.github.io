@@ -7,7 +7,9 @@ function loadSkin(skin) {
     chooseFloat.querySelector('.skinLabel').parentElement.remove();
   }
 
+  console.log(skin);
   var item = skinDataBySkin[skin];
+  console.log(item);
 
   var minFloat = formatFloat(item.minFloat.toString());
   var maxFloat = formatFloat(item.maxFloat.toString());
