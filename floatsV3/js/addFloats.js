@@ -36,7 +36,17 @@ function addFloatInput() {
     }
     var inp = createEl('input', ['floatInput'], false, {'placeholder':lastInput.placeholder, 'type':'number', 'onkeyup':()=>{addFloatInput()}});
     inp.onkeydown = function(e) { return validateNumber(e, this) };
-    lastInput.parentElement.appendChild(inp);
+    inp.addEventListener("keyup", function(e) {
+      if (e.key === 'Enter') {
+        if (this.nextElementSibling !== null) {
+          this.nextElementSibling.select();
+        } else {
+          e.preventDefault();
+          generateCombinations();
+        }
+      }
+    });
+    document.getElementById('floatInputs').appendChild(inp);
   }
 
   var inputCount = floatInputs.length - 1;

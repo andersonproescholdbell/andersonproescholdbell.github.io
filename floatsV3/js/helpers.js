@@ -28,9 +28,9 @@ function formatFloat(float) {
     float = float.toString();
     while (float.length < 4) {
         if (float.length == 1) {
-        float += ".";
+            float += ".";
         } else {
-        float += "0";
+            float += "0";
         }
     }
     return float;
