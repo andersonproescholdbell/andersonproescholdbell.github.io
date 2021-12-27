@@ -8,19 +8,19 @@ function ieee(x) {
 function rarityClass(rarity) {
     switch(rarity) {
         case "Consumer":
-        return "bgConsumer";
+            return "bgConsumer";
         case "Industrial":
-        return "bgIndustrial";
+            return "bgIndustrial";
         case "Mil-Spec":
-        return "bgMilSpec";
+            return "bgMilSpec";
         case "Restricted":
-        return "bgRestricted";
+            return "bgRestricted";
         case "Classified":
-        return "bgClassified";
+            return "bgClassified";
         case "Covert":
-        return "bgCovert";
+            return "bgCovert";
         default:
-        return "bgConsumer";
+            return "bgConsumer";
     }
 }
 

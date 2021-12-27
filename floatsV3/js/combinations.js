@@ -113,7 +113,7 @@ async function runBatches(arr, goal, min, max) {
     await sleep(1);
     done += inc;
   }
-  if (totalGoals < 10) progress.innerText = (`${totalCombos.toLocaleString()} / ${totalCombosStr}`);
+  if (totalGoals < 10) progress.innerText = (`${totalCombosStr} / ${totalCombosStr}`);
 }
 
 function showCombo(el) {
