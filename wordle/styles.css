@@ -23,41 +23,32 @@ html, body {
 }
 
 .tile {
-    width: 8vh;
-    height: 8vh;
+    width: min(9vh, 9vw);
+    height: min(9vh, 9vw);
     background-color: rgb(15, 15, 15);
     border: 3px solid rgb(49, 49, 49);
     color: white;
-    font-size: 28px;
+    font-size: min(4vw, 4vh);
     font-weight: bold; 
     display: inline-flex;
     justify-content: center;
     align-items: center;
 }
 
-.func {
-    height: 8vh;
-    background-color: rgb(80, 80, 80);
-    color: white;
-    font-size: 28px;
-    font-weight: bold; 
-    border: none;
-}
-
 .tileCon {
     box-sizing: border-box;
     width: 100%;
     height: 100%;
-    padding: 0.3em;
+    padding: min(0.4vh, 0.4vw);
     display: flex;
 }
 
 .key {
     background-color: rgb(80, 80, 80);
-    width: 8vh;
-    height: 8vh;
+    width: min(8vh, 8vw);
+    height: min(8vh, 8vw);
     color: white;
-    font-size: 28px;
+    font-size: min(3vw, 3vh);
     font-weight: bold; 
     border: none;
 }
@@ -66,7 +57,16 @@ html, body {
     box-sizing: border-box;
     width: 100%;
     height: 100%;
-    padding: 0.3em;
+    padding: min(0.2vh, 0.2vw);
+}
+
+.func {
+    height: min(8vw, 8vh);
+    background-color: rgb(80, 80, 80);
+    color: white;
+    font-size: min(3vw, 3vh);
+    font-weight: bold; 
+    border: none;
 }
 
 .keyRow {
@@ -77,9 +77,13 @@ html, body {
 #container {
     display: flex;
     height: 100%;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
     flex-direction: column;
+}
+
+#keyboard {
+    margin-top: min(2vh, 2vw);
 }
 
 .correct {
