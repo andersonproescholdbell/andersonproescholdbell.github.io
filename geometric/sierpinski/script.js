@@ -171,8 +171,8 @@ var app = new Vue({
     createCtx: function() {
       this.can = document.getElementById('ctx');
       this.ctx = this.can.getContext('2d');
-      this.ctx.canvas.width  = window.innerWidth-15;
-      this.ctx.canvas.height = window.innerHeight-15;
+      this.ctx.canvas.width  = document.body.clientWidth;
+      this.ctx.canvas.height = document.body.clientHeight;
       this.canw = this.can.width;
       this.canh = this.can.height;
 

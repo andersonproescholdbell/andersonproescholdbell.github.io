@@ -15,8 +15,8 @@ const cycleMS = 10;//cycle length in milleseconds
 //creating canvas
 const can = document.getElementById('ctx');
 const ctx = can.getContext('2d');
-ctx.canvas.width  = window.innerWidth-15;
-ctx.canvas.height = window.innerHeight-15;
+ctx.canvas.width  = document.body.clientWidth;
+ctx.canvas.height = document.body.clientHeight;
 const canw = can.width;
 const canh = can.height;
 ctx.font = '18px Arial';
