@@ -23,8 +23,8 @@ html, body {
 }
 
 .tile {
-    width: min(9vh, 9vw);
-    height: min(9vh, 9vw);
+    width: min(10vh, 10vw);
+    height: min(10vh, 10vw);
     background-color: rgb(15, 15, 15);
     border: 3px solid rgb(49, 49, 49);
     color: white;
