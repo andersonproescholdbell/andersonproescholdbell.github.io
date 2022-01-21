@@ -70,24 +70,6 @@ function createKeyboard(length, word) {
 }
 
 async function submit(length, word) {
-    function allCorrect(word, guess) {
-        let correct = {};
-    
-        for (var i = 0; i < word.length; i++) {
-            if (!correct[guess[i]]) correct[guess[i]] = 0;
-    
-            if (word[i] === guess[i]) {
-                correct[guess[i]]++;
-            }
-        }
-    
-        for (var l in correct) {
-            (correct[l] > 0 && correct[l] === word.split(l).length-1) ? correct[l] = true : correct[l] = false;
-        }
-    
-        return correct;
-    }
-
     let changeable = document.querySelectorAll('div[data-changeable="true"]');
     if (changeable.length < length) return;
 
@@ -121,8 +103,7 @@ async function submit(length, word) {
         } else if (word[i] === guess[i]) {
             changeable[i].classList.add('correct');
         } else {
-            var allCorrect = allCorrect(word, guess);
-            (allCorrect[guess[i]]) ? changeable[i].classList.add('unusable') : changeable[i].classList.add('partial');
+            (allCorrect(word, guess)[guess[i]]) ? changeable[i].classList.add('unusable') : changeable[i].classList.add('partial');
         }
     }
 
@@ -149,6 +130,24 @@ async function submit(length, word) {
         await sleep(50);
         alert(`The word was "${word}", reload to try again!`);
     }
+}
+
+function allCorrect(word, guess) {
+    let correct = {};
+
+    for (var i = 0; i < word.length; i++) {
+        if (!correct[guess[i]]) correct[guess[i]] = 0;
+
+        if (word[i] === guess[i]) {
+            correct[guess[i]]++;
+        }
+    }
+
+    for (var l in correct) {
+        (correct[l] > 0 && correct[l] === word.split(l).length-1) ? correct[l] = true : correct[l] = false;
+    }
+
+    return correct;
 }
 
 function back() {
