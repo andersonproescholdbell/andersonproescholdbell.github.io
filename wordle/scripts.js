@@ -70,6 +70,24 @@ function createKeyboard(length, word) {
 }
 
 async function submit(length, word) {
+    function allCorrect(word, guess) {
+        let correct = {};
+    
+        for (var i = 0; i < word.length; i++) {
+            if (!correct[guess[i]]) correct[guess[i]] = 0;
+    
+            if (word[i] === guess[i]) {
+                correct[guess[i]]++;
+            }
+        }
+    
+        for (var l in correct) {
+            (correct[l] > 0 && correct[l] === word.split(l).length-1) ? correct[l] = true : correct[l] = false;
+        }
+    
+        return correct;
+    }
+
     let changeable = document.querySelectorAll('div[data-changeable="true"]');
     if (changeable.length < length) return;
 
@@ -103,7 +121,20 @@ async function submit(length, word) {
         } else if (word[i] === guess[i]) {
             changeable[i].classList.add('correct');
         } else {
-            changeable[i].classList.add('partial');
+            var allCorrect = allCorrect(word, guess);
+            (allCorrect[guess[i]]) ? changeable[i].classList.add('unusable') : changeable[i].classList.add('partial');
+        }
+    }
+
+    for (var i = 0; i < length; i++) {
+        if (word.includes(guess[i]) && word[i] !== guess[i]) {
+            var correctInstances = 0;
+            for (var j = 0; j < length; j++) {
+                if (word[j] === guess[i]) {
+
+                }
+            }
+            
         }
     }
     
