@@ -1,96 +1,99 @@
 html, body {
     width: 100%;
     height: 100%;
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
     background-color: rgb(15, 15, 15);
-}
-
-.row {
-    display: flex;
-    flex-direction: row;
-}
-
-.col {
-    display: flex;
-    flex-direction: column;
-}
-
-.centered {
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .tile {
-    width: min(11vh, 11vw);
-    height: min(11vh, 11vw);
-    background-color: rgb(15, 15, 15);
+    box-sizing: border-box;
     border: 3px solid rgb(49, 49, 49);
-    color: white;
-    font-size: min(5vw, 5vh);
+    background-color: rgb(15, 15, 15);
+    color: #dddddd;
+    font-size: 5vw;
     font-weight: bold; 
-    display: inline-flex;
+    display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0 1% 0 0;
+    flex: 1;
+    height: 100%;
 }
 
-.tileCon {
-    box-sizing: border-box;
-    width: 100%;
-    height: 100%;
-    padding: min(0.4vh, 0.4vw);
+.tileRow {
     display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    margin: 0 0 1% 0;
 }
 
 .key {
     background-color: rgb(80, 80, 80);
-    width: min(7vh, 7vw);
-    height: min(7vh, 7vw);
-    color: white;
-    font-size: min(5vw, 5vh);
     font-weight: bold; 
-    border: none;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.keyCon {
+    border: 0;
     display: flex;
-    box-sizing: border-box;
-    width: 100%;
-    height: 100%;
-    padding: min(0.2vh, 0.2vw);
-}
-
-.func {
-    height: min(7vw, 7vh);
-    background-color: rgb(80, 80, 80);
-    color: white;
-    font-size: min(3vw, 3vh);
-    font-weight: bold; 
-    border: none;
-    display: inline-flex;
     justify-content: center;
     align-items: center;
+    color: #dddddd;
+    margin: 1% 1% 0 0;
+    border-radius: 25%;
+    cursor: pointer;
+    padding: 0;
+    flex: 1;
+    font-size: 4vw;
 }
 
 .keyRow {
     display: flex;
-    width: fit-content;
+    touch-action: manipulation;
+    flex: 1;
+}
+
+.lastElem {
+    margin-right: 0;
+}
+
+.spacer {
+    flex: 0.5;
+}
+
+.spacer1-5 {
+    flex: 1.1;
+}
+
+.boardSpacer {
+    flex: 1;
+}
+
+.wideKey {
+    flex: 1.5;
+    font-size: 3vw;
 }
 
 #container {
     display: flex;
     height: 100%;
-    justify-content: center;
-    align-items: center;
+    width: 70%;
+    margin: 0 15% 0 15%;
     flex-direction: column;
 }
 
+#board {
+    display: flex;
+    flex-direction: column;
+    flex: 7;
+    width: 80%;
+    align-self: center;
+}
+
 #keyboard {
-    margin-top: min(0.5vh, 0.5vw);
+    user-select: none;
+    display: flex;
+    flex: 4;
+    flex-direction: column;
 }
 
 .correct {

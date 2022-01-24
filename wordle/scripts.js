@@ -3,11 +3,17 @@ function sleep(ms) {
 }
 
 function createTiles(length) {
+    function createSpacer() {
+        var key = document.createElement('div');
+        key.classList.add('spacer1-5');
+        return key;
+    }
+
     let board = document.getElementById('board');
     for (var i = 0; i < length+1; i++) {
         var row = document.createElement('div');
-        row.classList.add('row');
-        row.classList.add('centered');
+        row.classList.add('tileRow');
+        //row.appendChild(createSpacer());
         for (var j = 0; j < length; j++) {
             var tile = document.createElement('div');
             tile.classList.add('tile');
@@ -16,11 +22,10 @@ function createTiles(length) {
             } else {
                 tile.setAttribute('data-changeable', 'false');
             }
-            var div = document.createElement('div');
-            div.classList.add('tileCon');
-            div.appendChild(tile);
-            row.appendChild(div);
+            if (j == length-1) tile.classList.add('lastElem');
+            row.appendChild(tile);
         }
+        //row.appendChild(createSpacer());
         board.appendChild(row);
     }
 }
@@ -31,42 +36,56 @@ function createKeyboard(length, word) {
         key.innerHTML = letter;
         key.classList.add('key');
         key.setAttribute('data-key', letter.toLowerCase());
-        key.setAttribute('onclick', `letter("${l}")`);
-        var div = document.createElement('div');
-        div.classList.add('keyCon');
-        div.appendChild(key);
-        return div;
+        key.setAttribute('onclick', `letter("${letter}")`);
+        return key;
     }
 
     function createFunc(letter, onclick) {
         var key = document.createElement('button');
-        key.classList.add('func');
+        key.classList.add('key');
+        key.classList.add('wideKey');
         key.innerHTML = letter;
         key.setAttribute('onclick', onclick);
-        var div = document.createElement('div');
-        div.classList.add('keyCon');
-        div.appendChild(key);
-        return div;
+        return key;
     }
 
-    let row1 = document.getElementById('row1');
-    for (var l of 'QWERTYUIOP') {
-        row1.appendChild(createKey(l));
+    function createSpacer() {
+        var key = document.createElement('div');
+        key.classList.add('spacer');
+        return key;
     }
 
-    let row2 = document.getElementById('row2');
-    for (var l of 'ASDFGHJKL') {
-        row2.appendChild(createKey(l));
+    let keys = ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM'];
+    for (var i = 0; i < keys.length; i++) {
+        let div = document.createElement('div'); 
+        div.classList.add('keyRow');
+        for (var j = 0; j < keys[i].length; j++) {
+            let func;
+            if (i === 2 && j === 0) {
+                div.appendChild(createFunc('Enter', `submit(${length}, "${word}")`));
+            } else if (i === 2 && j === keys[i].length-1) {
+                func = createFunc('Back', `back()`);
+                func.classList.add('lastElem');
+            }
+
+            if (i === 1 && j === 0) div.appendChild(createSpacer());
+
+            let elem = createKey(keys[i][j]);
+
+            if (j === keys[i].length-1 && i < 2) {
+                elem.classList.add('lastElem');
+            }
+
+            div.appendChild(elem);
+            
+            if (func) {
+                div.appendChild(func);
+            }
+
+            if (i === 1 && j === keys[i].length-1) div.appendChild(createSpacer());
+        }
+        document.getElementById('keyboard').appendChild(div);
     }
-
-    let row3 = document.getElementById('row3');
-    row3.appendChild(createFunc('Enter', `submit(${length}, "${word}")`));
-
-    for (var l of 'ZXCVBNM') {
-        row3.appendChild(createKey(l));
-    }
-
-    row3.appendChild(createFunc('Backspace', `back()`));
 }
 
 async function submit(length, word) {
@@ -104,18 +123,6 @@ async function submit(length, word) {
             changeable[i].classList.add('correct');
         } else {
             (allCorrect(word, guess)[guess[i]]) ? changeable[i].classList.add('unusable') : changeable[i].classList.add('partial');
-        }
-    }
-
-    for (var i = 0; i < length; i++) {
-        if (word.includes(guess[i]) && word[i] !== guess[i]) {
-            var correctInstances = 0;
-            for (var j = 0; j < length; j++) {
-                if (word[j] === guess[i]) {
-
-                }
-            }
-            
         }
     }
     
