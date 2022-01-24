@@ -122,7 +122,7 @@ async function submit(length, word) {
         } else if (word[i] === guess[i]) {
             changeable[i].classList.add('correct');
         } else {
-            (allCorrect(word, guess)[guess[i]]) ? changeable[i].classList.add('unusable') : changeable[i].classList.add('partial');
+            (allCorrect(word, guess)[guess[i]]) ? changeable[i].classList.add('incorrect') : changeable[i].classList.add('partial');
         }
     }
     
