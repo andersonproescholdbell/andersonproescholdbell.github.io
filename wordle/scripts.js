@@ -62,9 +62,9 @@ function createKeyboard(length, word) {
         for (var j = 0; j < keys[i].length; j++) {
             let func;
             if (i === 2 && j === 0) {
-                div.appendChild(createFunc('Enter', `submit(${length}, "${word}")`));
+                div.appendChild(createFunc('Back', `back()`));
             } else if (i === 2 && j === keys[i].length-1) {
-                func = createFunc('Back', `back()`);
+                func = createFunc('Enter', `submit(${length}, "${word}")`);
                 func.classList.add('lastElem');
             }
 
