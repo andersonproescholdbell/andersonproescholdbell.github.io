@@ -1,0 +1,62 @@
+---
+import '../styles/global.css';
+import ProjectCard from '../components/ProjectCard.astro';
+import { projects } from '../data/projects';
+---
+
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title>Project Portfolio</title>
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<!-- Google Fonts for elegant typography -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap"
+			rel="stylesheet">
+	</head>
+	<body class="bg-gray-900 text-gray-300">
+		<style>
+			/* Applying the custom fonts */
+			body {
+				font-family: 'Inter', sans-serif;
+			}
+
+			h1,
+			h2,
+			h3,
+			h4,
+			h5,
+			h6 {
+				font-family: 'Playfair Display', serif;
+			}
+		</style>
+
+		<main class="flex-grow">
+			<div class="container mx-auto px-6 py-12">
+				<section class="text-center mb-12">
+					<p class="text-lg text-gray-400 max-w-2xl mx-auto">
+						A collection of projects of varying levels of effort.
+					</p>
+				</section>
+
+				<!-- Unified Project Grid -->
+				<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+					{projects.map(project => (
+						<ProjectCard
+							title={project.title}
+							description={project.description}
+							link={project.link}
+							image={project.image}
+							tags={project.tags}
+							color={project.color}
+						/>
+					))}
+				</div>
+			</div>
+		</main>
+	</body>
+</html>
