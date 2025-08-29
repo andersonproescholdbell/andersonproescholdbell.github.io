@@ -18,7 +18,7 @@ import { projects } from '../data/projects';
 			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap"
 			rel="stylesheet">
 	</head>
-	<body class="bg-gray-900 text-gray-300">
+	<body class="bg-gray-900 text-gray-300 min-h-screen flex items-center justify-center">
 		<style>
 			/* Applying the custom fonts */
 			body {
@@ -36,9 +36,9 @@ import { projects } from '../data/projects';
 		</style>
 
 		<main class="flex-grow">
-			<div class="container mx-auto p-8">
+			<div class="container mx-auto p-8 w-[50%] sm:w-[60%] md:w-[90%] lg:w-[80%] xl:w-[60%] 2xl:w-[60%] flex flex-col items-center">
 				<!-- Unified Project Grid -->
-				<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+				<div class="grid grid-cols-[repeat(auto-fit,minmax(200px,300px))] gap-8 w-full max-w-6xl flex items-center justify-center">
 					{projects.map(project => (
 						<ProjectCard
 							title={project.title}
