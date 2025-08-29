@@ -1,14 +1,47 @@
 ---
+// Helper function to create placeholders.dev URLs with consistent font sizing
+function createPlaceholderUrl(title: string, color: string): string {
+  // 1. Updated colorMap with separate properties for bgColor and textColor
+  const colorMap = {
+    sky:     { bgColor: '#0ea5e9', textColor: '#ffffff' },
+    emerald: { bgColor: '#10b981', textColor: '#ffffff' },
+    red:     { bgColor: '#ef4444', textColor: '#ffffff' },
+    indigo:  { bgColor: '#6366f1', textColor: '#ffffff' },
+    purple:  { bgColor: '#a855f7', textColor: '#ffffff' },
+    amber:   { bgColor: '#f59e0b', textColor: '#ffffff' },
+    pink:    { bgColor: '#ec4899', textColor: '#ffffff' }
+  };
+
+  const defaultColors = { bgColor: '#1f2937', textColor: '#ffffff' };
+  const selectedColors = colorMap[color as keyof typeof colorMap] || defaultColors;
+
+  // 2. Build the URL using URLSearchParams for all options
+  const params = new URLSearchParams({
+    width: '600',
+    height: '400',
+    text: title,
+    fontSize: '80',
+    bgColor: selectedColors.bgColor,
+    textColor: selectedColors.textColor,
+  });
+  
+  // 3. Use the correct base URL with the "images" subdomain
+  return `https://images.placeholders.dev/?${params.toString()}`;
+}
+
 export interface Props {
   title: string;
   description: string;
   link: string;
-  image: string;
+  image?: string;
   tags: string[];
   color: 'sky' | 'emerald' | 'red' | 'indigo' | 'purple' | 'amber' | 'pink';
 }
 
 const { title, description, link, image, tags, color } = Astro.props;
+
+// Generate placeholder image if no explicit image provided
+const finalImage = image || createPlaceholderUrl(title, color);
 
 const hoverShadowClasses = {
   sky: 'hover:shadow-sky-500/20',
@@ -48,7 +81,7 @@ const tagTextColor = tagTextClasses[color];
 <a href={link}
   class={`group block bg-gray-800 rounded-lg shadow-lg ${hoverColor} hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden h-full flex flex-col`}>
   <div>
-    <img src={image}
+    <img src={finalImage}
       alt={`Screenshot of ${title}`}
       class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
       onerror="this.onerror=null;this.src='https://placeholders.dev/600x400/1f2937/ffffff?text=Project+Image&fontSize=64';">

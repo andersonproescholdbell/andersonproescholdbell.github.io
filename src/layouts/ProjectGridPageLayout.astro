@@ -1,0 +1,113 @@
+---
+export interface Props {
+  title?: string;
+  subtitle?: string;
+  pageTitle?: string;
+  description?: string;
+  backLinkHref?: string;
+  backLinkText?: string;
+}
+
+// Smart defaults based on context
+function getDefaults(props: Props, url: URL) {
+  const isMainPage = !props.backLinkHref;
+  const isWordlePage = url.pathname.includes('/wordle');
+  
+  if (isMainPage) {
+    return {
+      title: "All Projects",
+      subtitle: "Displaying projects of varying degrees of development effort"
+    };
+  } else if (isWordlePage) {
+    return {
+      title: "Wordle", 
+      subtitle: "Two versions of the game"
+    };
+  } else {
+    return {
+      title: "Projects",
+      subtitle: undefined
+    };
+  }
+}
+
+const defaults = getDefaults(Astro.props, Astro.url);
+
+const { 
+  title = defaults.title, 
+  subtitle = defaults.subtitle, 
+  pageTitle = title,
+  description = `${title} - Project Portfolio`,
+  backLinkHref,
+  backLinkText = "← Back"
+} = Astro.props;
+
+import '../styles/global.css';
+---
+
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title>{pageTitle}</title>
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<meta name="description" content={description}>
+		<!-- Google Fonts for elegant typography -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap"
+			rel="stylesheet">
+	</head>
+	<body class="bg-gray-900 text-gray-300 min-h-screen flex items-center justify-center">
+		<style>
+			/* Applying the custom fonts */
+			body {
+				font-family: 'Inter', sans-serif;
+			}
+
+			h1,
+			h2,
+			h3,
+			h4,
+			h5,
+			h6 {
+				font-family: 'Playfair Display', serif;
+			}
+		</style>
+
+		<main class="flex-grow">
+			<div class="container mx-auto p-8 w-[50%] sm:w-[60%] md:w-[90%] lg:w-[80%] xl:w-[60%] 2xl:w-[60%] flex flex-col items-center">
+				<!-- Header Section -->
+				<div class="text-center mb-12">
+					<h1 class="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+						{title}
+					</h1>
+					{subtitle && (
+						<p class="text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto">
+							{subtitle}
+						</p>
+					)}
+				</div>
+				
+				<!-- Project Grid -->
+				<div class="grid grid-cols-[repeat(auto-fit,minmax(200px,300px))] gap-8 w-full max-w-6xl flex items-center justify-center">
+					<slot />
+				</div>
+
+				<!-- Back Link -->
+				{backLinkHref && (
+					<div class="text-center mt-12">
+						<a 
+							href={backLinkHref}
+							class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors duration-200"
+						>
+							{backLinkText}
+						</a>
+					</div>
+				)}
+			</div>
+		</main>
+	</body>
+</html>
