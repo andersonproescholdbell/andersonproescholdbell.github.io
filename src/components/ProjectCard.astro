@@ -34,14 +34,16 @@ export interface Props {
   description: string;
   link: string;
   image?: string;
+  placeholderText?: string;
   tags: string[];
   color: 'sky' | 'emerald' | 'red' | 'indigo' | 'purple' | 'amber' | 'pink';
 }
 
-const { title, description, link, image, tags, color } = Astro.props;
+const { title, description, link, image, placeholderText, tags, color } = Astro.props;
 
 // Generate placeholder image if no explicit image provided
-const finalImage = image || createPlaceholderUrl(title, color);
+// Use placeholderText if provided, otherwise fall back to title
+const finalImage = image || createPlaceholderUrl(placeholderText || title, color);
 
 const hoverShadowClasses = {
   sky: 'hover:shadow-sky-500/20',
@@ -93,7 +95,12 @@ const tagTextColor = tagTextClasses[color];
     </div>
     <div class="flex flex-wrap gap-2 mt-auto">
       {tags.map(tag => (
-        <span class={`text-xs font-semibold ${tagBgColor} ${tagTextColor} px-2 py-1 rounded-full`}>
+        <span class:list={[
+            'text-xs font-semibold px-2 py-1 rounded-full',
+            tag === 'WIP' 
+              ? 'bg-yellow-900 text-yellow-300' 
+              : `${tagBgColor} ${tagTextColor}`
+        ]}>
           {tag}
         </span>
       ))}

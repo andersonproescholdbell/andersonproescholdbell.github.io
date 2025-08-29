@@ -9,21 +9,17 @@ export interface Props {
 }
 
 // Smart defaults based on context
-function getDefaults(props: Props, url: URL) {
+function getDefaults(props: Props) {
   const isMainPage = !props.backLinkHref;
-  const isWordlePage = url.pathname.includes('/wordle');
   
   if (isMainPage) {
     return {
-      title: "All Projects",
-      subtitle: "Displaying projects of varying degrees of development effort"
-    };
-  } else if (isWordlePage) {
-    return {
-      title: "Wordle", 
-      subtitle: "Two versions of the game"
+      title: "Project Portfolio",
+      subtitle: "Select a category to view related projects"
     };
   } else {
+    // For category pages, the title will be passed in via props,
+    // so we just need a sensible fallback.
     return {
       title: "Projects",
       subtitle: undefined
@@ -31,7 +27,7 @@ function getDefaults(props: Props, url: URL) {
   }
 }
 
-const defaults = getDefaults(Astro.props, Astro.url);
+const defaults = getDefaults(Astro.props);
 
 const { 
   title = defaults.title, 

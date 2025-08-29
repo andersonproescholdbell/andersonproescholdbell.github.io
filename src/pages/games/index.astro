@@ -1,0 +1,27 @@
+---
+import ProjectGridPageLayout from '../../layouts/ProjectGridPageLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { projectData } from '../../data/portfolio/projects';
+
+const category = projectData['games'];
+---
+
+<ProjectGridPageLayout 
+    pageTitle={category.title}
+    description={`Projects related to ${category.title}`}
+    title={category.title}
+    subtitle={category.description}
+    backLinkHref="/"
+    backLinkText="← Back to All Categories"
+>
+    {category.projects.map(project => (
+        <ProjectCard
+            title={project.title}
+            description={project.description}
+            link={project.link}
+            placeholderText={project.placeholderText}
+            tags={project.wip ? [...project.tags, 'WIP'] : project.tags}
+            color={category.color}
+        />
+    ))}
+</ProjectGridPageLayout>

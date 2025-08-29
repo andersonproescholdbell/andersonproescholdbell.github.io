@@ -1,20 +1,23 @@
 ---
 import ProjectCard from '../components/ProjectCard.astro';
 import ProjectGridPageLayout from '../layouts/ProjectGridPageLayout.astro';
-import { projects } from '../data/portfolio/projects';
+import { projectData } from '../data/portfolio/projects';
+
+const categories = Object.entries(projectData);
 ---
 
 <ProjectGridPageLayout 
 	pageTitle="Project Portfolio"
 	description="A showcase of my software development projects and creative work"
 >
-	{projects.map(project => (
+	{categories.map(([slug, category]) => (
 		<ProjectCard
-			title={project.title}
-			description={project.description}
-			link={project.link}
-			tags={project.tags}
-			color={project.color}
+			title={category.title}
+			description={category.description}
+			link={`/${slug}/`}
+			placeholderText={category.placeholderText}
+			tags={[`${category.projects.length} Projects`]}
+			color={category.color}
 		/>
 	))}
 </ProjectGridPageLayout>
