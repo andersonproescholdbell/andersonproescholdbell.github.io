@@ -1,0 +1,42 @@
+/*
+    Credits / adapted code:
+    https://stackoverflow.com/questions/13059032/how-can-i-enable-scroll-bar-only-when-window-is-resized-smaller
+*/
+html, body, #main {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(3, 3, 3);
+    overflow: hidden;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin: initial;
+}
+
+.row > * {
+    width: initial;
+    padding: initial;
+}
+
+div.row {
+    justify-content: center;
+}
+
+#table-1 {
+    margin: 20px;
+}
+
+@media screen and (max-height: 768px) {
+    body {
+        overflow: auto;
+    }
+}  
+
+.word:hover {
+    cursor: pointer;
+}

@@ -1,0 +1,32 @@
+/*
+    Credits / adapted code:
+    Two columns: https://www.w3schools.com/howto/howto_css_two_columns.asp
+    Link button: https://stackoverflow.com/questions/10143357/how-to-make-these-buttons-not-appear-as-blue-links
+
+*/
+a:link { 
+    color:#ffffff; text-decoration: none; 
+}
+a:visited { 
+    color:#33348e; text-decoration: none; 
+}
+a:hover { 
+    color:#91ac48; text-decoration: none; 
+}
+a:active { 
+    color:#7476b4; text-decoration: underline; 
+}
+
+.row {
+  display: flex;
+}
+
+.column {
+    flex: 50%;
+}
+
+@media screen and (max-width: 600px) {
+    .column {
+      flex: 100%;
+    }
+}
