@@ -46,19 +46,19 @@ const tagTextColor = tagTextClasses[color];
 ---
 
 <a href={link}
-  class={`group block bg-gray-800 rounded-lg shadow-lg ${hoverColor} hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden`}>
-  <div class="overflow-hidden">
+  class={`group block bg-gray-800 rounded-lg shadow-lg ${hoverColor} hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden h-full flex flex-col`}>
+  <div>
     <img src={image}
       alt={`Screenshot of ${title}`}
       class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
       onerror="this.onerror=null;this.src='https://placehold.co/600x400/1f2937/9ca3af?text=Project+Image';">
   </div>
-  <div class="p-6 flex flex-col justify-between">
+  <div class="p-6 flex flex-col h-full">
     <div>
       <h3 class="text-xl font-bold mb-2 text-white">{title}</h3>
       <p class="text-gray-400 mb-4">{description}</p>
     </div>
-    <div class="flex flex-wrap gap-2 mt-4">
+    <div class="flex flex-wrap gap-2 mt-auto">
       {tags.map(tag => (
         <span class={`text-xs font-semibold ${tagBgColor} ${tagTextColor} px-2 py-1 rounded-full`}>
           {tag}
