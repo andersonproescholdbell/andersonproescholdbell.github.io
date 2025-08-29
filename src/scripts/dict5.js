@@ -1,4 +1,4 @@
-const dict5 = [
+export const dict5 = [
     "aaron",
     "ababa",
     "abaci",
