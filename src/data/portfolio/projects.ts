@@ -33,12 +33,12 @@ export const projectData: Record<string, Category> = {
     description: 'A collection of trade-up calculators and tools for CS.',
     color: 'sky',
     projects: [
-      { id: 'floatsv1', link: '/counter-strike/floatsv1', title: 'FloatsV1', description: 'Calculator V1', tags: ['Calculator'], wip: true, color: 'blue' },
-      { id: 'floatsv2', link: '/counter-strike/floatsv2', title: 'FloatsV2', description: 'Calculator V2', tags: ['Calculator'], wip: true, color: 'cyan' },
-      { id: 'floatsv3', link: '/counter-strike/floatsv3', title: 'FloatsV3', description: 'Calculator V3', tags: ['Calculator'], wip: true, color: 'sky-400' },
+      { id: 'floatsv1', link: '/counter-strike/floatsv1', placeholderText: 'FloatsV1', title: 'FloatsV1', description: 'Calculator V1', tags: ['Calculator'], wip: true, color: 'blue' },
+      { id: 'floatsv2', link: '/counter-strike/floatsv2', placeholderText: 'FloatsV2', title: 'FloatsV2', description: 'Calculator V2', tags: ['Calculator'], wip: true, color: 'cyan' },
+      { id: 'floatsv3', link: '/counter-strike/floatsv3', placeholderText: 'FloatsV3', title: 'FloatsV3', description: 'Calculator V3', tags: ['Calculator'], wip: true, color: 'sky-400' },
       { id: 'items-assistant', link: 'https://github.com/andersonproescholdbell/csgo-items-assistant', placeholderText: 'Assistant', title: 'Items Assistant', description: 'Tool for managing CS items.', tags: ['Tool', 'External'], color: 'blue-400' },
-      { id: 'market-float-searcher', link: 'https://github.com/andersonproescholdbell/market-float-searcher-csgo', placeholderText: 'Market Floats', title: 'Market Float Searcher', description: 'Find low-float items on the market.', tags: ['Tool', 'External'], color: 'cyan-400' },
-      { id: 'bluegem-finder', link: 'https://github.com/andersonproescholdbell/bluegem-finder', placeholderText: 'Market Gems', title: 'Market Bluegem Finder', description: 'Find case-hardened blue gems.', tags: ['Tool', 'External'], color: 'teal' },
+      { id: 'market-floats', link: 'https://github.com/andersonproescholdbell/market-float-searcher-csgo', placeholderText: 'Market Floats', title: 'Market Float Searcher', description: 'Find low-float items on the market.', tags: ['Tool', 'External'], color: 'cyan-400' },
+      { id: 'market-bluegems', link: 'https://github.com/andersonproescholdbell/bluegem-finder', placeholderText: 'Market Gems', title: 'Market Bluegem Finder', description: 'Find case-hardened blue gems.', tags: ['Tool', 'External'], color: 'teal' },
     ],
   },
   games: {
