@@ -1,79 +1,15 @@
 ---
-// Square Fractal 2 - Rule: Not clockwise/counter-clockwise of previous
+import WIPPageTemplate from '../../../components/WIPPageTemplate.astro';
+import { getProjectColor } from '../../../utils/projectColors';
+
+const colors = getProjectColor('geometric', 'fractal-square-2');
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Square Fractal 2 - Not Adjacent to Previous</title>
-    <meta name="description" content="Square fractal with chaos game rule: not clockwise/counter-clockwise of previous vertex">
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
-            color: white;
-            min-height: 100vh;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        .container {
-            text-align: center;
-            max-width: 600px;
-        }
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, #5eead4, #ffffff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .status-badge {
-            background: rgba(255, 193, 7, 0.2);
-            border: 2px solid #ffc107;
-            color: #ffc107;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: bold;
-            margin: 20px 0;
-            display: inline-block;
-        }
-        .description {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
-        .back-link {
-            color: #5eead4;
-            text-decoration: none;
-            font-weight: bold;
-            padding: 12px 24px;
-            border: 2px solid #5eead4;
-            border-radius: 25px;
-            transition: all 0.3s ease;
-        }
-        .back-link:hover {
-            background: #5eead4;
-            color: #0f766e;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Square Fractal 2</h1>
-        <div class="status-badge">Work in Progress</div>
-        <p class="description">
-            Interactive square fractal visualization using advanced chaos game rules. 
-            Rule: Not clockwise or counter-clockwise of previous vertex - prevents adjacent selections for complex patterns.
-        </p>
-        <a href="/geometric/" class="back-link">← Back to Geometric Fractals</a>
-    </div>
-</body>
-</html>
+<WIPPageTemplate 
+  title="Square Fractal 2"
+  description="Rule: Not clockwise/counter-clockwise of previous."
+  metaDescription="Square fractal visualization with rule: cannot select vertex clockwise or counter-clockwise to the previous one."
+  categoryId="geometric"
+  categoryName="Geometric"
+  colors={colors}
+/>

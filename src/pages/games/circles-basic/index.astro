@@ -1,79 +1,15 @@
 ---
-// Circles Basic - Similar to Agario
+import WIPPageTemplate from '../../../components/WIPPageTemplate.astro';
+import { getProjectColor } from '../../../utils/projectColors';
+
+const colors = getProjectColor('games', 'circles-basic');
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Circles Basic - Agario-like Game</title>
-    <meta name="description" content="Basic circles game similar to Agario">
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-            min-height: 100vh;
-            margin: 0;
-            padding: 40px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        .container {
-            text-align: center;
-            max-width: 600px;
-        }
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, #34d399, #ffffff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .status-badge {
-            background: rgba(255, 193, 7, 0.2);
-            border: 2px solid #ffc107;
-            color: #ffc107;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: bold;
-            margin: 20px 0;
-            display: inline-block;
-        }
-        .description {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
-        .back-link {
-            color: #34d399;
-            text-decoration: none;
-            font-weight: bold;
-            padding: 12px 24px;
-            border: 2px solid #34d399;
-            border-radius: 25px;
-            transition: all 0.3s ease;
-        }
-        .back-link:hover {
-            background: #34d399;
-            color: #059669;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Circles Basic</h1>
-        <div class="status-badge">Work in Progress</div>
-        <p class="description">
-            Basic circles game similar to Agario. Control a circle to absorb smaller circles and grow larger 
-            while avoiding bigger circles. Features simple game mechanics and collision detection.
-        </p>
-        <a href="/games/" class="back-link">← Back to Games</a>
-    </div>
-</body>
-</html>
+<WIPPageTemplate 
+  title="Circles Basic"
+  description="A basic circles game similar to Agario. Players control a circle that grows by consuming smaller circles while avoiding larger ones."
+  metaDescription="Similar to Agario"
+  categoryId="games"
+  categoryName="Games"
+  colors={colors}
+/>

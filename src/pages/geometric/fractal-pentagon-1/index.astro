@@ -1,79 +1,15 @@
 ---
-// Pentagon Fractal 1 - Rule: Not the same vertex twice
+import WIPPageTemplate from '../../../components/WIPPageTemplate.astro';
+import { getProjectColor } from '../../../utils/projectColors';
+
+const colors = getProjectColor('geometric', 'fractal-pentagon-1');
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Pentagon Fractal 1 - Not Same Vertex Twice</title>
-    <meta name="description" content="Pentagon fractal with chaos game rule: not the same vertex twice">
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-            color: white;
-            min-height: 100vh;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        .container {
-            text-align: center;
-            max-width: 600px;
-        }
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, #93c5fd, #ffffff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .status-badge {
-            background: rgba(255, 193, 7, 0.2);
-            border: 2px solid #ffc107;
-            color: #ffc107;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: bold;
-            margin: 20px 0;
-            display: inline-block;
-        }
-        .description {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
-        .back-link {
-            color: #93c5fd;
-            text-decoration: none;
-            font-weight: bold;
-            padding: 12px 24px;
-            border: 2px solid #93c5fd;
-            border-radius: 25px;
-            transition: all 0.3s ease;
-        }
-        .back-link:hover {
-            background: #93c5fd;
-            color: #1d4ed8;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Pentagon Fractal 1</h1>
-        <div class="status-badge">Work in Progress</div>
-        <p class="description">
-            Interactive pentagon fractal visualization using chaos game rules. 
-            Rule: Not the same vertex twice - explores how pentagonal symmetry creates unique fractal patterns.
-        </p>
-        <a href="/geometric/" class="back-link">← Back to Geometric Fractals</a>
-    </div>
-</body>
-</html>
+<WIPPageTemplate 
+  title="Pentagon Fractal 1"
+  description="Rule: Not the same vertex twice."
+  metaDescription="Pentagon fractal visualization using chaos game with rule: cannot select the same vertex twice in a row."
+  categoryId="geometric"
+  categoryName="Geometric"
+  colors={colors}
+/>

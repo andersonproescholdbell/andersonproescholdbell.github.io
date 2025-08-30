@@ -1,0 +1,96 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  metaDescription: string;
+  categoryId: string;
+  categoryName: string;
+  colors: {
+    darkBg: string;
+    lightBg: string;
+    accent: string;
+  } | null;
+}
+
+const { title, description, metaDescription, categoryId, categoryName, colors } = Astro.props;
+
+const bgGradient = colors ? `linear-gradient(135deg, ${colors.darkBg} 0%, ${colors.lightBg} 100%)` : 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)';
+const accentColor = colors ? colors.accent : '#00d4ff';
+const titleGradient = colors ? `linear-gradient(45deg, ${colors.accent}, #ffffff)` : 'linear-gradient(45deg, #00d4ff, #ffffff)';
+const hoverBg = colors?.darkBg || '#1e3c72';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{title}</title>
+    <meta name="description" content={metaDescription}>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: {bgGradient};
+            color: white;
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            text-align: center;
+            max-width: 600px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: {titleGradient};
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .status-badge {
+            background: rgba(255, 193, 7, 0.2);
+            border: 2px solid #ffc107;
+            color: #ffc107;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 20px 0;
+            display: inline-block;
+        }
+        .description {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        .back-link {
+            color: {accentColor};
+            text-decoration: none;
+            font-weight: bold;
+            padding: 12px 24px;
+            border: 2px solid {accentColor};
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+        .back-link:hover {
+            background: {accentColor};
+            color: {hoverBg};
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{title}</h1>
+        <div class="status-badge">Work in Progress</div>
+        <p class="description">
+            {description}
+        </p>
+        <a href={`/${categoryId}/`} class="back-link">← Back to {categoryName}</a>
+    </div>
+</body>
+</html>

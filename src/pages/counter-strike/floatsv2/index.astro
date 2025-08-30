@@ -1,79 +1,15 @@
 ---
-// FloatsV2 - Counter-Strike Trade-up Calculator
+import WIPPageTemplate from '../../../components/WIPPageTemplate.astro';
+import { getProjectColor } from '../../../utils/projectColors';
+
+const colors = getProjectColor('counter-strike', 'floatsv2');
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>FloatsV2 - Counter-Strike Trade-up Calculator</title>
-    <meta name="description" content="Counter-Strike trade-up calculator - version 2">
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            min-height: 100vh;
-            margin: 0;
-            padding: 40px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        .container {
-            text-align: center;
-            max-width: 600px;
-        }
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, #00d4ff, #ffffff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .status-badge {
-            background: rgba(255, 193, 7, 0.2);
-            border: 2px solid #ffc107;
-            color: #ffc107;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: bold;
-            margin: 20px 0;
-            display: inline-block;
-        }
-        .description {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
-        .back-link {
-            color: #00d4ff;
-            text-decoration: none;
-            font-weight: bold;
-            padding: 12px 24px;
-            border: 2px solid #00d4ff;
-            border-radius: 25px;
-            transition: all 0.3s ease;
-        }
-        .back-link:hover {
-            background: #00d4ff;
-            color: #1e3c72;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>FloatsV2</h1>
-        <div class="status-badge">Work in Progress</div>
-        <p class="description">
-            Counter-Strike trade-up calculator - version 2. This enhanced version will feature 
-            improved algorithms and user interface for CS trade-up calculations.
-        </p>
-        <a href="/counter-strike/" class="back-link">← Back to Counter-Strike Projects</a>
-    </div>
-</body>
-</html>
+<WIPPageTemplate 
+  title="FloatsV2 - Counter-Strike Trade-up Calculator"
+  description="Counter-Strike trade-up calculator - version 2. This enhanced version will feature improved algorithms and user interface for CS trade-up calculations."
+  metaDescription="Counter-Strike trade-up calculator - version 2"
+  categoryId="counter-strike"
+  categoryName="Counter-Strike Projects"
+  colors={colors}
+/>

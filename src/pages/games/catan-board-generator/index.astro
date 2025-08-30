@@ -1,79 +1,15 @@
 ---
-// Catan Board Generator
+import WIPPageTemplate from '../../../components/WIPPageTemplate.astro';
+import { getProjectColor } from '../../../utils/projectColors';
+
+const colors = getProjectColor('games', 'catan-board-generator');
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Catan Board Generator</title>
-    <meta name="description" content="A Catan board generator that goes a bit further">
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #10b981 0%, #065f46 100%);
-            color: white;
-            min-height: 100vh;
-            margin: 0;
-            padding: 40px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        .container {
-            text-align: center;
-            max-width: 600px;
-        }
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, #34d399, #ffffff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .status-badge {
-            background: rgba(255, 193, 7, 0.2);
-            border: 2px solid #ffc107;
-            color: #ffc107;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: bold;
-            margin: 20px 0;
-            display: inline-block;
-        }
-        .description {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
-        .back-link {
-            color: #34d399;
-            text-decoration: none;
-            font-weight: bold;
-            padding: 12px 24px;
-            border: 2px solid #34d399;
-            border-radius: 25px;
-            transition: all 0.3s ease;
-        }
-        .back-link:hover {
-            background: #34d399;
-            color: #065f46;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Catan Board Generator</h1>
-        <div class="status-badge">Work in Progress</div>
-        <p class="description">
-            A Catan board generator that goes beyond the basic randomization. This tool will feature 
-            advanced algorithms for creating balanced and strategic board layouts using SVG rendering.
-        </p>
-        <a href="/games/" class="back-link">← Back to Games</a>
-    </div>
-</body>
-</html>
+<WIPPageTemplate 
+  title="Catan Board Generator"
+  description="A Catan board generator that goes beyond the basic randomization. This tool will feature advanced algorithms for creating balanced and strategic board layouts using SVG rendering."
+  metaDescription="A Catan board generator that goes a bit further"
+  categoryId="games"
+  categoryName="Games"
+  colors={colors}
+/>

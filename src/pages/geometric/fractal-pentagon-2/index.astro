@@ -1,79 +1,15 @@
 ---
-// Pentagon Fractal 2 - Rule: If previous two vertices are the same, cannot neighbor them
+import WIPPageTemplate from '../../../components/WIPPageTemplate.astro';
+import { getProjectColor } from '../../../utils/projectColors';
+
+const colors = getProjectColor('geometric', 'fractal-pentagon-2');
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Pentagon Fractal 2 - Conditional Neighbor Rule</title>
-    <meta name="description" content="Pentagon fractal with chaos game rule: if previous two vertices are the same, cannot neighbor them">
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
-            color: white;
-            min-height: 100vh;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        .container {
-            text-align: center;
-            max-width: 600px;
-        }
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, #60a5fa, #ffffff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .status-badge {
-            background: rgba(255, 193, 7, 0.2);
-            border: 2px solid #ffc107;
-            color: #ffc107;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: bold;
-            margin: 20px 0;
-            display: inline-block;
-        }
-        .description {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
-        .back-link {
-            color: #60a5fa;
-            text-decoration: none;
-            font-weight: bold;
-            padding: 12px 24px;
-            border: 2px solid #60a5fa;
-            border-radius: 25px;
-            transition: all 0.3s ease;
-        }
-        .back-link:hover {
-            background: #60a5fa;
-            color: #1e40af;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Pentagon Fractal 2</h1>
-        <div class="status-badge">Work in Progress</div>
-        <p class="description">
-            Interactive pentagon fractal visualization with advanced conditional rules. 
-            Rule: If previous two vertices are the same, cannot neighbor them - creates complex memory-dependent patterns.
-        </p>
-        <a href="/geometric/" class="back-link">← Back to Geometric Fractals</a>
-    </div>
-</body>
-</html>
+<WIPPageTemplate 
+  title="Pentagon Fractal 2"
+  description="Rule: If previous two are same, cannot be neighbors."
+  metaDescription="Pentagon fractal with complex rule: if previous two vertices are the same, next cannot be neighbors."
+  categoryId="geometric"
+  categoryName="Geometric"
+  colors={colors}
+/>

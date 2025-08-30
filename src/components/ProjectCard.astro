@@ -1,55 +1,10 @@
 ---
-// Helper function to create placeholders.dev URLs with consistent font sizing
-function createPlaceholderUrl(title: string, color: string): string {
-  // 1. Updated colorMap with separate properties for bgColor and textColor
-  const colorMap = {
-    // Original colors
-    sky:     { bgColor: '#0ea5e9', textColor: '#ffffff' },
-    emerald: { bgColor: '#10b981', textColor: '#ffffff' },
-    red:     { bgColor: '#ef4444', textColor: '#ffffff' },
-    indigo:  { bgColor: '#6366f1', textColor: '#ffffff' },
-    purple:  { bgColor: '#a855f7', textColor: '#ffffff' },
-    amber:   { bgColor: '#f59e0b', textColor: '#ffffff' },
-    pink:    { bgColor: '#ec4899', textColor: '#ffffff' },
-    // New colors - Blues & Cyans
-    blue:    { bgColor: '#3b82f6', textColor: '#ffffff' },
-    cyan:    { bgColor: '#06b6d4', textColor: '#ffffff' },
-    teal:    { bgColor: '#14b8a6', textColor: '#ffffff' },
-    // Greens & Yellows  
-    green:   { bgColor: '#22c55e', textColor: '#ffffff' },
-    lime:    { bgColor: '#84cc16', textColor: '#000000' },
-    yellow:  { bgColor: '#eab308', textColor: '#000000' },
-    orange:  { bgColor: '#f97316', textColor: '#ffffff' },
-    // Pinks & Purples
-    rose:    { bgColor: '#f43f5e', textColor: '#ffffff' },
-    fuchsia: { bgColor: '#d946ef', textColor: '#ffffff' },
-    violet:  { bgColor: '#8b5cf6', textColor: '#ffffff' },
-    // Grays & Neutrals
-    slate:   { bgColor: '#64748b', textColor: '#ffffff' },
-    gray:    { bgColor: '#6b7280', textColor: '#ffffff' },
-    zinc:    { bgColor: '#71717a', textColor: '#ffffff' },
-    neutral: { bgColor: '#737373', textColor: '#ffffff' },
-    stone:   { bgColor: '#78716c', textColor: '#ffffff' },
-    // Lighter variants
-    'sky-400':     { bgColor: '#38bdf8', textColor: '#ffffff' },
-    'blue-400':    { bgColor: '#60a5fa', textColor: '#ffffff' },
-    'indigo-400':  { bgColor: '#818cf8', textColor: '#ffffff' },
-    'purple-400':  { bgColor: '#c084fc', textColor: '#ffffff' },
-    'pink-400':    { bgColor: '#f472b6', textColor: '#ffffff' },
-    'rose-400':    { bgColor: '#fb7185', textColor: '#ffffff' },
-    'red-400':     { bgColor: '#f87171', textColor: '#ffffff' },
-    'orange-400':  { bgColor: '#fb923c', textColor: '#ffffff' },
-    'amber-400':   { bgColor: '#fbbf24', textColor: '#000000' },
-    'yellow-400':  { bgColor: '#facc15', textColor: '#000000' },
-    'lime-400':    { bgColor: '#a3e635', textColor: '#000000' },
-    'green-400':   { bgColor: '#4ade80', textColor: '#ffffff' },
-    'emerald-400': { bgColor: '#34d399', textColor: '#ffffff' },
-    'teal-400':    { bgColor: '#2dd4bf', textColor: '#ffffff' },
-    'cyan-400':    { bgColor: '#22d3ee', textColor: '#ffffff' }
-  };
+import type { ColorName } from '../config/colors';
+import { getColorForPlaceholder } from '../config/colors';
 
-  const defaultColors = { bgColor: '#1f2937', textColor: '#ffffff' };
-  const selectedColors = colorMap[color as keyof typeof colorMap] || defaultColors;
+// Helper function to create placeholders.dev URLs with consistent font sizing
+function createPlaceholderUrl(title: string, color: ColorName): string {
+  const selectedColors = getColorForPlaceholder(color);
 
   // 2. Build the URL using URLSearchParams for all options
   const params = new URLSearchParams({
@@ -72,12 +27,7 @@ export interface Props {
   image?: string;
   placeholderText?: string;
   tags: string[];
-  color: 'sky' | 'emerald' | 'red' | 'indigo' | 'purple' | 'amber' | 'pink' | 
-         'blue' | 'cyan' | 'teal' | 'green' | 'lime' | 'yellow' | 'orange' |
-         'rose' | 'fuchsia' | 'violet' | 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' |
-         'sky-400' | 'blue-400' | 'indigo-400' | 'purple-400' | 'pink-400' | 'rose-400' |
-         'red-400' | 'orange-400' | 'amber-400' | 'yellow-400' | 'lime-400' | 'green-400' |
-         'emerald-400' | 'teal-400' | 'cyan-400';
+  color: ColorName;
 }
 
 const { title, description, link, image, placeholderText, tags, color } = Astro.props;
@@ -126,7 +76,35 @@ const hoverShadowClasses = {
   'green-400': 'hover:shadow-green-400/20',
   'emerald-400': 'hover:shadow-emerald-400/20',
   'teal-400': 'hover:shadow-teal-400/20',
-  'cyan-400': 'hover:shadow-cyan-400/20'
+  'cyan-400': 'hover:shadow-cyan-400/20',
+  // New diverse colors
+  burgundy: 'hover:shadow-red-900/20',
+  navy: 'hover:shadow-blue-900/20',
+  forest: 'hover:shadow-green-900/20',
+  maroon: 'hover:shadow-red-800/20',
+  crimson: 'hover:shadow-red-600/20',
+  mahogany: 'hover:shadow-orange-800/20',
+  coral: 'hover:shadow-orange-400/20',
+  turquoise: 'hover:shadow-cyan-400/20',
+  magenta: 'hover:shadow-pink-500/20',
+  chartreuse: 'hover:shadow-lime-400/20',
+  vermillion: 'hover:shadow-red-500/20',
+  bronze: 'hover:shadow-yellow-600/20',
+  copper: 'hover:shadow-orange-600/20',
+  seagreen: 'hover:shadow-teal-600/20',
+  royalblue: 'hover:shadow-blue-600/20',
+  darkviolet: 'hover:shadow-purple-700/20',
+  steelblue: 'hover:shadow-blue-500/20',
+  mint: 'hover:shadow-green-300/20',
+  peach: 'hover:shadow-orange-200/20',
+  lavender: 'hover:shadow-purple-300/20',
+  salmon: 'hover:shadow-pink-300/20',
+  gold: 'hover:shadow-yellow-500/20',
+  plum: 'hover:shadow-purple-800/20',
+  olive: 'hover:shadow-green-700/20',
+  chocolate: 'hover:shadow-yellow-700/20',
+  firebrick: 'hover:shadow-red-700/20',
+  darkcyan: 'hover:shadow-cyan-700/20'
 };
 
 const tagBgClasses = {
@@ -169,7 +147,35 @@ const tagBgClasses = {
   'green-400': 'bg-green-900',
   'emerald-400': 'bg-emerald-900',
   'teal-400': 'bg-teal-900',
-  'cyan-400': 'bg-cyan-900'
+  'cyan-400': 'bg-cyan-900',
+  // New diverse colors
+  burgundy: 'bg-red-900',
+  navy: 'bg-blue-900',
+  forest: 'bg-green-900',
+  maroon: 'bg-red-900',
+  crimson: 'bg-red-900',
+  mahogany: 'bg-orange-900',
+  coral: 'bg-orange-900',
+  turquoise: 'bg-cyan-900',
+  magenta: 'bg-pink-900',
+  chartreuse: 'bg-lime-900',
+  vermillion: 'bg-red-900',
+  bronze: 'bg-yellow-900',
+  copper: 'bg-orange-900',
+  seagreen: 'bg-teal-900',
+  royalblue: 'bg-blue-900',
+  darkviolet: 'bg-purple-900',
+  steelblue: 'bg-blue-900',
+  mint: 'bg-green-900',
+  peach: 'bg-orange-900',
+  lavender: 'bg-purple-900',
+  salmon: 'bg-pink-900',
+  gold: 'bg-yellow-900',
+  plum: 'bg-purple-900',
+  olive: 'bg-green-900',
+  chocolate: 'bg-yellow-900',
+  firebrick: 'bg-red-900',
+  darkcyan: 'bg-cyan-900'
 };
 
 const tagTextClasses = {
@@ -212,7 +218,35 @@ const tagTextClasses = {
   'green-400': 'text-green-300',
   'emerald-400': 'text-emerald-300',
   'teal-400': 'text-teal-300',
-  'cyan-400': 'text-cyan-300'
+  'cyan-400': 'text-cyan-300',
+  // New diverse colors
+  burgundy: 'text-red-300',
+  navy: 'text-blue-300',
+  forest: 'text-green-300',
+  maroon: 'text-red-300',
+  crimson: 'text-red-300',
+  mahogany: 'text-orange-300',
+  coral: 'text-orange-300',
+  turquoise: 'text-cyan-300',
+  magenta: 'text-pink-300',
+  chartreuse: 'text-lime-300',
+  vermillion: 'text-red-300',
+  bronze: 'text-yellow-300',
+  copper: 'text-orange-300',
+  seagreen: 'text-teal-300',
+  royalblue: 'text-blue-300',
+  darkviolet: 'text-purple-300',
+  steelblue: 'text-blue-300',
+  mint: 'text-green-300',
+  peach: 'text-orange-300',
+  lavender: 'text-purple-300',
+  salmon: 'text-pink-300',
+  gold: 'text-yellow-300',
+  plum: 'text-purple-300',
+  olive: 'text-green-300',
+  chocolate: 'text-yellow-300',
+  firebrick: 'text-red-300',
+  darkcyan: 'text-cyan-300'
 };
 
 const hoverColor = hoverShadowClasses[color];
