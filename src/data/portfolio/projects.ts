@@ -1,11 +1,11 @@
 export interface Project {
   id: string;
+  link: string;
+  placeholderText?: string;
   title: string;
   description: string;
-  link: string;
   tags: string[];
   wip?: boolean;
-  placeholderText?: string;
   color?: 'sky' | 'emerald' | 'red' | 'indigo' | 'purple' | 'amber' | 'pink' | 
           'blue' | 'cyan' | 'teal' | 'green' | 'lime' | 'yellow' | 'orange' |
           'rose' | 'fuchsia' | 'violet' | 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' |
@@ -33,12 +33,12 @@ export const projectData: Record<string, Category> = {
     description: 'A collection of trade-up calculators and tools for CS.',
     color: 'sky',
     projects: [
-      { id: 'floatsv1', title: 'FloatsV1', description: 'Calculator V1', link: '/counter-strike/floatsv1', tags: ['Calculator'], wip: true, color: 'blue' },
-      { id: 'floatsv2', title: 'FloatsV2', description: 'Calculator V2', link: '/counter-strike/floatsv2', tags: ['Calculator'], wip: true, color: 'cyan' },
-      { id: 'floatsv3', title: 'FloatsV3', description: 'Calculator V3', link: '/counter-strike/floatsv3', tags: ['Calculator'], wip: true, color: 'sky-400' },
-      { id: 'items-assistant', title: 'Items Assistant', placeholderText: 'Assistant', description: 'Tool for managing CS items.', link: 'https://github.com/andersonproescholdbell/csgo-items-assistant', tags: ['Tool', 'External'], color: 'blue-400' },
-      { id: 'market-float-searcher', title: 'Market Float Searcher', placeholderText: 'Market Floats', description: 'Find low-float items on the market.', link: 'https://github.com/andersonproescholdbell/market-float-searcher-csgo', tags: ['Tool', 'External'], color: 'cyan-400' },
-      { id: 'bluegem-finder', title: 'Market Bluegem Finder', placeholderText: 'Market Gems', description: 'Find case-hardened blue gems.', link: 'https://github.com/andersonproescholdbell/bluegem-finder', tags: ['Tool', 'External'], color: 'teal' },
+      { id: 'floatsv1', link: '/counter-strike/floatsv1', title: 'FloatsV1', description: 'Calculator V1', tags: ['Calculator'], wip: true, color: 'blue' },
+      { id: 'floatsv2', link: '/counter-strike/floatsv2', title: 'FloatsV2', description: 'Calculator V2', tags: ['Calculator'], wip: true, color: 'cyan' },
+      { id: 'floatsv3', link: '/counter-strike/floatsv3', title: 'FloatsV3', description: 'Calculator V3', tags: ['Calculator'], wip: true, color: 'sky-400' },
+      { id: 'items-assistant', link: 'https://github.com/andersonproescholdbell/csgo-items-assistant', placeholderText: 'Assistant', title: 'Items Assistant', description: 'Tool for managing CS items.', tags: ['Tool', 'External'], color: 'blue-400' },
+      { id: 'market-float-searcher', link: 'https://github.com/andersonproescholdbell/market-float-searcher-csgo', placeholderText: 'Market Floats', title: 'Market Float Searcher', description: 'Find low-float items on the market.', tags: ['Tool', 'External'], color: 'cyan-400' },
+      { id: 'bluegem-finder', link: 'https://github.com/andersonproescholdbell/bluegem-finder', placeholderText: 'Market Gems', title: 'Market Bluegem Finder', description: 'Find case-hardened blue gems.', tags: ['Tool', 'External'], color: 'teal' },
     ],
   },
   games: {
@@ -46,12 +46,12 @@ export const projectData: Record<string, Category> = {
     description: 'Implementations and variations of popular games.',
     color: 'emerald',
     projects: [
-      { id: 'catan-board-generator', title: 'Catan Board Generator', placeholderText: 'Catan', description: 'A Catan board generator that goes a bit further.', link: '/games/catan-board-generator', tags: ['Algorithm', 'SVG'], wip: true, color: 'green' },
-      { id: 'wordle-basic', title: 'Wordle Basic', placeholderText: 'Wordle', description: 'A simple version.', link: '/games/wordle-basic', tags: ['Game Logic'], wip: false, color: 'teal' },
-      { id: 'wordle-enhanced', title: 'Wordle Enhanced', placeholderText: 'Wordle', description: 'An enhanced version.', link: '/games/wordle-enhanced', tags: ['Game Logic', 'CSS'], wip: false, color: 'lime' },
-      { id: 'circles-basic', title: 'Circles Basic', placeholderText: 'Circles', description: 'Similar to Agario.', link: '/games/circles-basic', tags: ['Game Logic'], wip: true, color: 'emerald-400' },
-      { id: 'circles-enhanced', title: 'Circles Enhanced', placeholderText: 'Circles', description: 'More similar to Agario.', link: '/games/circles-enhanced', tags: ['Game Logic', 'Canvas'], wip: true, color: 'green-400' },
-      { id: 'ai-or-real-human', title: 'AI or Real Human', placeholderText: 'AI or Real', description: 'Guess if the image is AI-generated or real.', link: '/games/ai-or-real-human', tags: ['AI', 'Game'], wip: true, color: 'teal-400' },
+      { id: 'catan-board-generator', link: '/games/catan-board-generator', placeholderText: 'Catan', title: 'Catan Board Generator', description: 'A Catan board generator that goes a bit further.', tags: ['Algorithm', 'SVG'], wip: true, color: 'green' },
+      { id: 'wordle-basic', link: '/games/wordle-basic', placeholderText: 'Wordle', title: 'Wordle Basic', description: 'A simple version.', tags: ['Game Logic'], wip: false, color: 'teal' },
+      { id: 'wordle-enhanced', link: '/games/wordle-enhanced', placeholderText: 'Wordle', title: 'Wordle Enhanced', description: 'An enhanced version.', tags: ['Game Logic', 'CSS'], wip: false, color: 'lime' },
+      { id: 'circles-basic', link: '/games/circles-basic', placeholderText: 'Circles', title: 'Circles Basic', description: 'Similar to Agario.', tags: ['Game Logic'], wip: true, color: 'emerald-400' },
+      { id: 'circles-enhanced', link: '/games/circles-enhanced', placeholderText: 'Circles', title: 'Circles Enhanced', description: 'More similar to Agario.', tags: ['Game Logic', 'Canvas'], wip: true, color: 'green-400' },
+      { id: 'ai-or-real-human', link: '/games/ai-or-real-human', placeholderText: 'AI or Real', title: 'AI or Real Human', description: 'Guess if the image is AI-generated or real.', tags: ['AI', 'Game'], wip: true, color: 'teal-400' },
     ],
   },
   bots: {
@@ -59,11 +59,11 @@ export const projectData: Record<string, Category> = {
     description: 'Automated scripts for Discord, YouTube, Reddit.',
     color: 'amber',
     projects: [
-      { id: 'discord-music', title: 'Discord Music Bot', placeholderText: 'Discord', description: 'Plays music in a Discord voice channel.', link: 'https://github.com/andersonproescholdbell/discord-music-bot', tags: ['Discord.js', 'API'], color: 'orange' },
-      { id: 'discord-random', title: 'Impractical Discord Bot', placeholderText: 'Discord', description: 'A bot with various random commands.', link: 'https://github.com/andersonproescholdbell/Impractical-Discord-Bot', tags: ['Discord.js'], color: 'yellow' },
-      { id: 'reddit-alerts', title: 'Reddit Alerts Bot', placeholderText: 'Reddit', description: 'Sends alerts for keywords on Reddit.', link: 'https://github.com/andersonproescholdbell/reddit-alerts', tags: ['Python', 'PRAW'], color: 'amber-400' },
-      { id: 'youtube-auto-comment', title: 'YouTube Auto-Commenter', placeholderText: 'YouTube', description: 'Likes and comments on new videos from specific channels.', link: 'https://github.com/andersonproescholdbell/comment-and-like-on-upload', tags: ['YouTube API', 'Automation'], color: 'yellow-400' },
-      { id: 'stock-market-alert', title: 'Stock Market Alert Bot', placeholderText: 'Stock Market', description: 'Alerts on significant stock market changes.', link: 'https://github.com/andersonproescholdbell/stock-market-drastic-change', tags: ['Finance API', 'Python'], color: 'orange-400' },
+      { id: 'discord-music', link: 'https://github.com/andersonproescholdbell/discord-music-bot', placeholderText: 'Discord', title: 'Discord Music Bot', description: 'Plays music in a Discord voice channel.', tags: ['Discord.js', 'API'], color: 'orange' },
+      { id: 'discord-random', link: 'https://github.com/andersonproescholdbell/Impractical-Discord-Bot', placeholderText: 'Discord', title: 'Impractical Discord Bot', description: 'A bot with various random commands.', tags: ['Discord.js'], color: 'yellow' },
+      { id: 'reddit-alerts', link: 'https://github.com/andersonproescholdbell/reddit-alerts', placeholderText: 'Reddit', title: 'Reddit Alerts Bot', description: 'Sends alerts for keywords on Reddit.', tags: ['Python', 'PRAW'], color: 'amber-400' },
+      { id: 'youtube-auto-comment', link: 'https://github.com/andersonproescholdbell/comment-and-like-on-upload', placeholderText: 'YouTube', title: 'YouTube Auto-Commenter', description: 'Likes and comments on new videos from specific channels.', tags: ['YouTube API', 'Automation'], color: 'yellow-400' },
+      { id: 'stock-market-alert', link: 'https://github.com/andersonproescholdbell/stock-market-drastic-change', placeholderText: 'Stock Market', title: 'Stock Market Alert Bot', description: 'Alerts on significant stock market changes.', tags: ['Finance API', 'Python'], color: 'orange-400' },
     ],
   },
   computation: {
@@ -72,10 +72,10 @@ export const projectData: Record<string, Category> = {
     color: 'indigo',
     placeholderText: 'Computation', 
     projects: [
-      { id: 'turing-interactive', title: 'Turing Machine (Interactive)', placeholderText: 'Turing', description: 'An interactive Turing Machine simulator.', link: '/computation/turing-machine-simulator-interactive', tags: ['Simulator', 'UI'], wip: true, color: 'violet' },
-      { id: 'turing-cli', title: 'Turing Machine (CLI)', placeholderText: 'Turing', description: 'A command-line Turing Machine simulator.', link: 'https://github.com/andersonproescholdbell/Turing-Machine-Simulator', tags: ['CLI', 'Java'], color: 'purple' },
-      { id: 'dfsm-sim', title: 'DFSM Simulator', placeholderText: 'State Machine', description: 'A deterministic finite state machine simulator.', link: 'https://github.com/andersonproescholdbell/Deterministic-Finite-State-Machine-Simulator', tags: ['FSM', 'Java'], color: 'indigo-400' },
-      { id: 'nfsm-sim', title: 'NFSM Simulator', placeholderText: 'State Machine', description: 'A non-deterministic finite state machine simulator.', link: 'https://github.com/andersonproescholdbell/Nondeterministic-Finite-State-Machine-Simulator', tags: ['FSM', 'Java'], color: 'purple-400' },
+      { id: 'turing-interactive', link: '/computation/turing-machine-simulator-interactive', placeholderText: 'Turing', title: 'Turing Machine (Interactive)', description: 'An interactive Turing Machine simulator.', tags: ['Simulator', 'UI'], wip: true, color: 'violet' },
+      { id: 'turing-cli', link: 'https://github.com/andersonproescholdbell/Turing-Machine-Simulator', placeholderText: 'Turing', title: 'Turing Machine (CLI)', description: 'A command-line Turing Machine simulator.', tags: ['CLI', 'Java'], color: 'purple' },
+      { id: 'dfsm-sim', link: 'https://github.com/andersonproescholdbell/Deterministic-Finite-State-Machine-Simulator', placeholderText: 'State Machine', title: 'DFSM Simulator', description: 'A deterministic finite state machine simulator.', tags: ['FSM', 'Java'], color: 'indigo-400' },
+      { id: 'nfsm-sim', link: 'https://github.com/andersonproescholdbell/Nondeterministic-Finite-State-Machine-Simulator', placeholderText: 'State Machine', title: 'NFSM Simulator', description: 'A non-deterministic finite state machine simulator.', tags: ['FSM', 'Java'], color: 'purple-400' },
     ],
   },
   geometric: {
@@ -83,14 +83,14 @@ export const projectData: Record<string, Category> = {
     description: 'Generative art proofs of concept for geometric phenomena.',
     color: 'cyan-400',
     projects: [
-      { id: 'sierpinski-triangle', title: 'Sierpinski\'s Triangle', placeholderText: 'Triangle', description: 'Standard chaos game rules.', link: '/geometric/fractal-triangle', tags: ['Fractal', 'Canvas'], wip: true, color: 'cyan' },
-      { id: 'square1-fractal', title: 'Square Fractal 1', placeholderText: 'Square 1', description: 'Rule: Not the same vertex twice.', link: '/geometric/fractal-square-1', tags: ['Fractal', 'Canvas'], wip: true, color: 'sky' },
-      { id: 'square2-fractal', title: 'Square Fractal 2', placeholderText: 'Square 2', description: 'Rule: Not clockwise/counter-clockwise of previous.', link: '/geometric/fractal-square-2', tags: ['Fractal', 'Canvas'], wip: true, color: 'teal' },
-      { id: 'square3-fractal', title: 'Square Fractal 3', placeholderText: 'Square 3', description: 'Rule: Not vertex 2 away from previous.', link: '/geometric/fractal-square-3', tags: ['Fractal', 'Canvas'], wip: true, color: 'sky-400' },
-      { id: 'square4-fractal', title: 'Square Fractal 4', placeholderText: 'Square 4', description: 'Rule: If previous two are same, cannot be neighbors.', link: '/geometric/fractal-square-4', tags: ['Fractal', 'Canvas'], wip: true, color: 'teal-400' },
-      { id: 'pentagon1-fractal', title: 'Pentagon Fractal 1', placeholderText: 'Pentagon 1', description: 'Rule: Not the same vertex twice.', link: '/geometric/fractal-pentagon-1', tags: ['Fractal', 'Canvas'], wip: true, color: 'blue-400' },
-      { id: 'pentagon2-fractal', title: 'Pentagon Fractal 2', placeholderText: 'Pentagon 2', description: 'Rule: If previous two are same, cannot be neighbors.', link: '/geometric/fractal-pentagon-2', tags: ['Fractal', 'Canvas'], wip: true, color: 'blue' },
-      { id: 'hexagon1-fractal', title: 'Hexagon Fractal 1', placeholderText: 'Hexagon', description: 'Rule: Not the same vertex twice.', link: '/geometric/fractal-hexagon', tags: ['Fractal', 'Canvas'], wip: true, color: 'cyan-400' },
+      { id: 'fractal-triangle', link: '/geometric/fractal-triangle', placeholderText: 'Triangle', title: 'Sierpinski\'s Triangle', description: 'Standard chaos game rules.', tags: ['Fractal', 'Canvas'], wip: true, color: 'cyan' },
+      { id: 'fractal-square-1', link: '/geometric/fractal-square-1', placeholderText: 'Square 1', title: 'Square Fractal 1', description: 'Rule: Not the same vertex twice.', tags: ['Fractal', 'Canvas'], wip: true, color: 'sky' },
+      { id: 'fractal-square-2', link: '/geometric/fractal-square-2', placeholderText: 'Square 2', title: 'Square Fractal 2', description: 'Rule: Not clockwise/counter-clockwise of previous.', tags: ['Fractal', 'Canvas'], wip: true, color: 'teal' },
+      { id: 'fractal-square-3', link: '/geometric/fractal-square-3', placeholderText: 'Square 3', title: 'Square Fractal 3', description: 'Rule: Not vertex 2 away from previous.', tags: ['Fractal', 'Canvas'], wip: true, color: 'sky-400' },
+      { id: 'fractal-square-4', link: '/geometric/fractal-square-4', placeholderText: 'Square 4', title: 'Square Fractal 4', description: 'Rule: If previous two are same, cannot be neighbors.', tags: ['Fractal', 'Canvas'], wip: true, color: 'teal-400' },
+      { id: 'fractal-pentagon-1', link: '/geometric/fractal-pentagon-1', placeholderText: 'Pentagon 1', title: 'Pentagon Fractal 1', description: 'Rule: Not the same vertex twice.', tags: ['Fractal', 'Canvas'], wip: true, color: 'blue-400' },
+      { id: 'fractal-pentagon-2', link: '/geometric/fractal-pentagon-2', placeholderText: 'Pentagon 2', title: 'Pentagon Fractal 2', description: 'Rule: If previous two are same, cannot be neighbors.', tags: ['Fractal', 'Canvas'], wip: true, color: 'blue' },
+      { id: 'fractal-hexagon', link: '/geometric/fractal-hexagon', placeholderText: 'Hexagon', title: 'Hexagon Fractal 1', description: 'Rule: Not the same vertex twice.', tags: ['Fractal', 'Canvas'], wip: true, color: 'cyan-400' },
     ],
   },
 };
