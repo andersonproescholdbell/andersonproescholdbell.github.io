@@ -1,5 +1,5 @@
-import type { ColorName } from '../config/colors';
-import { SHUFFLED_COLORS } from '../config/colors';
+import type { ColorName } from './colors';
+import { SHUFFLED_COLORS } from './colors';
 
 export interface Project {
   id: string;
