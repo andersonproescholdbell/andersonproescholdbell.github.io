@@ -1,5 +1,5 @@
 ---
-// Sierpinski's Triangle - Standard Chaos Game Rules
+// Circles Basic - Similar to Agario
 ---
 
 <!DOCTYPE html>
@@ -7,16 +7,16 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sierpinski's Triangle - Standard Rules</title>
-    <meta name="description" content="Sierpinski's Triangle generated using standard chaos game rules">
+    <title>Circles Basic - Agario-like Game</title>
+    <meta name="description" content="Basic circles game similar to Agario">
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
             min-height: 100vh;
             margin: 0;
-            padding: 0;
+            padding: 40px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -29,7 +29,7 @@
         h1 {
             font-size: 2.5rem;
             margin-bottom: 1rem;
-            background: linear-gradient(45deg, #f9a8d4, #ffffff);
+            background: linear-gradient(45deg, #34d399, #ffffff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -51,29 +51,29 @@
             opacity: 0.9;
         }
         .back-link {
-            color: #f9a8d4;
+            color: #34d399;
             text-decoration: none;
             font-weight: bold;
             padding: 12px 24px;
-            border: 2px solid #f9a8d4;
+            border: 2px solid #34d399;
             border-radius: 25px;
             transition: all 0.3s ease;
         }
         .back-link:hover {
-            background: #f9a8d4;
-            color: #be185d;
+            background: #34d399;
+            color: #059669;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Sierpinski's Triangle</h1>
+        <h1>Circles Basic</h1>
         <div class="status-badge">Work in Progress</div>
         <p class="description">
-            Interactive visualization of Sierpinski's Triangle using the standard chaos game rules. 
-            Watch as the fractal pattern emerges through iterative point plotting on HTML5 Canvas.
+            Basic circles game similar to Agario. Control a circle to absorb smaller circles and grow larger 
+            while avoiding bigger circles. Features simple game mechanics and collision detection.
         </p>
-        <a href="/geometric/" class="back-link">← Back to Geometric Fractals</a>
+        <a href="/games/" class="back-link">← Back to Games</a>
     </div>
 </body>
 </html>
