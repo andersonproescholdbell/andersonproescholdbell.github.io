@@ -1,22 +1,14 @@
 ---
 // Enhanced Wordle - faithful port of AKordle
 import { dict5 } from '../../../scripts/wordle-shared-dictionary.js';
+import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        
-        <title>Enhanced Wordle</title>
-        
-        <meta name="author" content="Anderson P">
-        <meta name="description" content="Enhanced Wordle with advanced features">
-        <meta name="keywords" content="enhanced wordle game">
-        
-        <style>
+<ProjectPageLayout 
+  title="Enhanced Wordle" 
+  description="Enhanced Wordle with advanced features"
+>
+  <style>
             /* AKordle styles will be inserted here */
             :root {
                 --rows: 6;
@@ -36,28 +28,6 @@ import { dict5 } from '../../../scripts/wordle-shared-dictionary.js';
                 overflow: hidden;
             }
 
-            /* Navigation styles - positioned to not overlap header */
-            .nav-header {
-                position: absolute;
-                top: 70px;
-                left: 20px;
-                z-index: 500;
-            }
-            
-            .nav-header a {
-                color: #ffffff;
-                text-decoration: none;
-                font-size: 14px;
-                opacity: 0.8;
-                background-color: rgba(0,0,0,0.3);
-                padding: 5px 10px;
-                border-radius: 3px;
-            }
-            
-            .nav-header a:hover {
-                opacity: 1;
-                background-color: rgba(0,0,0,0.5);
-            }
 
             /* Simplified header for static version */
             header.row {
@@ -471,14 +441,8 @@ import { dict5 } from '../../../scripts/wordle-shared-dictionary.js';
                 padding: 0;
             }
         </style>
-    </head>  
 
-    <body>
-        <div class="nav-header">
-            <a href="/games/">← Back to Games</a>
-        </div>
-
-        <div id="main">
+  <div id="main">
             <!-- Simplified header without PHP -->
             <header class="row">
                 <div id="left" class="d-flex flex-row">
@@ -1017,5 +981,5 @@ import { dict5 } from '../../../scripts/wordle-shared-dictionary.js';
             }
         });
         </script>
-    </body>
-</html>
+  </div>
+</ProjectPageLayout>

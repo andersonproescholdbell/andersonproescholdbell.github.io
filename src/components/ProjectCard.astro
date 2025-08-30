@@ -3,13 +3,49 @@
 function createPlaceholderUrl(title: string, color: string): string {
   // 1. Updated colorMap with separate properties for bgColor and textColor
   const colorMap = {
+    // Original colors
     sky:     { bgColor: '#0ea5e9', textColor: '#ffffff' },
     emerald: { bgColor: '#10b981', textColor: '#ffffff' },
     red:     { bgColor: '#ef4444', textColor: '#ffffff' },
     indigo:  { bgColor: '#6366f1', textColor: '#ffffff' },
     purple:  { bgColor: '#a855f7', textColor: '#ffffff' },
     amber:   { bgColor: '#f59e0b', textColor: '#ffffff' },
-    pink:    { bgColor: '#ec4899', textColor: '#ffffff' }
+    pink:    { bgColor: '#ec4899', textColor: '#ffffff' },
+    // New colors - Blues & Cyans
+    blue:    { bgColor: '#3b82f6', textColor: '#ffffff' },
+    cyan:    { bgColor: '#06b6d4', textColor: '#ffffff' },
+    teal:    { bgColor: '#14b8a6', textColor: '#ffffff' },
+    // Greens & Yellows  
+    green:   { bgColor: '#22c55e', textColor: '#ffffff' },
+    lime:    { bgColor: '#84cc16', textColor: '#000000' },
+    yellow:  { bgColor: '#eab308', textColor: '#000000' },
+    orange:  { bgColor: '#f97316', textColor: '#ffffff' },
+    // Pinks & Purples
+    rose:    { bgColor: '#f43f5e', textColor: '#ffffff' },
+    fuchsia: { bgColor: '#d946ef', textColor: '#ffffff' },
+    violet:  { bgColor: '#8b5cf6', textColor: '#ffffff' },
+    // Grays & Neutrals
+    slate:   { bgColor: '#64748b', textColor: '#ffffff' },
+    gray:    { bgColor: '#6b7280', textColor: '#ffffff' },
+    zinc:    { bgColor: '#71717a', textColor: '#ffffff' },
+    neutral: { bgColor: '#737373', textColor: '#ffffff' },
+    stone:   { bgColor: '#78716c', textColor: '#ffffff' },
+    // Lighter variants
+    'sky-400':     { bgColor: '#38bdf8', textColor: '#ffffff' },
+    'blue-400':    { bgColor: '#60a5fa', textColor: '#ffffff' },
+    'indigo-400':  { bgColor: '#818cf8', textColor: '#ffffff' },
+    'purple-400':  { bgColor: '#c084fc', textColor: '#ffffff' },
+    'pink-400':    { bgColor: '#f472b6', textColor: '#ffffff' },
+    'rose-400':    { bgColor: '#fb7185', textColor: '#ffffff' },
+    'red-400':     { bgColor: '#f87171', textColor: '#ffffff' },
+    'orange-400':  { bgColor: '#fb923c', textColor: '#ffffff' },
+    'amber-400':   { bgColor: '#fbbf24', textColor: '#000000' },
+    'yellow-400':  { bgColor: '#facc15', textColor: '#000000' },
+    'lime-400':    { bgColor: '#a3e635', textColor: '#000000' },
+    'green-400':   { bgColor: '#4ade80', textColor: '#ffffff' },
+    'emerald-400': { bgColor: '#34d399', textColor: '#ffffff' },
+    'teal-400':    { bgColor: '#2dd4bf', textColor: '#ffffff' },
+    'cyan-400':    { bgColor: '#22d3ee', textColor: '#ffffff' }
   };
 
   const defaultColors = { bgColor: '#1f2937', textColor: '#ffffff' };
@@ -36,7 +72,12 @@ export interface Props {
   image?: string;
   placeholderText?: string;
   tags: string[];
-  color: 'sky' | 'emerald' | 'red' | 'indigo' | 'purple' | 'amber' | 'pink';
+  color: 'sky' | 'emerald' | 'red' | 'indigo' | 'purple' | 'amber' | 'pink' | 
+         'blue' | 'cyan' | 'teal' | 'green' | 'lime' | 'yellow' | 'orange' |
+         'rose' | 'fuchsia' | 'violet' | 'slate' | 'gray' | 'zinc' | 'neutral' | 'stone' |
+         'sky-400' | 'blue-400' | 'indigo-400' | 'purple-400' | 'pink-400' | 'rose-400' |
+         'red-400' | 'orange-400' | 'amber-400' | 'yellow-400' | 'lime-400' | 'green-400' |
+         'emerald-400' | 'teal-400' | 'cyan-400';
 }
 
 const { title, description, link, image, placeholderText, tags, color } = Astro.props;
@@ -46,33 +87,132 @@ const { title, description, link, image, placeholderText, tags, color } = Astro.
 const finalImage = image || createPlaceholderUrl(placeholderText || title, color);
 
 const hoverShadowClasses = {
+  // Original colors
   sky: 'hover:shadow-sky-500/20',
   emerald: 'hover:shadow-emerald-500/20',
   red: 'hover:shadow-red-500/20',
   indigo: 'hover:shadow-indigo-500/20',
   purple: 'hover:shadow-purple-500/20',
   amber: 'hover:shadow-amber-500/20',
-  pink: 'hover:shadow-pink-500/20'
+  pink: 'hover:shadow-pink-500/20',
+  // New colors
+  blue: 'hover:shadow-blue-500/20',
+  cyan: 'hover:shadow-cyan-500/20',
+  teal: 'hover:shadow-teal-500/20',
+  green: 'hover:shadow-green-500/20',
+  lime: 'hover:shadow-lime-500/20',
+  yellow: 'hover:shadow-yellow-500/20',
+  orange: 'hover:shadow-orange-500/20',
+  rose: 'hover:shadow-rose-500/20',
+  fuchsia: 'hover:shadow-fuchsia-500/20',
+  violet: 'hover:shadow-violet-500/20',
+  slate: 'hover:shadow-slate-500/20',
+  gray: 'hover:shadow-gray-500/20',
+  zinc: 'hover:shadow-zinc-500/20',
+  neutral: 'hover:shadow-neutral-500/20',
+  stone: 'hover:shadow-stone-500/20',
+  // 400 variants
+  'sky-400': 'hover:shadow-sky-400/20',
+  'blue-400': 'hover:shadow-blue-400/20',
+  'indigo-400': 'hover:shadow-indigo-400/20',
+  'purple-400': 'hover:shadow-purple-400/20',
+  'pink-400': 'hover:shadow-pink-400/20',
+  'rose-400': 'hover:shadow-rose-400/20',
+  'red-400': 'hover:shadow-red-400/20',
+  'orange-400': 'hover:shadow-orange-400/20',
+  'amber-400': 'hover:shadow-amber-400/20',
+  'yellow-400': 'hover:shadow-yellow-400/20',
+  'lime-400': 'hover:shadow-lime-400/20',
+  'green-400': 'hover:shadow-green-400/20',
+  'emerald-400': 'hover:shadow-emerald-400/20',
+  'teal-400': 'hover:shadow-teal-400/20',
+  'cyan-400': 'hover:shadow-cyan-400/20'
 };
 
 const tagBgClasses = {
+  // Original colors
   sky: 'bg-sky-900',
   emerald: 'bg-emerald-900',
   red: 'bg-red-900',
   indigo: 'bg-indigo-900',
   purple: 'bg-purple-900',
   amber: 'bg-amber-900',
-  pink: 'bg-pink-900'
+  pink: 'bg-pink-900',
+  // New colors
+  blue: 'bg-blue-900',
+  cyan: 'bg-cyan-900',
+  teal: 'bg-teal-900',
+  green: 'bg-green-900',
+  lime: 'bg-lime-900',
+  yellow: 'bg-yellow-900',
+  orange: 'bg-orange-900',
+  rose: 'bg-rose-900',
+  fuchsia: 'bg-fuchsia-900',
+  violet: 'bg-violet-900',
+  slate: 'bg-slate-900',
+  gray: 'bg-gray-900',
+  zinc: 'bg-zinc-900',
+  neutral: 'bg-neutral-900',
+  stone: 'bg-stone-900',
+  // 400 variants
+  'sky-400': 'bg-sky-900',
+  'blue-400': 'bg-blue-900',
+  'indigo-400': 'bg-indigo-900',
+  'purple-400': 'bg-purple-900',
+  'pink-400': 'bg-pink-900',
+  'rose-400': 'bg-rose-900',
+  'red-400': 'bg-red-900',
+  'orange-400': 'bg-orange-900',
+  'amber-400': 'bg-amber-900',
+  'yellow-400': 'bg-yellow-900',
+  'lime-400': 'bg-lime-900',
+  'green-400': 'bg-green-900',
+  'emerald-400': 'bg-emerald-900',
+  'teal-400': 'bg-teal-900',
+  'cyan-400': 'bg-cyan-900'
 };
 
 const tagTextClasses = {
+  // Original colors
   sky: 'text-sky-300',
   emerald: 'text-emerald-300',
   red: 'text-red-300',
   indigo: 'text-indigo-300',
   purple: 'text-purple-300',
   amber: 'text-amber-300',
-  pink: 'text-pink-300'
+  pink: 'text-pink-300',
+  // New colors
+  blue: 'text-blue-300',
+  cyan: 'text-cyan-300',
+  teal: 'text-teal-300',
+  green: 'text-green-300',
+  lime: 'text-lime-300',
+  yellow: 'text-yellow-300',
+  orange: 'text-orange-300',
+  rose: 'text-rose-300',
+  fuchsia: 'text-fuchsia-300',
+  violet: 'text-violet-300',
+  slate: 'text-slate-300',
+  gray: 'text-gray-300',
+  zinc: 'text-zinc-300',
+  neutral: 'text-neutral-300',
+  stone: 'text-stone-300',
+  // 400 variants
+  'sky-400': 'text-sky-300',
+  'blue-400': 'text-blue-300',
+  'indigo-400': 'text-indigo-300',
+  'purple-400': 'text-purple-300',
+  'pink-400': 'text-pink-300',
+  'rose-400': 'text-rose-300',
+  'red-400': 'text-red-300',
+  'orange-400': 'text-orange-300',
+  'amber-400': 'text-amber-300',
+  'yellow-400': 'text-yellow-300',
+  'lime-400': 'text-lime-300',
+  'green-400': 'text-green-300',
+  'emerald-400': 'text-emerald-300',
+  'teal-400': 'text-teal-300',
+  'cyan-400': 'text-cyan-300'
 };
 
 const hoverColor = hoverShadowClasses[color];

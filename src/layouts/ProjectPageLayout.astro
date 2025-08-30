@@ -1,0 +1,97 @@
+---
+export interface Props {
+  title?: string;
+  description?: string;
+  backText?: string;
+  backHref?: string;
+  className?: string;
+}
+
+// Smart defaults for back navigation based on current path
+function getNavigationDefaults() {
+  const pathname = Astro.url.pathname;
+  const segments = pathname.split('/').filter(Boolean);
+  
+  if (segments.length >= 2) {
+    const category = segments[0];
+    return {
+      backText: `← Back to ${category.charAt(0).toUpperCase() + category.slice(1)}`,
+      backHref: `/${category}/`
+    };
+  } else {
+    return {
+      backText: "← Back to Portfolio",
+      backHref: "/"
+    };
+  }
+}
+
+const navDefaults = getNavigationDefaults();
+
+const { 
+  title = "Project", 
+  description = "Interactive Project",
+  backText = navDefaults.backText,
+  backHref = navDefaults.backHref,
+  className = ""
+} = Astro.props;
+
+import UniversalNav from '../components/UniversalNav.astro';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    
+    <!-- Google Fonts for elegant typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap"
+      rel="stylesheet">
+  </head>
+  
+  <body class={`has-universal-nav ${className}`}>
+    <UniversalNav backText={backText} backHref={backHref} />
+    
+    <main class="project-main">
+      <slot />
+    </main>
+    
+    <style>
+      /* Base body styles */
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Inter', sans-serif;
+        background-color: #111827; /* bg-gray-900 */
+        color: #d1d5db; /* text-gray-300 */
+        min-height: 100vh;
+      }
+
+      /* Ensure main content doesn't overlap with fixed nav */
+      .project-main {
+        min-height: calc(100vh - 60px);
+        padding-top: 0; /* Nav handles the top spacing via body padding */
+      }
+
+      /* Mobile adjustments */
+      @media (max-width: 768px) {
+        .project-main {
+          min-height: calc(100vh - 50px);
+        }
+      }
+
+      /* Heading font family */
+      h1, h2, h3, h4, h5, h6 {
+        font-family: 'Playfair Display', serif;
+      }
+    </style>
+  </body>
+</html>

@@ -21,7 +21,7 @@ const category = projectData['computation'];
             link={project.link}
             placeholderText={project.placeholderText}
             tags={project.wip ? [...project.tags, 'WIP'] : project.tags}
-            color={category.color}
+            color={project.color || category.color}
         />
     ))}
 </ProjectGridPageLayout>

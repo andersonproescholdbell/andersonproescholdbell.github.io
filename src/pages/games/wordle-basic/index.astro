@@ -2,26 +2,21 @@
 // Basic Wordle game page
 import './_styles.css';
 import { dict5 } from '../../../scripts/wordle-shared-dictionary.js';
+import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <title>Basic Wordle</title>
-        <meta name="description" content="A basic recreation of Wordle">
-
-    </head>
-
-    <body class="bg-gray-900 text-gray-300 min-h-screen flex items-center justify-center">
-        <div id="container">
-            <div class="boardSpacer"></div>
-            <div id="board"></div>
-            <div id="keyboard"></div>
-            <div class="boardSpacer"></div>
-        </div>
+<ProjectPageLayout 
+  title="Basic Wordle" 
+  description="A basic recreation of Wordle"
+>
+  <div class="game-content-wrapper bg-gray-900 text-gray-300 min-h-screen flex items-center justify-center">
+    <div id="container">
+    <div class="boardSpacer"></div>
+    <div id="board"></div>
+    <div id="keyboard"></div>
+      <div class="boardSpacer"></div>
+    </div>
+  </div>
 
         <script define:vars={{dict5}}>
         // Dictionary
@@ -228,5 +223,4 @@ import { dict5 } from '../../../scripts/wordle-shared-dictionary.js';
 
         main();
         </script>
-    </body>
-</html>
+</ProjectPageLayout>

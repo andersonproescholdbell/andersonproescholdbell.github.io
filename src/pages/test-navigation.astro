@@ -1,0 +1,41 @@
+---
+// Test page for universal navigation system
+import ProjectPageLayout from '../layouts/ProjectPageLayout.astro';
+---
+
+<ProjectPageLayout 
+  title="Navigation Test Page" 
+  description="Test page for universal navigation system"
+  backText="← Back to Games"
+  backHref="/games/"
+>
+  <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80vh; text-align: center;">
+    <h1 style="font-size: 3rem; margin-bottom: 2rem; background: linear-gradient(45deg, #60a5fa, #a855f7, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+      Navigation Test
+    </h1>
+    <p style="font-size: 1.25rem; max-width: 600px; line-height: 1.6; margin-bottom: 2rem;">
+      This is a test page to verify that the universal navigation system is working correctly. The navigation bar should be fixed at the top with a "Back to Games" link.
+    </p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; max-width: 800px; width: 100%;">
+      <div style="background: rgba(55, 65, 81, 0.3); padding: 2rem; border-radius: 0.5rem; backdrop-filter: blur(8px);">
+        <h2 style="margin-bottom: 1rem;">Features Tested</h2>
+        <ul style="text-align: left; color: #d1d5db;">
+          <li>Fixed navigation bar</li>
+          <li>Proper z-index layering</li>
+          <li>Content spacing (60px top padding)</li>
+          <li>Consistent styling</li>
+          <li>Mobile responsiveness</li>
+        </ul>
+      </div>
+      <div style="background: rgba(55, 65, 81, 0.3); padding: 2rem; border-radius: 0.5rem; backdrop-filter: blur(8px);">
+        <h2 style="margin-bottom: 1rem;">Navigation Links</h2>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <a href="/games/wordle-basic/" style="color: #60a5fa; text-decoration: none;">Basic Wordle</a>
+          <a href="/games/wordle-enhanced/" style="color: #60a5fa; text-decoration: none;">Enhanced Wordle</a>
+          <a href="/games/" style="color: #60a5fa; text-decoration: none;">Games Landing</a>
+          <a href="/" style="color: #60a5fa; text-decoration: none;">Main Portfolio</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</ProjectPageLayout>
