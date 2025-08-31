@@ -11,14 +11,15 @@ html, body {
     border: 3px solid rgb(49, 49, 49);
     background-color: rgb(15, 15, 15);
     color: #dddddd;
-    font-size: 5vw;
+    font-size: min(6vw, 3rem);
     font-weight: bold; 
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 1% 0 0;
-    flex: 1;
-    height: 100%;
+    flex: 0 0 auto;
+    aspect-ratio: 1;
+    width: min(14vw, 6rem);
+    height: min(14vw, 6rem);
 }
 
 .tileRow {
@@ -26,8 +27,8 @@ html, body {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    flex: 1;
-    margin: 0 0 1% 0;
+    min-height: min(14vw, 6rem);
+    gap: 0.25rem;
 }
 
 .key {
@@ -84,9 +85,10 @@ html, body {
 #board {
     display: flex;
     flex-direction: column;
-    flex: 7;
-    width: 80%;
+    justify-content: center;
+    width: min(85%, 30rem);
     align-self: center;
+    gap: 0.5rem;
 }
 
 #keyboard {
@@ -110,4 +112,37 @@ html, body {
 
 .unusable {
     background-color: rgb(22, 22, 22);
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .tile {
+        width: min(16vw, 4.5rem);
+        height: min(16vw, 4.5rem);
+        font-size: min(7vw, 2.5rem);
+    }
+    
+    .tileRow {
+        min-height: min(16vw, 4.5rem);
+    }
+    
+    #board {
+        width: min(90%, 24rem);
+    }
+}
+
+@media (max-width: 480px) {
+    .tile {
+        width: min(18vw, 3.5rem);
+        height: min(18vw, 3.5rem);
+        font-size: min(7vw, 2rem);
+    }
+    
+    .tileRow {
+        min-height: min(18vw, 3.5rem);
+    }
+    
+    #board {
+        width: 95%;
+    }
 }
