@@ -11,14 +11,17 @@ html, body {
     border: 3px solid rgb(49, 49, 49);
     background-color: rgb(15, 15, 15);
     color: #dddddd;
-    font-size: 5vw;
+    font-size: var(--tile-font-size, 2rem);
     font-weight: bold; 
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 0 1% 0 0;
     flex: 1;
-    height: 100%;
+    aspect-ratio: 1;
+    min-height: 0;
+    width: var(--tile-size, auto);
+    height: var(--tile-size, auto);
 }
 
 .tileRow {
@@ -85,7 +88,8 @@ html, body {
     display: flex;
     flex-direction: column;
     flex: 7;
-    width: 80%;
+    width: 95%;
+    max-width: 500px;
     align-self: center;
 }
 

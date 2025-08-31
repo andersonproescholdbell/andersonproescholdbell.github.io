@@ -2,6 +2,40 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+function calculateOptimalTileSize() {
+    const board = document.getElementById('board');
+    const container = document.getElementById('container');
+    
+    if (!board || !container) return;
+    
+    const boardRect = board.getBoundingClientRect();
+    const containerHeight = container.getBoundingClientRect().height;
+    
+    // Calculate available space for board (accounting for keyboard and spacers)
+    const keyboardHeight = containerHeight * (4/11); // keyboard takes flex: 4
+    const spacersHeight = containerHeight * (2/11); // spacers take flex: 1 each
+    const availableHeight = containerHeight - keyboardHeight - spacersHeight;
+    
+    const availableWidth = boardRect.width;
+    
+    // Calculate optimal tile size (5x6 grid with margins)
+    const tileMargin = 0.01; // 1% margin
+    const effectiveWidth = availableWidth * (1 - tileMargin * 4); // 4 margins between 5 tiles
+    const effectiveHeight = availableHeight * (1 - tileMargin * 5); // 5 margins between 6 rows
+    
+    const tileWidth = effectiveWidth / 5;
+    const tileHeight = effectiveHeight / 6;
+    
+    // Use the smaller dimension to maintain square aspect ratio
+    const tileSize = Math.min(tileWidth, tileHeight);
+    
+    // Update CSS custom properties for dynamic sizing
+    document.documentElement.style.setProperty('--tile-size', `${tileSize}px`);
+    document.documentElement.style.setProperty('--tile-font-size', `${tileSize * 0.35}px`);
+    
+    return tileSize;
+}
+
 function createTiles(length) {
     function createSpacer() {
         var key = document.createElement('div');
@@ -28,6 +62,9 @@ function createTiles(length) {
         //row.appendChild(createSpacer());
         board.appendChild(row);
     }
+    
+    // Calculate and apply optimal sizing after tiles are created
+    setTimeout(() => calculateOptimalTileSize(), 0);
 }
 
 function createKeyboard(length, word) {
@@ -195,6 +232,11 @@ function main() {
         } else if ('abcdefghijklmnopqrstuvwxyz'.includes(e.key.toLowerCase())) {
             letter(e.key.toUpperCase());
         }
+    });
+
+    // Add resize listener for responsive sizing
+    window.addEventListener('resize', () => {
+        setTimeout(() => calculateOptimalTileSize(), 100);
     });
 }
 
