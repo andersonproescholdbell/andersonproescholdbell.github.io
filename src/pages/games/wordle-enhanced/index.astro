@@ -137,105 +137,14 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
             /* Continue with AKordle CSS... */
             
             /* Media queries for responsive design */
-            @media only screen and (max-width: 600px) {
-                #keyboard {
-                    width: 100%;
-                }
-            } 
-
-            @media only screen and (max-height: 500px) {
-                #keyboard {
-                    height: 112px;
-                }
-
-                .key {
-                    height: 30px;
-                }
-
-                .box {
-                    font-size: min(4vw, 1.5rem);
-                }
-            }
-
-            @media only screen and (min-width: 600px) {
-                #keyboard {
-                    width: 600px;
-                }
-            } 
-
-            @media only screen and (min-height: 500px) {
-                #keyboard {
-                    height: 160px;
-                }
-
-                .key {
-                    height: 46px;
-                }
-
-                .box {
-                    font-size: min(5vw, 2rem);
-                }
-            }
-
             @media only screen and (min-width: 1000px) {
                 #boxes-con {
                     width: 600px;
                 }
 
                 #keyboard {
-                    width: 800px;
-                }
-            } 
-
-            @media only screen and (min-height: 750px) {
-                #keyboard {
-                    height: 220px;
-                }
-
-                .key {
-                    height: 66px;
-                }
-
-                .box {
-                    font-size: min(5.5vw, 2.2rem);
-                }
-            }
-
-            @media only screen and (min-width: 2000px) {
-                #boxes-con {
-                    width: 800px;
-                }
-
-                #keyboard {
-                    width: 800px;
-                }
-            }  
-
-            @media only screen and (min-height: 925px) {
-                #keyboard {
-                    height: 250px;
-                }
-
-                .key {
-                    height: 76px;
-                }
-
-                .box {
-                    font-size: min(6vw, 2.5rem);
-                }
-            }
-
-            @media only screen and (min-height: 1100px) {
-                #keyboard {
-                    height: 310px;
-                }
-
-                .key {
-                    height: 96px;
-                }
-
-                .box {
-                    font-size: min(6.5vw, 3rem);
+                    max-width: 800px;
+                    width: 100%;
                 }
             }
 
@@ -305,7 +214,7 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
                 margin: 0;
                 text-align: center;
                 font-weight: bold;
-                font-size: min(5vw, 2rem);
+                font-size: clamp(1.5rem, min(5vw, 5vh), 3rem);
                 color: white;
                 display: flex;
                 justify-content: center;
@@ -329,6 +238,8 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
                 flex-shrink: 0; /* Prevent keyboard from shrinking */
                 margin-bottom: 1rem; /* Ensure space at bottom */
                 padding: 0.5rem;
+                width: 100%;
+                max-width: 600px;
             }
 
             .key {
@@ -345,6 +256,7 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
                 align-items: center;
                 justify-content: center;
                 font-size: 1rem;
+                height: clamp(30px, 6vh, 96px);
             }
 
             .spacer {
