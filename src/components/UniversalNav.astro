@@ -24,6 +24,7 @@ const {
     top: 0;
     left: 0;
     right: 0;
+    height: 3.5rem; /* Based on text height + padding */
     background-color: rgba(17, 24, 39, 0.95); /* bg-gray-900 with transparency */
     backdrop-filter: blur(8px);
     border-bottom: 1px solid rgba(55, 65, 81, 0.3); /* subtle border */
@@ -65,7 +66,7 @@ const {
   /* Mobile responsiveness */
   @media (max-width: 768px) {
     .universal-nav {
-      height: 50px;
+      height: 3rem; /* Slightly smaller on mobile */
     }
 
     .universal-nav-container {
@@ -80,12 +81,12 @@ const {
 
   /* Ensure content below nav isn't hidden */
   :global(body.has-universal-nav) {
-    padding-top: 60px;
+    /* padding-top: 60px; */
   }
 
   :global(body.has-universal-nav) {
     @media (max-width: 768px) {
-      padding-top: 50px;
+      /* padding-top: 3rem; */
     }
   }
 </style>

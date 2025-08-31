@@ -27,10 +27,10 @@ const hoverBg = colors?.darkBg || '#1e3c72';
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{title}</title>
     <meta name="description" content={metaDescription}>
-    <style>
+    <style define:vars={{bgGradient, titleGradient, accentColor, hoverBg}}>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: {bgGradient};
+            background: var(--bgGradient);
             color: white;
             min-height: 100vh;
             margin: 0;
@@ -47,7 +47,7 @@ const hoverBg = colors?.darkBg || '#1e3c72';
         h1 {
             font-size: 2.5rem;
             margin-bottom: 1rem;
-            background: {titleGradient};
+            background: var(--titleGradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -69,17 +69,17 @@ const hoverBg = colors?.darkBg || '#1e3c72';
             opacity: 0.9;
         }
         .back-link {
-            color: {accentColor};
+            color: var(--accentColor);
             text-decoration: none;
             font-weight: bold;
             padding: 12px 24px;
-            border: 2px solid {accentColor};
+            border: 2px solid var(--accentColor);
             border-radius: 25px;
             transition: all 0.3s ease;
         }
         .back-link:hover {
-            background: {accentColor};
-            color: {hoverBg};
+            background: var(--accentColor);
+            color: var(--hoverBg);
         }
     </style>
 </head>

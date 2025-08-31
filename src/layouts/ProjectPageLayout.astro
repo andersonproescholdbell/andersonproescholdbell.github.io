@@ -72,19 +72,20 @@ import UniversalNav from '../components/UniversalNav.astro';
         font-family: 'Inter', sans-serif;
         background-color: #111827; /* bg-gray-900 */
         color: #d1d5db; /* text-gray-300 */
-        min-height: 100vh;
+        height: 100vh;
       }
 
       /* Ensure main content doesn't overlap with fixed nav */
       .project-main {
-        min-height: calc(100vh - 60px);
-        padding-top: 0; /* Nav handles the top spacing via body padding */
+        height: calc(100vh - 3.5rem);
+        padding-top: 3.5rem; /* Match nav height to prevent overlap */
       }
 
       /* Mobile adjustments */
       @media (max-width: 768px) {
         .project-main {
-          min-height: calc(100vh - 50px);
+          height: calc(100vh - 3rem);
+          padding-top: 3rem; /* Match mobile nav height */
         }
       }
 
