@@ -1,0 +1,40 @@
+/* 
+ * Centralized Navigation Height Variables
+ * 
+ * These CSS custom properties define the standard heights for the UniversalNav component
+ * across all screen sizes. Use these variables consistently across all layouts and components
+ * that need to account for the navigation bar height.
+ * 
+ * Source of truth: UniversalNav.astro component
+ */
+
+:root {
+  /* Navigation heights */
+  --nav-height-desktop: 2rem;    /* 32px - Standard desktop nav height */
+  --nav-height-mobile: 1.5rem;   /* 24px - Smaller mobile nav height */
+  
+  /* Computed values for convenience */
+  --content-height-desktop: calc(100vh - var(--nav-height-desktop));
+  --content-height-mobile: calc(100vh - var(--nav-height-mobile));
+}
+
+/* 
+ * Media query breakpoint matches UniversalNav.astro
+ * Mobile styles apply at 768px and below
+ */
+@media (max-width: 768px) {
+  :root {
+    /* On mobile, expose mobile values as the default */
+    --nav-height: var(--nav-height-mobile);
+    --content-height: var(--content-height-mobile);
+  }
+}
+
+/* Desktop styles (769px and above) */
+@media (min-width: 769px) {
+  :root {
+    /* On desktop, expose desktop values as the default */
+    --nav-height: var(--nav-height-desktop);
+    --content-height: var(--content-height-desktop);
+  }
+}

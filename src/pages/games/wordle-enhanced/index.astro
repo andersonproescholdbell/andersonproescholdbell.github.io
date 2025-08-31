@@ -8,6 +8,8 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
   description="Enhanced Wordle with advanced features"
 >
   <style>
+            @import '/src/styles/nav-heights.css';
+            
             /* AKordle styles will be inserted here */
             :root {
                 --rows: 6;
@@ -18,13 +20,44 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
                 box-sizing: border-box;
             } 
 
-            html, body, #main {
+            html, body {
                 margin: 0;
                 padding: 0;
                 width: 100vw;
                 height: 100vh;
                 background-color: #121213;
-                overflow: hidden;
+            }
+
+            #main {
+                margin: 0;
+                padding: 0;
+                width: 100vw;
+                height: var(--content-height-desktop); /* Use centralized nav height variable */
+                background-color: #121213;
+                overflow-x: hidden; /* Only hide horizontal overflow */
+                overflow-y: auto; /* Allow vertical scrolling if needed */
+            }
+
+            /* Mobile adjustment for smaller nav */
+            @media (max-width: 768px) {
+                #main {
+                    height: var(--content-height-mobile); /* Use centralized mobile nav height variable */
+                }
+            }
+
+            /* Very small screens - ensure keyboard is always accessible */
+            @media only screen and (max-height: 600px) {
+                #main {
+                    overflow-y: auto; /* Enable scrolling on very small screens */
+                }
+                
+                #boxes-con {
+                    padding: 0.5rem 0; /* Reduce padding on small screens */
+                }
+                
+                #keyboard {
+                    margin-bottom: 0.5rem; /* Smaller margin on small screens */
+                }
             }
 
 
@@ -240,14 +273,17 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
                 display: flex;
                 flex-direction: column;
                 align-items: center;
+                min-height: 0; /* Allow children to shrink */
             }
 
             #boxes-con {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                flex-grow: 1;
+                flex: 1 1 auto;
                 width: 100%;
+                min-height: 0; /* Allow content to shrink if needed */
+                padding: 1rem 0;
             }
 
             #boxes {
@@ -299,6 +335,9 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
                 flex-direction: column;
                 display: flex;
                 align-items: center;
+                flex-shrink: 0; /* Prevent keyboard from shrinking */
+                margin-bottom: 1rem; /* Ensure space at bottom */
+                padding: 0.5rem;
             }
 
             .key {

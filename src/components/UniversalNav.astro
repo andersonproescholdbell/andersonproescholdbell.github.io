@@ -19,12 +19,14 @@ const {
 </nav>
 
 <style>
+  @import '/src/styles/nav-heights.css';
+  
   .universal-nav {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    height: 2rem; /* Based on text height + padding */
+    height: var(--nav-height-desktop); /* Use centralized variable */
     background-color: rgba(17, 24, 39, 0.95); /* bg-gray-900 with transparency */
     backdrop-filter: blur(8px);
     border-bottom: 1px solid rgba(55, 65, 81, 0.3); /* subtle border */
@@ -66,7 +68,7 @@ const {
   /* Mobile responsiveness */
   @media (max-width: 768px) {
     .universal-nav {
-      height: 1.5rem; /* Slightly smaller on mobile */
+      height: var(--nav-height-mobile); /* Use centralized mobile variable */
     }
 
     .universal-nav-container {

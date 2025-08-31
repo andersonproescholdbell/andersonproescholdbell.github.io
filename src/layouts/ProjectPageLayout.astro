@@ -65,6 +65,8 @@ import UniversalNav from '../components/UniversalNav.astro';
     </main>
     
     <style>
+      @import '/src/styles/nav-heights.css';
+      
       /* Base body styles */
       body {
         margin: 0;
@@ -77,15 +79,15 @@ import UniversalNav from '../components/UniversalNav.astro';
 
       /* Ensure main content doesn't overlap with fixed nav */
       .project-main {
-        height: calc(100vh - 3.5rem);
-        padding-top: 3.5rem; /* Match nav height to prevent overlap */
+        height: var(--content-height-desktop);
+        padding-top: var(--nav-height-desktop); /* Match nav height to prevent overlap */
       }
 
       /* Mobile adjustments */
       @media (max-width: 768px) {
         .project-main {
-          height: calc(100vh - 3rem);
-          padding-top: 3rem; /* Match mobile nav height */
+          height: var(--content-height-mobile);
+          padding-top: var(--nav-height-mobile); /* Match mobile nav height */
         }
       }
 
