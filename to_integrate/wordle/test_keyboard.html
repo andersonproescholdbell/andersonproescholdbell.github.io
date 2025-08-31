@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Keyboard State Test</title>
+    <style>
+        .key { 
+            background-color: rgb(80, 80, 80); 
+            color: white; 
+            padding: 10px; 
+            margin: 5px; 
+            border: none; 
+            border-radius: 5px;
+        }
+        .key-correct { background-color: rgb(6, 139, 6); }
+        .key-present { background-color: rgb(192, 137, 34); }
+        .key-absent { background-color: rgb(22, 22, 22); }
+    </style>
+</head>
+<body>
+    <h1>Keyboard Hierarchy Test</h1>
+    
+    <div>
+        <p>Letter A: <button class="key" data-key="a" id="key-a">A</button></p>
+        <p>Letter B: <button class="key" data-key="b" id="key-b">B</button></p>
+        <p>Letter C: <button class="key" data-key="c" id="key-c">C</button></p>
+    </div>
+    
+    <div>
+        <button onclick="testHierarchy()">Test Hierarchy</button>
+        <button onclick="resetKeys()">Reset</button>
+    </div>
+    
+    <div id="log"></div>
+
+    <script>
+        function updateKeyboardState(letter, status) {
+            const keyElement = document.querySelector(`button[data-key="${letter.toLowerCase()}"]`);
+            if (!keyElement) return;
+            
+            // Check current state - hierarchy: correct > present > absent
+            const hasCorrect = keyElement.classList.contains('key-correct');
+            const hasPresent = keyElement.classList.contains('key-present');
+            
+            // Remove all keyboard state classes first
+            keyElement.classList.remove('key-correct', 'key-present', 'key-absent', 'unusable');
+            
+            if (status === 'correct') {
+                // Green always overrides any previous state
+                keyElement.classList.add('key-correct');
+            } else if (status === 'present') {
+                // Yellow only applies if not already green
+                if (!hasCorrect) {
+                    keyElement.classList.add('key-present');
+                } else {
+                    // Restore green state
+                    keyElement.classList.add('key-correct');
+                }
+            } else if (status === 'absent') {
+                // Dark grey only applies if not already green or yellow
+                if (!hasCorrect && !hasPresent) {
+                    keyElement.classList.add('key-absent');
+                } else {
+                    // Restore previous state
+                    if (hasCorrect) {
+                        keyElement.classList.add('key-correct');
+                    } else if (hasPresent) {
+                        keyElement.classList.add('key-present');
+                    }
+                }
+            }
+        }
+        
+        function log(message) {
+            document.getElementById('log').innerHTML += '<p>' + message + '</p>';
+        }
+        
+        function resetKeys() {
+            ['a', 'b', 'c'].forEach(letter => {
+                const key = document.querySelector(`[data-key="${letter}"]`);
+                key.classList.remove('key-correct', 'key-present', 'key-absent');
+            });
+            document.getElementById('log').innerHTML = '';
+        }
+        
+        function testHierarchy() {
+            document.getElementById('log').innerHTML = '<h3>Testing Hierarchy...</h3>';
+            
+            // Test 1: A goes absent -> present -> correct (should end up correct)
+            log('A: absent -> present -> correct');
+            updateKeyboardState('a', 'absent');
+            log('A after absent: ' + document.getElementById('key-a').className);
+            updateKeyboardState('a', 'present');
+            log('A after present: ' + document.getElementById('key-a').className);
+            updateKeyboardState('a', 'correct');
+            log('A after correct: ' + document.getElementById('key-a').className);
+            
+            // Test 2: B goes correct -> present (should stay correct)
+            log('<br>B: correct -> present (should stay correct)');
+            updateKeyboardState('b', 'correct');
+            log('B after correct: ' + document.getElementById('key-b').className);
+            updateKeyboardState('b', 'present');
+            log('B after present attempt: ' + document.getElementById('key-b').className);
+            
+            // Test 3: C goes present -> absent (should stay present)
+            log('<br>C: present -> absent (should stay present)');
+            updateKeyboardState('c', 'present');
+            log('C after present: ' + document.getElementById('key-c').className);
+            updateKeyboardState('c', 'absent');
+            log('C after absent attempt: ' + document.getElementById('key-c').className);
+        }
+    </script>
+</body>
+</html>

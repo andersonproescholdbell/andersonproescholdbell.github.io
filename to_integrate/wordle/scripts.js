@@ -155,11 +155,15 @@ async function submit(length, word) {
     for (var i = 0; i < length; i++) {;
         if (!word.includes(guess[i])) {
             changeable[i].classList.add('incorrect');
-            document.querySelector(`button[data-key="${guess[i]}"]`).classList.add('unusable');
+            updateKeyboardState(guess[i], 'absent');
         } else if (word[i] === guess[i]) {
             changeable[i].classList.add('correct');
+            updateKeyboardState(guess[i], 'correct');
         } else {
             (allCorrect(word, guess)[guess[i]]) ? changeable[i].classList.add('incorrect') : changeable[i].classList.add('partial');
+            if (!allCorrect(word, guess)[guess[i]]) {
+                updateKeyboardState(guess[i], 'present');
+            }
         }
     }
     
@@ -192,6 +196,43 @@ function allCorrect(word, guess) {
     }
 
     return correct;
+}
+
+function updateKeyboardState(letter, status) {
+    const keyElement = document.querySelector(`button[data-key="${letter.toLowerCase()}"]`);
+    if (!keyElement) return;
+    
+    // Check current state - hierarchy: correct > present > absent
+    const hasCorrect = keyElement.classList.contains('key-correct');
+    const hasPresent = keyElement.classList.contains('key-present');
+    
+    // Remove all keyboard state classes first
+    keyElement.classList.remove('key-correct', 'key-present', 'key-absent', 'unusable');
+    
+    if (status === 'correct') {
+        // Green always overrides any previous state
+        keyElement.classList.add('key-correct');
+    } else if (status === 'present') {
+        // Yellow only applies if not already green
+        if (!hasCorrect) {
+            keyElement.classList.add('key-present');
+        } else {
+            // Restore green state
+            keyElement.classList.add('key-correct');
+        }
+    } else if (status === 'absent') {
+        // Dark grey only applies if not already green or yellow
+        if (!hasCorrect && !hasPresent) {
+            keyElement.classList.add('key-absent');
+        } else {
+            // Restore previous state
+            if (hasCorrect) {
+                keyElement.classList.add('key-correct');
+            } else if (hasPresent) {
+                keyElement.classList.add('key-present');
+            }
+        }
+    }
 }
 
 function back() {

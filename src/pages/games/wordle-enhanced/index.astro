@@ -1,6 +1,7 @@
 ---
 // Enhanced Wordle - faithful port of AKordle
 import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
+import { Settings, HelpCircle } from 'lucide-astro';
 ---
 
 <ProjectPageLayout 
@@ -8,449 +9,436 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
   description="Enhanced Wordle with advanced features"
 >
   <style>
-            @import '/src/styles/nav-heights.css';
-            
-            /* AKordle styles will be inserted here */
-            :root {
-                --rows: 6;
-                --cols: 5;
-                --box-gap: 0.25rem;        /* Gap between boxes in a row */
-                --row-gap: 0.5rem;         /* Gap between rows */
-                --container-padding: 1rem; /* Container padding */
-            }
+    @import '/src/styles/nav-heights.css';
+    
+    /* AKordle styles will be inserted here */
+    :root {
+        --rows: 6;
+        --cols: 5;
+        --box-gap: 0.25rem;        /* Gap between boxes in a row */
+        --row-gap: 0.5rem;         /* Gap between rows */
+        --container-padding: 1rem; /* Container padding */
+    }
 
-            * {
-                box-sizing: border-box;
-            } 
+    * {
+        box-sizing: border-box;
+    } 
 
-            html, body {
-                margin: 0;
-                padding: 0;
-                width: 100%;
-                height: 100vh;
-                background-color: #121213;
-            }
+    html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: #121213;
+    }
 
-            #main {
-                margin: 0;
-                padding: 0;
-                width: 100%;
-                height: 100%;
-                background-color: #121213;
-                overflow-x: hidden; /* Only hide horizontal overflow */
-                overflow-y: auto; /* Allow vertical scrolling if needed */
-            }
+    #main {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #121213;
+        overflow-x: hidden; /* Only hide horizontal overflow */
+        overflow-y: auto; /* Allow vertical scrolling if needed */
+    }
 
-            /* Mobile adjustment for smaller nav */
-            @media (max-width: 768px) {
-                #main {
-                    /* Height inherits from parent - no override needed */
-                }
-            }
+    /* Mobile adjustment for smaller nav */
+    @media (max-width: 768px) {
+        #main {
+            /* Height inherits from parent - no override needed */
+        }
+    }
 
-            /* Very small screens - ensure keyboard is always accessible */
-            @media only screen and (max-height: 600px) {
-                #main {
-                    overflow-y: auto; /* Enable scrolling on very small screens */
-                }
-                
-                #boxes-con {
-                    padding: 0.5rem 0; /* Reduce padding on small screens */
-                }
-                
-                #keyboard {
-                    margin-bottom: 0.5rem; /* Smaller margin on small screens */
-                }
-            }
+    /* Very small screens - ensure keyboard is always accessible */
+    @media only screen and (max-height: 600px) {
+        #main {
+            overflow-y: auto; /* Enable scrolling on very small screens */
+        }
+        
+        #boxes-con {
+            padding: 0.5rem 0; /* Reduce padding on small screens */
+        }
+        
+        #keyboard {
+            margin-bottom: 0.5rem; /* Smaller margin on small screens */
+        }
+    }
 
 
-            /* Simplified header for static version */
-            header.row {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 10px 20px;
-                background-color: #121213;
-                color: white;
-                border-bottom: 1px solid #3a3a3c;
-                height: 60px;
-                position: relative;
-                z-index: 1000;
-            }
+    /* Simplified header for static version */
+    header.row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: #121213;
+        color: white;
+        border-bottom: 1px solid #3a3a3c;
+        height: 60px;
+        position: relative;
+        z-index: 1000;
+    }
 
-            #left, #right {
-                display: flex;
-                flex-direction: row;
-                gap: 15px;
-                z-index: 1100;
-                position: relative;
-            }
+    #left, #right {
+        display: flex;
+        flex-direction: row;
+        gap: 15px;
+        z-index: 1100;
+        position: relative;
+    }
 
-            #left img, #right img {
-                width: 24px;
-                height: 24px;
-                cursor: pointer;
-                opacity: 0.8;
-            }
+    #left img, #right img {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        opacity: 0.8;
+    }
 
-            #left img:hover, #right img:hover {
-                opacity: 1;
-            }
+    #left img:hover, #right img:hover {
+        opacity: 1;
+    }
 
-            .settings-btn {
-                background: none;
-                border: none;
-                cursor: pointer;
-                padding: 0;
-                z-index: 1200;
-                position: relative;
-            }
+    .settings-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        z-index: 1200;
+        position: relative;
+    }
 
-            #site {
-                color: white;
-                margin: 0;
-                font-size: 2rem;
-                font-weight: bold;
-                text-align: center;
-            }
+    #site {
+        color: white;
+        margin: 0;
+        font-size: 2rem;
+        font-weight: bold;
+        text-align: center;
+    }
 
-            #panel {
-                display: none;
-                position: absolute;
-                top: 60px;
-                left: 20px;
-                background-color: #232323;
-                border: 1px solid #3a3a3c;
-                border-radius: 5px;
-                padding: 20px;
-                flex-direction: column;
-                gap: 15px;
-                color: white;
-                z-index: 1300;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-            }
+    #panel {
+        display: none;
+        position: absolute;
+        top: 60px;
+        left: 20px;
+        background-color: #232323;
+        border: 1px solid #3a3a3c;
+        border-radius: 5px;
+        padding: 20px;
+        flex-direction: column;
+        gap: 15px;
+        color: white;
+        z-index: 1300;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
 
-            #panel.show {
-                display: flex;
-            }
+    #panel.show {
+        display: flex;
+    }
 
-            /* Continue with AKordle CSS... */
-            
-            /* Media queries for responsive design */
-            @media only screen and (min-width: 1000px) {
-                #boxes-con {
-                    width: 600px;
-                }
+    /* Continue with AKordle CSS... */
+    
+    /* Media queries for responsive design */
+    @media only screen and (min-width: 1000px) {
+        #boxes-con {
+            width: 600px;
+        }
 
-                #keyboard {
-                    max-width: 800px;
-                    width: 100%;
-                }
-            }
+        #keyboard {
+            max-width: 800px;
+            width: 100%;
+        }
+    }
 
-            .row {
-                display: flex;
-                flex-direction: row;
-                width: 100%;
-                margin: initial;
-            }
+    .row {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        margin: initial;
+    }
 
-            .row > * {
-                width: initial;
-                padding: initial;
-            }
+    .row > * {
+        width: initial;
+        padding: initial;
+    }
 
-            .center {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
+    .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-            .flex-1 {
-                display: flex;
-                flex: 1;
-            }
+    .flex-1 {
+        display: flex;
+        flex: 1;
+    }
 
-            #main {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                min-height: 0; /* Allow children to shrink */
-            }
+    #main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 0; /* Allow children to shrink */
+    }
 
-            #boxes-con {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                flex: 1 1 auto;
-                width: 100%;
-                min-height: 0; /* Allow content to shrink if needed */
-                padding: var(--container-padding) 0;
-            }
+    #boxes-con {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex: 1 1 auto;
+        width: 100%;
+        min-height: 0; /* Allow content to shrink if needed */
+        padding: var(--container-padding) 0;
+    }
 
-            #boxes {
-                width: 100%;
-                height: 100%;
-                flex-direction: column;
-                align-items: center;
-                gap: var(--row-gap);
-                display: flex;
-            }
+    #boxes {
+        width: 100%;
+        height: 100%;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--row-gap);
+        display: flex;
+    }
 
-            div.row {
-                justify-content: center;
-                gap: var(--box-gap);
-                flex: 1 1 0;
-                align-items: center;
-            }
+    div.row {
+        justify-content: center;
+        gap: var(--box-gap);
+        flex: 1 1 0;
+        align-items: center;
+    }
 
-            .box {
-                box-sizing: border-box;
-                border: 2px solid #3a3a3c;
-                background-color: #121213;
-                aspect-ratio: 1;
-                height: 90%;
-                max-height: calc((100vw - var(--box-gap) * (var(--cols) - 1)) / var(--cols));
-                margin: 0;
-                text-align: center;
-                font-weight: bold;
-                font-size: clamp(1.5rem, min(5vw, 5vh), 3rem);
-                color: white;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                text-transform: uppercase;
-                transition: all 0.15s ease;
-                flex: none;
-            }
+    .box {
+        box-sizing: border-box;
+        border: 2px solid #3a3a3c;
+        background-color: #121213;
+        aspect-ratio: 1;
+        height: 90%;
+        max-height: calc((100vw - var(--box-gap) * (var(--cols) - 1)) / var(--cols));
+        margin: 0;
+        text-align: center;
+        font-weight: bold;
+        font-size: clamp(1.5rem, min(5vw, 5vh), 3rem);
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-transform: uppercase;
+        transition: all 0.15s ease;
+        flex: none;
+    }
 
-            /* Box states */
-            .box.filled:not(.final) {
-                background-color: #1a1a1b;
-                border-color: #565758;
-                color: white;
-            }
+    /* Box states */
+    .box.filled:not(.final) {
+        background-color: #1a1a1b;
+        border-color: #565758;
+        color: white;
+    }
 
-            #keyboard {
-                flex-direction: column;
-                display: flex;
-                align-items: center;
-                flex-shrink: 0; /* Prevent keyboard from shrinking */
-                margin-bottom: 1rem; /* Ensure space at bottom */
-                padding: 0.5rem;
-                width: 100%;
-                max-width: 600px;
-            }
+    #keyboard {
+        flex-direction: column;
+        display: flex;
+        align-items: center;
+        flex-shrink: 0; /* Prevent keyboard from shrinking */
+        margin-bottom: 1rem; /* Ensure space at bottom */
+        padding: 0.5rem;
+        width: 100%;
+        max-width: 600px;
+    }
 
-            .key {
-                flex: 1;
-                font-weight: bold;
-                border-radius: 5px;
-                text-align: center;
-                background-color: rgb(90, 90, 90);
-                margin: 2px;
-                border: 0;
-                color: white;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 1rem;
-                height: clamp(30px, 6vh, 96px);
-            }
+    .key {
+        flex: 1;
+        font-weight: bold;
+        border-radius: 5px;
+        text-align: center;
+        background-color: rgb(90, 90, 90);
+        margin: 2px;
+        border: 0;
+        color: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        height: clamp(30px, 6vh, 96px);
+    }
 
-            .spacer {
-                flex: 0.5;
-            }
+    .spacer {
+        flex: 0.5;
+    }
 
-            .flex-1-5 {
-                flex: 1.5;
-                font-size: 12px;
-            }
+    .flex-1-5 {
+        flex: 1.5;
+        font-size: 12px;
+    }
 
-            .key:hover {
-                filter: brightness(110%);
-            }
+    .key:hover {
+        filter: brightness(110%);
+    }
 
-            /* Keyboard color states */
-            .key.grey {
-                background-color: #787c7e;
-                color: white;
-            }
+    /* Keyboard color states */
+    .key.grey {
+        background-color: #3a3a3c;
+        color: white;
+    }
 
-            .key.orange {
-                background-color: #c9b458;
-                color: white;
-            }
+    .key.orange {
+        background-color: #c9b458;
+        color: white;
+    }
 
-            .key.green {
-                background-color: #6aaa64;
-                color: white;
-            }
+    .key.green {
+        background-color: #6aaa64;
+        color: white;
+    }
 
-            .box.final {
-                border-color: transparent;
-                color: white;
-                font-weight: bold;
-            }
+    .box.final {
+        border-color: transparent;
+        color: white;
+        font-weight: bold;
+    }
 
-            .box.grey {
-                background-color: #787c7e;
-                border-color: #787c7e;
-                color: white;
-            }
+    .box.grey {
+        background-color: #787c7e;
+        border-color: #787c7e;
+        color: white;
+    }
 
-            .box.orange {
-                background-color: #c9b458;
-                border-color: #c9b458;
-                color: white;
-            }
+    .box.orange {
+        background-color: #c9b458;
+        border-color: #c9b458;
+        color: white;
+    }
 
-            .box.green {
-                background-color: #6aaa64;
-                border-color: #6aaa64;
-                color: white;
-            }
+    .box.green {
+        background-color: #6aaa64;
+        border-color: #6aaa64;
+        color: white;
+    }
 
-            #winPanel {
-                display: none;
-                position: absolute;
-                top: 35%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                background-color: #232323;
-                opacity: 97%;
-                flex-direction: column;
-                border-radius: 5%;
-                padding: 20px;
-                color: white;
-                text-align: center;
-                border: 2px solid #949494;
-                align-items: center;
-                z-index: 2000;
-            }
+    #winPanel {
+        display: none;
+        position: absolute;
+        top: 35%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #232323;
+        opacity: 97%;
+        flex-direction: column;
+        border-radius: 5%;
+        padding: 20px;
+        color: white;
+        text-align: center;
+        border: 2px solid #949494;
+        align-items: center;
+        z-index: 2000;
+    }
 
-            #winPanel h2, #winPanel h3 {
-                margin: 10px 0;
-            }
+    #winPanel h2, #winPanel h3 {
+        margin: 10px 0;
+    }
 
-            .btn {
-                padding: 8px 16px;
-                margin: 5px;
-                border: none;
-                border-radius: 4px;
-                cursor: pointer;
-                font-size: 14px;
-            }
+    .btn {
+        padding: 8px 16px;
+        margin: 5px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+    }
 
-            .btn-light {
-                background-color: #f8f9fa;
-                color: #212529;
-            }
+    .btn-light {
+        background-color: #f8f9fa;
+        color: #212529;
+    }
 
-            .btn-primary {
-                background-color: #0d6efd;
-                color: white;
-            }
+    .btn-primary {
+        background-color: #0d6efd;
+        color: white;
+    }
 
-            .btn:hover {
-                filter: brightness(110%);
-            }
+    .btn:hover {
+        filter: brightness(110%);
+    }
 
-            .d-flex {
-                display: flex;
-            }
+    .d-flex {
+        display: flex;
+    }
 
-            .flex-row {
-                flex-direction: row;
-            }
+    .flex-row {
+        flex-direction: row;
+    }
 
-            .m-2 {
-                margin: 8px;
-            }
+    .m-2 {
+        margin: 8px;
+    }
 
-            .text-center {
-                text-align: center;
-            }
+    .text-center {
+        text-align: center;
+    }
 
-            .mb-0 {
-                margin-bottom: 0;
-            }
+    .mb-0 {
+        margin-bottom: 0;
+    }
 
-            #rangeLength {
-                color: white;
-                font-size: 14px;
-            }
+    #rangeLength {
+        color: white;
+        font-size: 14px;
+    }
 
-            #range {
-                width: 100%;
-                margin: 10px 0;
-            }
+    #range {
+        width: 100%;
+        margin: 10px 0;
+    }
+    </style>
 
-            /* Settings button styling consolidated above */
-        </style>
+    <div id="main">
+        <!-- Simplified header without PHP -->
+        <header class="row">
+            <div id="left" class="d-flex flex-row">
+                <button class="settings-btn" id="settings">
+                    <Settings size={24} stroke="white" strokeWidth={2} />
+                </button>
 
-  <div id="main">
-            <!-- Simplified header without PHP -->
-            <header class="row">
-                <div id="left" class="d-flex flex-row">
-                    <button class="settings-btn" id="settings">
-                        <!-- Settings SVG -->
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                            <circle cx="12" cy="12" r="3"></circle>
-                            <path d="m12 1 0 6m0 6 0 6"></path>
-                            <path d="m15.4 6a9 9 0 0 1 0 12"></path>
-                            <path d="m8.6 6a9 9 0 0 0 0 12"></path>
-                        </svg>
-                    </button>
-
-                    <button class="settings-btn" id="hint">
-                        <!-- Question SVG -->
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <path d="m9,9a3,3 0 1,1 6,0c0,2 -3,3 -3,3"></path>
-                            <path d="m12 17 .01 0"></path>
-                        </svg>
-                    </button>
-                </div>
-                
-                <h1 id="site">Enhanced Wordle</h1>
-                
-                <div id="right" class="d-flex flex-row">
-                    <button class="settings-btn" id="stats">
-                        <!-- Stats SVG -->
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                            <path d="M3 3v18h18"></path>
-                            <path d="m19 9-5 5-4-4-3 3"></path>
-                        </svg>
-                    </button>
-                </div>
-            </header>
-
-            <div id="panel" class="flex-column">
-                <p id="rangeLength" class="text-center mb-0">Word Length - 5</p>
-                <input type="range" id="range" min="3" max="8" step="1" value="5">
-                <button id="newGame" class="btn btn-primary">Start New Game</button>
+                <button class="settings-btn" id="hint">
+                    <HelpCircle size={24} stroke="white" strokeWidth={2} />
+                </button>
             </div>
-
-            <div id="boxes-con">
-                <div id="boxes"></div>
+            
+            <h1 id="site">Enhanced Wordle</h1>
+            
+            <div id="right" class="d-flex flex-row">
+                <button class="settings-btn" id="stats">
+                    <!-- Stats SVG -->
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <path d="M3 3v18h18"></path>
+                        <path d="m19 9-5 5-4-4-3 3"></path>
+                    </svg>
+                </button>
             </div>
+        </header>
 
-            <div id="keyboard"></div>
+        <div id="panel" class="flex-column">
+            <p id="rangeLength" class="text-center mb-0">Word Length - 5</p>
+            <input type="range" id="range" min="3" max="8" step="1" value="5">
+            <button id="newGame" class="btn btn-primary">Start New Game</button>
         </div>
 
-        <div id="winPanel">
-            <h2 id="winPanelText"></h2>
-            <h3 id="winPanelWord"></h3>
-            <h3 id="winPanelScore"></h3>
-            <div class="d-flex flex-row">
-                <button id="hideWinPanel" class="btn btn-light m-2">Hide Panel</button>
-                <button id="newGame2" class="btn btn-primary m-2">Start New Game</button>
-            </div>
+        <div id="boxes-con">
+            <div id="boxes"></div>
         </div>
 
-        <script type="module">
+        <div id="keyboard"></div>
+    </div>
+
+    <div id="winPanel">
+        <h2 id="winPanelText"></h2>
+        <h3 id="winPanelWord"></h3>
+        <h3 id="winPanelScore"></h3>
+        <div class="d-flex flex-row">
+            <button id="hideWinPanel" class="btn btn-light m-2">Hide Panel</button>
+            <button id="newGame2" class="btn btn-primary m-2">Start New Game</button>
+        </div>
+    </div>
+
+    <script type="module">
         // Import the refactored modules
         import { DOMHelper } from '/scripts/wordle-enhanced/dom-helper.js';
         import { AnimationController } from '/scripts/wordle-enhanced/animation-controller.js';
@@ -526,6 +514,6 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
             });
         }
 
-        </script>
-  </div>
+    </script>
+    </div>
 </ProjectPageLayout>

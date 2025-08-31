@@ -115,3 +115,15 @@ html, body {
 .unusable {
     background-color: rgb(22, 22, 22);
 }
+
+.key-correct {
+    background-color: rgb(6, 139, 6);
+}
+
+.key-present {
+    background-color: rgb(192, 137, 34);
+}
+
+.key-absent {
+    background-color: rgb(22, 22, 22);
+}

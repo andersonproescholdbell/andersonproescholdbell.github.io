@@ -79,21 +79,83 @@ export class AnimationController {
     }
 
     /**
-     * Updates keyboard colors based on tile states
+     * Updates keyboard colors based on tile states with proper hierarchy
      */
     updateKeyboard() {
-        const stateClasses = [TILE_STATE.ABSENT, TILE_STATE.PRESENT, TILE_STATE.CORRECT];
+        // Process all tiles and collect keyboard state information
+        const keyboardStates = new Map();
         
-        for (const className of stateClasses) {
-            const tiles = document.querySelectorAll(`.${className}`);
-            for (const tile of tiles) {
-                const letter = tile.textContent.toUpperCase();
-                const key = document.querySelector(`[data-key="${letter}"]`);
-                
-                if (key && !this.domHelper.hasClass(key, className)) {
-                    this.domHelper.addClasses(key, className);
-                }
+        // Collect all tile states for each letter
+        const tiles = document.querySelectorAll('.box.final');
+        console.log(`🎹 Updating keyboard based on ${tiles.length} final tiles`);
+        
+        for (const tile of tiles) {
+            const letter = tile.textContent.toUpperCase();
+            if (!letter) continue;
+            
+            let state = null;
+            if (this.domHelper.hasClass(tile, TILE_STATE.CORRECT)) {
+                state = 'correct';
+            } else if (this.domHelper.hasClass(tile, TILE_STATE.PRESENT)) {
+                state = 'present';
+            } else if (this.domHelper.hasClass(tile, TILE_STATE.ABSENT)) {
+                state = 'absent';
             }
+            
+            if (state) {
+                this.updateKeyboardState(keyboardStates, letter, state);
+            }
+        }
+        
+        // Apply states to keyboard keys
+        for (const [letter, state] of keyboardStates) {
+            // Keys are created with UPPERCASE data-key attributes
+            const key = document.querySelector(`[data-key="${letter.toUpperCase()}"]`);
+            
+            if (key) {
+                this.applyKeyboardState(key, state);
+            } else {
+                console.warn(`❌ Key not found for letter "${letter}"`);
+            }
+        }
+    }
+    
+    /**
+     * Updates keyboard state map with hierarchy enforcement
+     * @param {Map} stateMap - Map of letter to keyboard state
+     * @param {string} letter - Letter to update
+     * @param {string} newState - New state to apply
+     */
+    updateKeyboardState(stateMap, letter, newState) {
+        const currentState = stateMap.get(letter);
+        
+        // Hierarchy: correct > present > absent
+        if (!currentState || 
+            (newState === 'correct') ||
+            (newState === 'present' && currentState !== 'correct')) {
+            stateMap.set(letter, newState);
+        }
+    }
+    
+    /**
+     * Applies keyboard state to a key element
+     * @param {HTMLElement} key - Key element
+     * @param {string} state - State to apply ('correct', 'present', 'absent')
+     */
+    applyKeyboardState(key, state) {
+        // Remove all keyboard state classes
+        this.domHelper.removeClasses(key, TILE_STATE.CORRECT, TILE_STATE.PRESENT, TILE_STATE.ABSENT);
+        
+        // Apply the appropriate state class
+        if (state === 'correct') {
+            this.domHelper.addClasses(key, TILE_STATE.CORRECT);
+            console.log(`🟢 Key "${key.textContent}" -> GREEN`);
+        } else if (state === 'present') {
+            this.domHelper.addClasses(key, TILE_STATE.PRESENT);
+            console.log(`🟡 Key "${key.textContent}" -> ORANGE`);
+        } else if (state === 'absent') {
+            this.domHelper.addClasses(key, TILE_STATE.ABSENT);
+            console.log(`⚫ Key "${key.textContent}" -> GREY`);
         }
     }
 
