@@ -387,13 +387,7 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
                 margin: 10px 0;
             }
 
-            /* Simple button styling for settings */
-            .settings-btn {
-                background: none;
-                border: none;
-                cursor: pointer;
-                padding: 0;
-            }
+            /* Settings button styling consolidated above */
         </style>
 
   <div id="main">
@@ -456,568 +450,82 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
             </div>
         </div>
 
-        <script>
-        // Dictionary setup
-        let wordDict = [];
+        <script type="module">
+        // Import the refactored modules
+        import { DOMHelper } from '/scripts/wordle-enhanced/dom-helper.js';
+        import { AnimationController } from '/scripts/wordle-enhanced/animation-controller.js';
+        import { GameController } from '/scripts/wordle-enhanced/game-controller.js';
         
-        // Game state variables
-        let currentGame = null;
-        let gameStats = null;
-
-        // Dictionary loading function
-        async function loadDictionary() {
-            try {
-                const response = await fetch('/scripts/english-short.txt');
-                if (!response.ok) {
-                    throw new Error(`Failed to load dictionary: ${response.status}`);
-                }
-                const text = await response.text();
-                wordDict = text.trim().split('\n').map(word => word.trim().toLowerCase()).filter(word => word.length > 0);
-                console.log(`Loaded ${wordDict.length} words from dictionary`);
-                return wordDict;
-            } catch (error) {
-                console.error('Error loading dictionary:', error);
-                // Fallback to a basic set of words
-                wordDict = ['hello', 'world', 'games', 'words', 'plays'];
-                return wordDict;
-            }
-        }
-
-        // Faithful port of AKordle game logic
-        function createRows(rows, cols) {
-            const boxes = document.getElementById('boxes');
-            boxes.innerHTML = ''; // Clear existing
-            
-            // Get the scoped attribute from the parent element
-            const scopedAttr = boxes.getAttribute('data-astro-cid-lku4ukpp') !== null ? 'data-astro-cid-lku4ukpp' : null;
-            
-            for (let i = 0; i < rows; i++) {
-                let r = document.createElement('div');
-                r.className = 'row';
-                if (scopedAttr) r.setAttribute(scopedAttr, '');
-                
-                for (let j = 0; j < cols; j++) {
-                    let box = document.createElement('div');
-                    box.className = 'box';
-                    if (scopedAttr) box.setAttribute(scopedAttr, '');
-                    r.appendChild(box);
-                }
-                boxes.appendChild(r);
-            }
-        }
-
-        function createKey(l) {
-            let key = document.createElement('button');
-            key.className = 'key';
-            key.innerHTML = l;
-            key.setAttribute('data-key', l);
-            
-            // Add scoped attribute for Astro CSS
-            const keyboard = document.getElementById('keyboard');
-            const scopedAttr = keyboard.getAttribute('data-astro-cid-lku4ukpp') !== null ? 'data-astro-cid-lku4ukpp' : null;
-            if (scopedAttr) key.setAttribute(scopedAttr, '');
-            
-            return key;
-        }
-
-        function createEnter() {
-            let enter = document.createElement('button');
-            enter.className = 'key flex-1-5';
-            enter.innerHTML = 'ENTER';
-            enter.setAttribute('data-func', 'enter');
-            enter.addEventListener('click', submitGuess);
-            
-            // Add scoped attribute for Astro CSS
-            const keyboard = document.getElementById('keyboard');
-            const scopedAttr = keyboard.getAttribute('data-astro-cid-lku4ukpp') !== null ? 'data-astro-cid-lku4ukpp' : null;
-            if (scopedAttr) enter.setAttribute(scopedAttr, '');
-            
-            return enter;
-        }
-
-        function createBack() {
-            let back = document.createElement('button');
-            back.className = 'key flex-1-5';
-            back.innerHTML = 'BACK';
-            back.setAttribute('data-func', 'back');
-            back.addEventListener('click', removeLetter);
-            
-            // Add scoped attribute for Astro CSS
-            const keyboard = document.getElementById('keyboard');
-            const scopedAttr = keyboard.getAttribute('data-astro-cid-lku4ukpp') !== null ? 'data-astro-cid-lku4ukpp' : null;
-            if (scopedAttr) back.setAttribute(scopedAttr, '');
-            
-            return back;
-        }
-
-        function createKeys(s, spaces, functions) {
-            let row = document.createElement('div');
-            row.className = 'row flex-1';
-            
-            // Add scoped attribute for Astro CSS
-            const keyboard = document.getElementById('keyboard');
-            const scopedAttr = keyboard.getAttribute('data-astro-cid-lku4ukpp') !== null ? 'data-astro-cid-lku4ukpp' : null;
-            if (scopedAttr) row.setAttribute(scopedAttr, '');
-            
-            if (spaces) {
-                let spacer = document.createElement('div');
-                spacer.className = 'spacer';
-                if (scopedAttr) spacer.setAttribute(scopedAttr, '');
-                row.appendChild(spacer);
-            }
-            
-            if (functions) row.appendChild(createEnter());
-
-            for (let l of s) {
-                let key = createKey(l);
-                key.addEventListener('click', () => addLetter(l));
-                row.appendChild(key);
-            }
-
-            if (functions) row.appendChild(createBack());
-            
-            if (spaces) {
-                let spacer = document.createElement('div');
-                spacer.className = 'spacer';
-                if (scopedAttr) spacer.setAttribute(scopedAttr, '');
-                row.appendChild(spacer);
-            }
-
-            document.getElementById('keyboard').appendChild(row);
-        }
-
-        function createKeyboard() {
-            const keyboard = document.getElementById('keyboard');
-            keyboard.innerHTML = ''; // Clear existing
-            
-            createKeys('QWERTYUIOP', false);
-            createKeys('ASDFGHJKL', true);
-            createKeys('ZXCVBNM', false, true);
-        }
-
-        function updateRowsCols(rows, cols) {
-            document.documentElement.style.setProperty('--cols', cols);
-            document.documentElement.style.setProperty('--rows', rows);
-        }
-
-        function getRows() {
-            return parseInt(getComputedStyle(document.documentElement).getPropertyValue('--rows')) || 6;
-        }
-
-        function getCols() {
-            return parseInt(getComputedStyle(document.documentElement).getPropertyValue('--cols')) || 5;
-        }
-
-        function addLetter(letter) {
-            if (typeof letter !== 'string') {
-                letter = letter.getAttribute('data-key');
-            }
-            
-            const filled = document.querySelectorAll('.filled');
-            const final = document.querySelectorAll('.final');
-            
-            if (filled.length - final.length < getCols()) {
-                const boxes = document.querySelectorAll('.box');
-                boxes[filled.length].textContent = letter;
-                boxes[filled.length].classList.add('filled');
-            }
-        }
-
-        function removeLetter() {
-            const filled = document.querySelectorAll('.filled');
-            const final = document.querySelectorAll('.final');
-            
-            if (filled.length > final.length) {
-                const lastFilled = filled[filled.length - 1];
-                lastFilled.textContent = '';
-                lastFilled.classList.remove('filled');
-            }
-        }
-
-        function getGuess() {
-            const filled = document.querySelectorAll('.filled');
-            const final = document.querySelectorAll('.final');
-            
-            let guess = '';
-            for (let i = final.length; i < filled.length; i++) {
-                guess += filled[i].textContent;
-            }
-            return guess.toLowerCase();
-        }
-
-        function updateTile(className) {
-            const filled = document.querySelectorAll('.filled');
-            const final = document.querySelectorAll('.final');
-            
-            if (filled.length > final.length) {
-                filled[final.length].classList.add(className);
-                filled[final.length].classList.add('final');
-            }
-        }
-
-        function winPanel(data) {
-            const winPanelText = document.getElementById('winPanelText');
-            const winPanelWord = document.getElementById('winPanelWord');
-            const winPanelScore = document.getElementById('winPanelScore');
-            
-            if (data.over === 'win') {
-                winPanelText.textContent = `You WON in ${data.guesses} guesses`;
-                winPanelText.style.color = 'green';
-            } else {
-                winPanelText.textContent = `You LOST in ${data.guesses} guesses`;
-                winPanelText.style.color = 'red';
-            }
-
-            winPanelWord.textContent = `Correct word: ${data.word}`;
-            winPanelScore.textContent = `Score: ${data.score}`;
-
-            document.getElementById('winPanel').style.display = 'flex';
-        }
-
-        function updateKeyboard() {
-            for (let className of ['grey', 'orange', 'green']) {
-                const tiles = document.querySelectorAll(`.${className}`);
-                for (let tile of tiles) {
-                    const letter = tile.textContent.toUpperCase();
-                    const key = document.querySelector(`[data-key="${letter}"]`);
-                    if (key && !key.classList.contains(className)) {
-                        key.classList.add(className);
-                    }
-                }
-            }
-        }
-
-        function guessResponse(data) {
-            if (data.bad) {
-                alert("This word does not exist in the dictionary");
-                return;
-            }
-
-            const total = data.grey.length + data.orange.length + data.green.length;
-
-            if (data.over) {
-                disableInput();
-
-                setTimeout(() => {
-                    winPanel(data);
-                }, (total + 2) * 300);    
-            }
-
-            for (let i = 0; i < total; i++) {
-                if (data.grey.includes(i)) {
-                    setTimeout(() => updateTile('grey'), i * 300);
-                } else if (data.orange.includes(i)) {
-                    setTimeout(() => updateTile('orange'), i * 300);
-                } else if (data.green.includes(i)) {
-                    setTimeout(() => updateTile('green'), i * 300);
-                }
-
-                if (i === total - 1) {
-                    setTimeout(() => updateKeyboard(), i * 301);
-                }
-            }
-        }
-
-        function submitGuess() {
-            const filled = document.querySelectorAll('.filled');
-            const final = document.querySelectorAll('.final');
-            
-            if (filled.length - final.length === getCols()) {
-                const guess = getGuess();
-                
-                // Check if dictionary is loaded
-                if (wordDict.length === 0) {
-                    alert('Dictionary not loaded. Please wait or refresh the page.');
-                    return;
-                }
-                
-                if (!wordDict.includes(guess)) {
-                    guessResponse({ bad: true });
-                    return;
-                }
-
-                // Process guess
-                processGuess(guess);
-            }
-        }
-
-        function processGuess(guess) {
-            if (!currentGame || !currentGame.word) return;
-            
-            const word = currentGame.word;
-            const cols = getCols();
-            
-            let grey = [];
-            let orange = [];
-            let green = [];
-            
-            // More faithful Wordle algorithm
-            const letterCounts = {};
-            for (let char of word) {
-                letterCounts[char] = (letterCounts[char] || 0) + 1;
-            }
-            
-            // First pass: mark exact matches
-            const tempLetterCounts = { ...letterCounts };
-            for (let i = 0; i < cols; i++) {
-                if (word[i] === guess[i]) {
-                    green.push(i);
-                    tempLetterCounts[guess[i]]--;
-                }
-            }
-            
-            // Second pass: mark partial matches
-            for (let i = 0; i < cols; i++) {
-                if (word[i] !== guess[i]) { // Not exact match
-                    if (tempLetterCounts[guess[i]] > 0) {
-                        orange.push(i);
-                        tempLetterCounts[guess[i]]--;
-                    } else {
-                        grey.push(i);
-                    }
-                }
-            }
-            
-            // Save guess to game state
-            if (!currentGame.guesses) currentGame.guesses = [];
-            currentGame.guesses.push({
-                word: guess,
-                result: { grey, orange, green }
-            });
-            
-            const guessCount = currentGame.guesses.length;
-            const gameOver = guess === word || guessCount >= getRows();
-            const won = guess === word;
-            
-            const responseData = {
-                grey,
-                orange, 
-                green,
-                over: gameOver ? (won ? 'win' : 'loss') : false,
-                guesses: guessCount,
-                word: word,
-                score: won ? (getRows() - guessCount + 1) * 100 : 0
-            };
-            
-            if (gameOver) {
-                currentGame.completed = true;
-                updateStats(won);
-            }
-            saveGameState();
-            
-            guessResponse(responseData);
-        }
-
-        function enableInput() {
-            document.addEventListener('keyup', handleKeyPress);
-            
-            // Key click handlers are already added in createKeys
-        }
-
-        function disableInput() {
-            document.removeEventListener('keyup', handleKeyPress);
-        }
-
-        function handleKeyPress(e) {
-            if (e.code === 'Enter') {
-                submitGuess();
-            } else if (e.code === 'Backspace') {
-                removeLetter();
-            } else if (e.key.toLowerCase().match(/^[a-z]$/)) {
-                addLetter(e.key.toUpperCase());
-            }
-        }
-
-        function newGame() {
-            const cols = getCols();
-            const rows = getRows();
-            
-            // Check if dictionary is loaded
-            if (wordDict.length === 0) {
-                console.error('Dictionary not loaded yet');
-                return;
-            }
-            
-            // Generate random word of correct length
-            const wordsOfLength = wordDict.filter(word => word.length === cols);
-            if (wordsOfLength.length === 0) {
-                console.error(`No words of length ${cols} found in dictionary`);
-                alert(`No words of length ${cols} available. Try a different word length.`);
-                return;
-            }
-            const word = wordsOfLength[Math.floor(Math.random() * wordsOfLength.length)];
-            
-            currentGame = {
-                word: word,
-                guesses: [],
-                rows: rows,
-                cols: cols,
-                completed: false
-            };
-            
-            createGame();
-            saveGameState();
-        }
-
-        function restoreGameState() {
-            if (!currentGame || !currentGame.guesses) return;
-            
-            const boxes = document.querySelectorAll('.box');
-            let boxIndex = 0;
-            
-            // Restore each previous guess
-            for (let guessData of currentGame.guesses) {
-                const guess = guessData.word;
-                const result = guessData.result;
-                
-                // Fill the boxes with letters
-                for (let i = 0; i < guess.length; i++) {
-                    boxes[boxIndex].textContent = guess[i].toUpperCase();
-                    boxes[boxIndex].classList.add('filled', 'final');
-                    
-                    // Apply colors based on result
-                    if (result.green.includes(i)) {
-                        boxes[boxIndex].classList.add('green');
-                    } else if (result.orange.includes(i)) {
-                        boxes[boxIndex].classList.add('orange');
-                    } else if (result.grey.includes(i)) {
-                        boxes[boxIndex].classList.add('grey');
-                    }
-                    
-                    boxIndex++;
-                }
-            }
-            
-            // Update keyboard colors
-            updateKeyboard();
-            
-            // If game is completed, disable input
-            if (currentGame.completed) {
-                disableInput();
-            }
-        }
-
-        function createGame() {
-            const rows = getRows();
-            const cols = getCols();
-            
-            updateRowsCols(rows, cols);
-
-            createRows(rows, cols);
-            createKeyboard();
-
-            disableInput();
-            enableInput();
-        }
-
-        function saveGameState() {
-            localStorage.setItem('enhanced-wordle-game', JSON.stringify(currentGame));
-        }
-
-        function loadGameState() {
-            const saved = localStorage.getItem('enhanced-wordle-game');
-            return saved ? JSON.parse(saved) : null;
-        }
-
-        function updateStats(won) {
-            let stats = JSON.parse(localStorage.getItem('enhanced-wordle-stats') || '{"played": 0, "won": 0, "streak": 0, "maxStreak": 0}');
-            
-            stats.played++;
-            if (won) {
-                stats.won++;
-                stats.streak++;
-                stats.maxStreak = Math.max(stats.maxStreak, stats.streak);
-            } else {
-                stats.streak = 0;
-            }
-            
-            localStorage.setItem('enhanced-wordle-stats', JSON.stringify(stats));
-            gameStats = stats;
-        }
-
-        function loadStats() {
-            const stats = localStorage.getItem('enhanced-wordle-stats');
-            return stats ? JSON.parse(stats) : { played: 0, won: 0, streak: 0, maxStreak: 0 };
-        }
+        // Global game instance
+        let game = null;
 
         // Initialize everything when DOM is ready
-        document.addEventListener('DOMContentLoaded', () => {
-            // Event handlers
-            document.getElementById('hideWinPanel').addEventListener('click', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                // Initialize game components
+                const domHelper = new DOMHelper();
+                const animationController = new AnimationController(domHelper);
+                game = new GameController(domHelper, animationController);
+                
+                // Initialize the game
+                await game.initialize();
+                
+                // Set up event handlers
+                setupEventHandlers();
+                
+            } catch (error) {
+                console.error('Failed to initialize game:', error);
+                alert('Error loading game. Please refresh the page.');
+            }
+        });
+        
+        function setupEventHandlers() {
+            // Win panel handlers
+            document.getElementById('hideWinPanel')?.addEventListener('click', () => {
                 document.getElementById('winPanel').style.display = 'none';
             });
 
-            document.getElementById('newGame2').addEventListener('click', () => {
+            document.getElementById('newGame2')?.addEventListener('click', () => {
                 document.getElementById('winPanel').style.display = 'none';
-                newGame();
+                game.newGame();
             });
 
-            document.getElementById('newGame').addEventListener('click', () => {
+            // Settings panel handlers
+            document.getElementById('newGame')?.addEventListener('click', () => {
                 document.getElementById('panel').classList.remove('show');
-                newGame();
+                game.newGame();
             });
 
-            document.getElementById('settings').addEventListener('click', () => {
+            document.getElementById('settings')?.addEventListener('click', () => {
                 const panel = document.getElementById('panel');
                 panel.classList.toggle('show');
             });
 
-            document.getElementById('range').addEventListener('input', (e) => {
-                const value = e.target.value;
-                document.getElementById('rangeLength').textContent = `Word Length - ${value}`;
-                document.documentElement.style.setProperty('--cols', value);
+            // Word length range handler
+            document.getElementById('range')?.addEventListener('input', (e) => {
+                const value = parseInt(e.target.value);
+                const rangeLength = document.getElementById('rangeLength');
                 
-                // Check if we have words of this length
-                const wordsOfLength = wordDict.filter(word => word.length === parseInt(value));
-                if (wordsOfLength.length === 0) {
-                    document.getElementById('rangeLength').textContent = `Word Length - ${value} (No words available)`;
-                }
-            });
-
-            document.getElementById('stats').addEventListener('click', () => {
-                const stats = loadStats();
-                const winRate = stats.played > 0 ? Math.round((stats.won / stats.played) * 100) : 0;
-                alert(`Games Played: ${stats.played}\nWin Rate: ${winRate}%\nCurrent Streak: ${stats.streak}\nMax Streak: ${stats.maxStreak}`);
-            });
-
-            document.getElementById('hint').addEventListener('click', () => {
-                if (currentGame && currentGame.word) {
-                    const randomIndex = Math.floor(Math.random() * currentGame.word.length);
-                    alert(`Hint: The letter at position ${randomIndex + 1} is '${currentGame.word[randomIndex].toUpperCase()}'`);
+                game.setWordLength(value);
+                
+                if (game.hasWordsOfLength(value)) {
+                    rangeLength.textContent = `Word Length - ${value}`;
                 } else {
-                    alert('Start a game first to get a hint!');
+                    rangeLength.textContent = `Word Length - ${value} (No words available)`;
                 }
             });
 
-            // Initialize game
-            async function initializeGame() {
-                // Load dictionary first
-                await loadDictionary();
-                
-                gameStats = loadStats();
-                currentGame = loadGameState();
-                
-                // Ensure default word length is 5 on initialization
-                document.getElementById('range').value = '5';
-                document.getElementById('rangeLength').textContent = 'Word Length - 5';
-                document.documentElement.style.setProperty('--cols', '5');
-                document.documentElement.style.setProperty('--rows', '6');
-                
-                if (currentGame && !currentGame.completed) {
-                    updateRowsCols(currentGame.rows, currentGame.cols);
-                    createGame();
-                    restoreGameState();
-                } else {
-                    newGame();
-                }
-            }
-            
-            // Start game initialization
-            initializeGame().catch(error => {
-                console.error('Failed to initialize game:', error);
-                alert('Error loading game. Please refresh the page.');
+            // Stats handler
+            document.getElementById('stats')?.addEventListener('click', () => {
+                alert(game.getStatsString());
             });
-        });
+
+            // Hint handler
+            document.getElementById('hint')?.addEventListener('click', () => {
+                alert(game.getHint());
+            });
+        }
+
         </script>
   </div>
 </ProjectPageLayout>
