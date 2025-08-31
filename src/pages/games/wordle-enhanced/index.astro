@@ -1,6 +1,5 @@
 ---
 // Enhanced Wordle - faithful port of AKordle
-import { dict5 } from '../../../scripts/wordle-shared-dictionary.js';
 import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
 ---
 
@@ -118,8 +117,9 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
                 }
 
                 .box {
-                    max-height: calc((100vh / var(--rows)) - (212px / var(--rows)));
-                    max-width: calc((100vh / var(--rows)) - (212px / var(--rows)));
+                    width: min(10vw, 3.5rem);
+                    height: min(10vw, 3.5rem);
+                    font-size: min(4vw, 1.5rem);
                 }
             }
 
@@ -139,8 +139,9 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
                 }
 
                 .box {
-                    max-height: calc((100vh / var(--rows)) - (260px / var(--rows)));
-                    max-width: calc((100vh / var(--rows)) - (260px / var(--rows)));
+                    width: min(12vw, 4rem);
+                    height: min(12vw, 4rem);
+                    font-size: min(5vw, 2rem);
                 }
             }
 
@@ -164,8 +165,9 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
                 }
 
                 .box {
-                    max-height: calc((100vh / var(--rows)) - (320px / var(--rows)));
-                    max-width: calc((100vh / var(--rows)) - (320px / var(--rows)));
+                    width: min(13vw, 4.5rem);
+                    height: min(13vw, 4.5rem);
+                    font-size: min(5.5vw, 2.2rem);
                 }
             }
 
@@ -189,8 +191,9 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
                 }
 
                 .box {
-                    max-height: calc((100vh / var(--rows)) - (350px / var(--rows)));
-                    max-width: calc((100vh / var(--rows)) - (350px / var(--rows)));
+                    width: min(14vw, 5rem);
+                    height: min(14vw, 5rem);
+                    font-size: min(6vw, 2.5rem);
                 }
             }
 
@@ -204,8 +207,9 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
                 }
 
                 .box {
-                    max-height: calc((100vh / var(--rows)) - (410px / var(--rows)));
-                    max-width: calc((100vh / var(--rows)) - (410px / var(--rows)));
+                    width: min(15vw, 5.5rem);
+                    height: min(15vw, 5.5rem);
+                    font-size: min(6.5vw, 3rem);
                 }
             }
 
@@ -256,6 +260,8 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
 
             div.row {
                 justify-content: center;
+                gap: 0.25rem;
+                margin-bottom: 0.25rem;
             }
 
             .box {
@@ -263,17 +269,23 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
                 border: 2px solid #3a3a3c;
                 background-color: #121213;
                 aspect-ratio: 1;
-                flex: 1;
-                margin: 2px;
+                width: min(12vw, 4rem);
+                height: min(12vw, 4rem);
+                min-width: 3rem;
+                min-height: 3rem;
+                max-width: 5rem;
+                max-height: 5rem;
+                margin: 0;
                 text-align: center;
                 font-weight: bold;
-                font-size: 2rem;
+                font-size: min(5vw, 2rem);
                 color: white;
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 text-transform: uppercase;
                 transition: all 0.15s ease;
+                flex: none;
             }
 
             /* Box states */
@@ -502,25 +514,50 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
             </div>
         </div>
 
-        <script define:vars={{dict5}}>
+        <script>
         // Dictionary setup
-        const wordDict = dict5;
+        let wordDict = [];
         
         // Game state variables
         let currentGame = null;
         let gameStats = null;
+
+        // Dictionary loading function
+        async function loadDictionary() {
+            try {
+                const response = await fetch('/scripts/english-short.txt');
+                if (!response.ok) {
+                    throw new Error(`Failed to load dictionary: ${response.status}`);
+                }
+                const text = await response.text();
+                wordDict = text.trim().split('\n').map(word => word.trim().toLowerCase()).filter(word => word.length > 0);
+                console.log(`Loaded ${wordDict.length} words from dictionary`);
+                return wordDict;
+            } catch (error) {
+                console.error('Error loading dictionary:', error);
+                // Fallback to a basic set of words
+                wordDict = ['hello', 'world', 'games', 'words', 'plays'];
+                return wordDict;
+            }
+        }
 
         // Faithful port of AKordle game logic
         function createRows(rows, cols) {
             const boxes = document.getElementById('boxes');
             boxes.innerHTML = ''; // Clear existing
             
+            // Get the scoped attribute from the parent element
+            const scopedAttr = boxes.getAttribute('data-astro-cid-lku4ukpp') !== null ? 'data-astro-cid-lku4ukpp' : null;
+            
             for (let i = 0; i < rows; i++) {
                 let r = document.createElement('div');
                 r.className = 'row';
+                if (scopedAttr) r.setAttribute(scopedAttr, '');
+                
                 for (let j = 0; j < cols; j++) {
                     let box = document.createElement('div');
                     box.className = 'box';
+                    if (scopedAttr) box.setAttribute(scopedAttr, '');
                     r.appendChild(box);
                 }
                 boxes.appendChild(r);
@@ -532,6 +569,12 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
             key.className = 'key';
             key.innerHTML = l;
             key.setAttribute('data-key', l);
+            
+            // Add scoped attribute for Astro CSS
+            const keyboard = document.getElementById('keyboard');
+            const scopedAttr = keyboard.getAttribute('data-astro-cid-lku4ukpp') !== null ? 'data-astro-cid-lku4ukpp' : null;
+            if (scopedAttr) key.setAttribute(scopedAttr, '');
+            
             return key;
         }
 
@@ -541,6 +584,12 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
             enter.innerHTML = 'ENTER';
             enter.setAttribute('data-func', 'enter');
             enter.addEventListener('click', submitGuess);
+            
+            // Add scoped attribute for Astro CSS
+            const keyboard = document.getElementById('keyboard');
+            const scopedAttr = keyboard.getAttribute('data-astro-cid-lku4ukpp') !== null ? 'data-astro-cid-lku4ukpp' : null;
+            if (scopedAttr) enter.setAttribute(scopedAttr, '');
+            
             return enter;
         }
 
@@ -550,6 +599,12 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
             back.innerHTML = 'BACK';
             back.setAttribute('data-func', 'back');
             back.addEventListener('click', removeLetter);
+            
+            // Add scoped attribute for Astro CSS
+            const keyboard = document.getElementById('keyboard');
+            const scopedAttr = keyboard.getAttribute('data-astro-cid-lku4ukpp') !== null ? 'data-astro-cid-lku4ukpp' : null;
+            if (scopedAttr) back.setAttribute(scopedAttr, '');
+            
             return back;
         }
 
@@ -557,9 +612,15 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
             let row = document.createElement('div');
             row.className = 'row flex-1';
             
+            // Add scoped attribute for Astro CSS
+            const keyboard = document.getElementById('keyboard');
+            const scopedAttr = keyboard.getAttribute('data-astro-cid-lku4ukpp') !== null ? 'data-astro-cid-lku4ukpp' : null;
+            if (scopedAttr) row.setAttribute(scopedAttr, '');
+            
             if (spaces) {
                 let spacer = document.createElement('div');
                 spacer.className = 'spacer';
+                if (scopedAttr) spacer.setAttribute(scopedAttr, '');
                 row.appendChild(spacer);
             }
             
@@ -576,6 +637,7 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
             if (spaces) {
                 let spacer = document.createElement('div');
                 spacer.className = 'spacer';
+                if (scopedAttr) spacer.setAttribute(scopedAttr, '');
                 row.appendChild(spacer);
             }
 
@@ -721,6 +783,12 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
             if (filled.length - final.length === getCols()) {
                 const guess = getGuess();
                 
+                // Check if dictionary is loaded
+                if (wordDict.length === 0) {
+                    alert('Dictionary not loaded. Please wait or refresh the page.');
+                    return;
+                }
+                
                 if (!wordDict.includes(guess)) {
                     guessResponse({ bad: true });
                     return;
@@ -822,8 +890,19 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
             const cols = getCols();
             const rows = getRows();
             
+            // Check if dictionary is loaded
+            if (wordDict.length === 0) {
+                console.error('Dictionary not loaded yet');
+                return;
+            }
+            
             // Generate random word of correct length
             const wordsOfLength = wordDict.filter(word => word.length === cols);
+            if (wordsOfLength.length === 0) {
+                console.error(`No words of length ${cols} found in dictionary`);
+                alert(`No words of length ${cols} available. Try a different word length.`);
+                return;
+            }
             const word = wordsOfLength[Math.floor(Math.random() * wordsOfLength.length)];
             
             currentGame = {
@@ -969,16 +1048,33 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
             });
 
             // Initialize game
-            gameStats = loadStats();
-            currentGame = loadGameState();
-            
-            if (currentGame && !currentGame.completed) {
-                updateRowsCols(currentGame.rows, currentGame.cols);
-                createGame();
-                restoreGameState();
-            } else {
-                newGame();
+            async function initializeGame() {
+                // Load dictionary first
+                await loadDictionary();
+                
+                gameStats = loadStats();
+                currentGame = loadGameState();
+                
+                // Ensure default word length is 5 on initialization
+                document.getElementById('range').value = '5';
+                document.getElementById('rangeLength').textContent = 'Word Length - 5';
+                document.documentElement.style.setProperty('--cols', '5');
+                document.documentElement.style.setProperty('--rows', '6');
+                
+                if (currentGame && !currentGame.completed) {
+                    updateRowsCols(currentGame.rows, currentGame.cols);
+                    createGame();
+                    restoreGameState();
+                } else {
+                    newGame();
+                }
             }
+            
+            // Start game initialization
+            initializeGame().catch(error => {
+                console.error('Failed to initialize game:', error);
+                alert('Error loading game. Please refresh the page.');
+            });
         });
         </script>
   </div>
