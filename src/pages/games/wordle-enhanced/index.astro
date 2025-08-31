@@ -14,6 +14,9 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
             :root {
                 --rows: 6;
                 --cols: 5;
+                --box-gap: 0.25rem;        /* Gap between boxes in a row */
+                --row-gap: 0.5rem;         /* Gap between rows */
+                --container-padding: 1rem; /* Container padding */
             }
 
             * {
@@ -180,7 +183,7 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
                 }
 
                 #keyboard {
-                    width: 700px;
+                    width: 800px;
                 }
             } 
 
@@ -273,7 +276,7 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
                 flex: 1 1 auto;
                 width: 100%;
                 min-height: 0; /* Allow content to shrink if needed */
-                padding: 1rem 0;
+                padding: var(--container-padding) 0;
             }
 
             #boxes {
@@ -281,13 +284,13 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
                 height: 100%;
                 flex-direction: column;
                 align-items: center;
-                gap: 0.5rem;
+                gap: var(--row-gap);
                 display: flex;
             }
 
             div.row {
                 justify-content: center;
-                gap: 0.25rem;
+                gap: var(--box-gap);
                 flex: 1 1 0;
                 align-items: center;
             }
@@ -298,7 +301,7 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
                 background-color: #121213;
                 aspect-ratio: 1;
                 height: 90%;
-                max-height: calc(95vw / var(--cols));
+                max-height: calc((100vw - var(--box-gap) * (var(--cols) - 1)) / var(--cols));
                 margin: 0;
                 text-align: center;
                 font-weight: bold;
