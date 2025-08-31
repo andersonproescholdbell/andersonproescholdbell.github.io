@@ -23,7 +23,7 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
             html, body {
                 margin: 0;
                 padding: 0;
-                width: 100vw;
+                width: 100%;
                 height: 100vh;
                 background-color: #121213;
             }
@@ -31,7 +31,7 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
             #main {
                 margin: 0;
                 padding: 0;
-                width: 100vw;
+                width: 100%;
                 height: 100%;
                 background-color: #121213;
                 overflow-x: hidden; /* Only hide horizontal overflow */
@@ -150,8 +150,6 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
                 }
 
                 .box {
-                    width: min(10vw, 3.5rem);
-                    height: min(10vw, 3.5rem);
                     font-size: min(4vw, 1.5rem);
                 }
             }
@@ -172,8 +170,6 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
                 }
 
                 .box {
-                    width: min(12vw, 4rem);
-                    height: min(12vw, 4rem);
                     font-size: min(5vw, 2rem);
                 }
             }
@@ -198,8 +194,6 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
                 }
 
                 .box {
-                    width: min(13vw, 4.5rem);
-                    height: min(13vw, 4.5rem);
                     font-size: min(5.5vw, 2.2rem);
                 }
             }
@@ -224,8 +218,6 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
                 }
 
                 .box {
-                    width: min(14vw, 5rem);
-                    height: min(14vw, 5rem);
                     font-size: min(6vw, 2.5rem);
                 }
             }
@@ -240,8 +232,6 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
                 }
 
                 .box {
-                    width: min(15vw, 5.5rem);
-                    height: min(15vw, 5.5rem);
                     font-size: min(6.5vw, 3rem);
                 }
             }
@@ -308,6 +298,7 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
                 background-color: #121213;
                 aspect-ratio: 1;
                 height: 90%;
+                max-height: calc(95vw / var(--cols));
                 margin: 0;
                 text-align: center;
                 font-weight: bold;

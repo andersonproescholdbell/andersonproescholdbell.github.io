@@ -49,6 +49,7 @@ export const projectData: Record<string, Category> = {
       { id: 'circles-basic', link: '/games/circles-basic', placeholderText: 'Circles', title: 'Circles Basic', description: 'Similar to Agario.', tags: ['Game Logic'], wip: true, color: shuffledColors[11] },
       { id: 'circles-enhanced', link: '/games/circles-enhanced', placeholderText: 'Circles', title: 'Circles Enhanced', description: 'More similar to Agario.', tags: ['Game Logic', 'Canvas'], wip: true, color: shuffledColors[11] },
       { id: 'ai-or-real-human', link: '/games/ai-or-real-human', placeholderText: 'AI or Real', title: 'AI or Real Human', description: 'Guess if the image is AI-generated or real.', tags: ['AI', 'Game'], wip: true, color: shuffledColors[13] },
+      { id: 'takuzu-solver', link: '/games/takuzu-solver', placeholderText: 'Takuzu', title: 'Takuzu Solver', description: 'A takuzu solver.', tags: ['AI', 'Game'], wip: true, color: shuffledColors[14] },
     ],
   },
   bots: {
