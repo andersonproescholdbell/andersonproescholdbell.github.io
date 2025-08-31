@@ -117,26 +117,26 @@ export const COLORS = {
     tagBg: 'bg-green-900',
     tagText: 'text-green-300'
   },
-  lime: {
-    bgColor: '#84cc16',
-    textColor: '#000000',
-    darkBg: '#365314',
-    lightBg: '#3f6212',
-    accent: '#a3e635',
-    hoverShadow: 'hover:shadow-lime-500/20',
-    tagBg: 'bg-lime-900',
-    tagText: 'text-lime-300'
-  },
-  yellow: {
-    bgColor: '#eab308',
-    textColor: '#000000',
-    darkBg: '#713f12',
-    lightBg: '#854d0e',
-    accent: '#facc15',
-    hoverShadow: 'hover:shadow-yellow-500/20',
-    tagBg: 'bg-yellow-900',
-    tagText: 'text-yellow-300'
-  },
+  // lime: {
+  //   bgColor: '#84cc16',
+  //   textColor: '#000000',
+  //   darkBg: '#365314',
+  //   lightBg: '#3f6212',
+  //   accent: '#a3e635',
+  //   hoverShadow: 'hover:shadow-lime-500/20',
+  //   tagBg: 'bg-lime-900',
+  //   tagText: 'text-lime-300'
+  // },
+  // yellow: {
+  //   bgColor: '#eab308',
+  //   textColor: '#000000',
+  //   darkBg: '#713f12',
+  //   lightBg: '#854d0e',
+  //   accent: '#facc15',
+  //   hoverShadow: 'hover:shadow-yellow-500/20',
+  //   tagBg: 'bg-yellow-900',
+  //   tagText: 'text-yellow-300'
+  // },
   orange: {
     bgColor: '#f97316',
     textColor: '#ffffff',
@@ -310,36 +310,36 @@ export const COLORS = {
     tagBg: 'bg-orange-900',
     tagText: 'text-orange-300'
   },
-  'amber-400': {
-    bgColor: '#fbbf24',
-    textColor: '#000000',
-    darkBg: '#92400e',
-    lightBg: '#d97706',
-    accent: '#fcd34d',
-    hoverShadow: 'hover:shadow-amber-400/20',
-    tagBg: 'bg-amber-900',
-    tagText: 'text-amber-300'
-  },
-  'yellow-400': {
-    bgColor: '#facc15',
-    textColor: '#000000',
-    darkBg: '#713f12',
-    lightBg: '#ca8a04',
-    accent: '#fde047',
-    hoverShadow: 'hover:shadow-yellow-400/20',
-    tagBg: 'bg-yellow-900',
-    tagText: 'text-yellow-300'
-  },
-  'lime-400': {
-    bgColor: '#a3e635',
-    textColor: '#000000',
-    darkBg: '#365314',
-    lightBg: '#65a30d',
-    accent: '#bef264',
-    hoverShadow: 'hover:shadow-lime-400/20',
-    tagBg: 'bg-lime-900',
-    tagText: 'text-lime-300'
-  },
+  // 'amber-400': {
+  //   bgColor: '#fbbf24',
+  //   textColor: '#000000',
+  //   darkBg: '#92400e',
+  //   lightBg: '#d97706',
+  //   accent: '#fcd34d',
+  //   hoverShadow: 'hover:shadow-amber-400/20',
+  //   tagBg: 'bg-amber-900',
+  //   tagText: 'text-amber-300'
+  // },
+  // 'yellow-400': {
+  //   bgColor: '#facc15',
+  //   textColor: '#000000',
+  //   darkBg: '#713f12',
+  //   lightBg: '#ca8a04',
+  //   accent: '#fde047',
+  //   hoverShadow: 'hover:shadow-yellow-400/20',
+  //   tagBg: 'bg-yellow-900',
+  //   tagText: 'text-yellow-300'
+  // },
+  // 'lime-400': {
+  //   bgColor: '#a3e635',
+  //   textColor: '#000000',
+  //   darkBg: '#365314',
+  //   lightBg: '#65a30d',
+  //   accent: '#bef264',
+  //   hoverShadow: 'hover:shadow-lime-400/20',
+  //   tagBg: 'bg-lime-900',
+  //   tagText: 'text-lime-300'
+  // },
   'green-400': {
     bgColor: '#4ade80',
     textColor: '#ffffff',
@@ -452,16 +452,16 @@ export const COLORS = {
     tagBg: 'bg-orange-900',
     tagText: 'text-orange-300'
   },
-  turquoise: {
-    bgColor: '#40E0D0',
-    textColor: '#000000',
-    darkBg: '#1a6b63',
-    lightBg: '#2d9b92',
-    accent: '#7fffd4',
-    hoverShadow: 'hover:shadow-cyan-400/20',
-    tagBg: 'bg-cyan-900',
-    tagText: 'text-cyan-300'
-  },
+  // turquoise: {
+  //   bgColor: '#40E0D0',
+  //   textColor: '#000000',
+  //   darkBg: '#1a6b63',
+  //   lightBg: '#2d9b92',
+  //   accent: '#7fffd4',
+  //   hoverShadow: 'hover:shadow-cyan-400/20',
+  //   tagBg: 'bg-cyan-900',
+  //   tagText: 'text-cyan-300'
+  // },
   magenta: {
     bgColor: '#FF00FF',
     textColor: '#ffffff',
@@ -472,16 +472,16 @@ export const COLORS = {
     tagBg: 'bg-pink-900',
     tagText: 'text-pink-300'
   },
-  chartreuse: {
-    bgColor: '#7FFF00',
-    textColor: '#000000',
-    darkBg: '#4a9900',
-    lightBg: '#66cc00',
-    accent: '#99ff33',
-    hoverShadow: 'hover:shadow-lime-400/20',
-    tagBg: 'bg-lime-900',
-    tagText: 'text-lime-300'
-  },
+  // chartreuse: {
+  //   bgColor: '#7FFF00',
+  //   textColor: '#000000',
+  //   darkBg: '#4a9900',
+  //   lightBg: '#66cc00',
+  //   accent: '#99ff33',
+  //   hoverShadow: 'hover:shadow-lime-400/20',
+  //   tagBg: 'bg-lime-900',
+  //   tagText: 'text-lime-300'
+  // },
   vermillion: {
     bgColor: '#E34234',
     textColor: '#ffffff',
@@ -554,26 +554,26 @@ export const COLORS = {
     tagText: 'text-blue-300'
   },
   // Modern colors
-  mint: {
-    bgColor: '#00FF7F',
-    textColor: '#000000',
-    darkBg: '#009950',
-    lightBg: '#00cc66',
-    accent: '#66ff9f',
-    hoverShadow: 'hover:shadow-green-300/20',
-    tagBg: 'bg-green-900',
-    tagText: 'text-green-300'
-  },
-  peach: {
-    bgColor: '#FFCBA4',
-    textColor: '#000000',
-    darkBg: '#cc9974',
-    lightBg: '#e6b58a',
-    accent: '#ffd9bf',
-    hoverShadow: 'hover:shadow-orange-200/20',
-    tagBg: 'bg-orange-900',
-    tagText: 'text-orange-300'
-  },
+  // mint: {
+  //   bgColor: '#00FF7F',
+  //   textColor: '#000000',
+  //   darkBg: '#009950',
+  //   lightBg: '#00cc66',
+  //   accent: '#66ff9f',
+  //   hoverShadow: 'hover:shadow-green-300/20',
+  //   tagBg: 'bg-green-900',
+  //   tagText: 'text-green-300'
+  // },
+  // peach: {
+  //   bgColor: '#FFCBA4',
+  //   textColor: '#000000',
+  //   darkBg: '#cc9974',
+  //   lightBg: '#e6b58a',
+  //   accent: '#ffd9bf',
+  //   hoverShadow: 'hover:shadow-orange-200/20',
+  //   tagBg: 'bg-orange-900',
+  //   tagText: 'text-orange-300'
+  // },
   lavender: {
     bgColor: '#967BB6',
     textColor: '#ffffff',
@@ -584,26 +584,26 @@ export const COLORS = {
     tagBg: 'bg-purple-900',
     tagText: 'text-purple-300'
   },
-  salmon: {
-    bgColor: '#FA8072',
-    textColor: '#000000',
-    darkBg: '#c84c45',
-    lightBg: '#e7665a',
-    accent: '#ffb3aa',
-    hoverShadow: 'hover:shadow-pink-300/20',
-    tagBg: 'bg-pink-900',
-    tagText: 'text-pink-300'
-  },
-  gold: {
-    bgColor: '#FFD700',
-    textColor: '#000000',
-    darkBg: '#ccab00',
-    lightBg: '#e6c200',
-    accent: '#ffeb66',
-    hoverShadow: 'hover:shadow-yellow-500/20',
-    tagBg: 'bg-yellow-900',
-    tagText: 'text-yellow-300'
-  },
+  // salmon: {
+  //   bgColor: '#FA8072',
+  //   textColor: '#000000',
+  //   darkBg: '#c84c45',
+  //   lightBg: '#e7665a',
+  //   accent: '#ffb3aa',
+  //   hoverShadow: 'hover:shadow-pink-300/20',
+  //   tagBg: 'bg-pink-900',
+  //   tagText: 'text-pink-300'
+  // },
+  // gold: {
+  //   bgColor: '#FFD700',
+  //   textColor: '#000000',
+  //   darkBg: '#ccab00',
+  //   lightBg: '#e6c200',
+  //   accent: '#ffeb66',
+  //   hoverShadow: 'hover:shadow-yellow-500/20',
+  //   tagBg: 'bg-yellow-900',
+  //   tagText: 'text-yellow-300'
+  // },
   // Additional rich colors
   plum: {
     bgColor: '#8B008B',
