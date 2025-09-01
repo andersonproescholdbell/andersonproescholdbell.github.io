@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Real Agario</title>
+    <link rel="stylesheet" href="client/style.css"/>
+  </head>
+  <body>
+    <div id="container">
+      <div id="joinContainer">
+        <input id="name" value="Name"/>
+        <input type="color" id="cPicker"/>
+        <button id="join">JOIN!</button>
+      </div>
+      <div id="canvasContainer">
+        <canvas id="ctx" width="1625px" height="900px"></canvas>
+        <div>
+          <div id="chat-text">This is the chat!</div>
+          <form id="chat-form">
+            <input id="chat-input" type="text" value="Say something nice"></input>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/client/client.js"></script>
+  </body>
+</html>

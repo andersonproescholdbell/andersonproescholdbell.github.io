@@ -1,0 +1,52 @@
+body {
+  margin: 0;
+  overflow: hidden;
+  background-color: lightgrey;
+}
+
+#ctx {
+  background-color: #9fc78d;
+  border: 1px solid black;
+}
+
+#container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#joinContainer {
+  display: flex;
+  margin-top: 0.35%;
+}
+
+#name {
+  display: flex;
+  text-align: center;
+  margin-right: 5px;
+}
+
+#cPicker {
+  display: flex;
+  margin-right: 5px;
+}
+
+#canvasContainer {
+  display: flex;
+  margin-top: 0.5%;
+  flex-direction: row;
+}
+
+#chat-text {
+  margin-left: 1%;
+  width: 250px;
+  height: 900px;
+  overflow-y: scroll;
+  background-color: lightblue;
+}
+
+#chat-input {
+  display: flex;
+  width: 250px;
+}

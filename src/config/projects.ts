@@ -47,9 +47,11 @@ export const projectData: Record<string, Category> = {
       { id: 'wordle-enhanced', link: '/games/wordle-enhanced', placeholderText: 'Wordle', title: 'Wordle Enhanced', description: 'An enhanced version.', tags: ['Game Logic', 'CSS'], wip: false, color: shuffledColors[9] },
       { id: 'wordle-enhanced-server', link: 'https://github.com/andersonproescholdbell/AKordle/tree/main', placeholderText: 'Wordle', title: 'Wordle Enhanced Server', description: 'An enhanced version that leverages server functionality.', tags: ['Game Logic', 'CSS'], wip: false, color: shuffledColors[9] },
       { id: 'circles-basic', link: '/games/circles-basic', placeholderText: 'Circles', title: 'Circles Basic', description: 'Similar to Agario.', tags: ['Game Logic'], wip: true, color: shuffledColors[11] },
-      { id: 'circles-enhanced', link: '/games/circles-enhanced', placeholderText: 'Circles', title: 'Circles Enhanced', description: 'More similar to Agario.', tags: ['Game Logic', 'Canvas'], wip: true, color: shuffledColors[11] },
+      { id: 'circles-enhanced', link: '/games/circles-enhanced', placeholderText: 'Circles', title: 'Circles Enhanced Server', description: 'More similar to Agario .', tags: ['Game Logic', 'Canvas'], wip: true, color: shuffledColors[11] },
+      { id: 'circles-basic-server', link: 'https://github.com/andersonproescholdbell/akpcircles', placeholderText: 'Circles', title: 'Circles Basic Server', description: 'Similar to Agario that (server version).', tags: ['Game Logic'], wip: true, color: shuffledColors[11] },
+      { id: 'circles-enhanced-server', link: 'https://github.com/andersonproescholdbell/newakpcircles', placeholderText: 'Circles', title: 'Circles Enhanced', description: 'More similar to Agario (server version).', tags: ['Game Logic', 'Canvas'], wip: true, color: shuffledColors[11] },
       { id: 'ai-or-real-human', link: '/games/ai-or-real-human', placeholderText: 'AI or Real', title: 'AI or Real Human', description: 'Guess if the image is AI-generated or real.', tags: ['AI', 'Game'], wip: true, color: shuffledColors[13] },
-      { id: 'takuzu-solver', link: '/games/takuzu-solver', placeholderText: 'Takuzu', title: 'Takuzu Solver', description: 'A takuzu solver.', tags: ['AI', 'Game'], wip: true, color: shuffledColors[14] },
+      { id: 'takuzu-solver', link: 'https://github.com/andersonproescholdbell/takuzu-solver', placeholderText: 'Takuzu', title: 'Takuzu Solver', description: 'A takuzu solver.', tags: ['AI', 'Game', 'External'], wip: true, color: shuffledColors[14] },
     ],
   },
   bots: {
