@@ -6,6 +6,7 @@ export interface Props {
   description?: string;
   backLinkHref?: string;
   backLinkText?: string;
+  originalReference?: string;
 }
 
 // Smart defaults based on context
@@ -35,7 +36,8 @@ const {
   pageTitle = title,
   description = `${title} - Project Portfolio`,
   backLinkHref,
-  backLinkText = "← Back"
+  backLinkText = "← Back",
+  originalReference
 } = Astro.props;
 
 import '../config/global.css';
@@ -58,7 +60,7 @@ import UniversalNav from '../components/UniversalNav.astro';
 			rel="stylesheet">
 	</head>
 	<body class="bg-gray-900 text-gray-300 min-h-screen">
-		{backLinkHref && <UniversalNav backText={backLinkText} backHref={backLinkHref} />}
+		{backLinkHref && <UniversalNav backText={backLinkText} backHref={backLinkHref} originalReference={originalReference} />}
 		<style>
 			@import '/src/config/design-tokens.css';
 			

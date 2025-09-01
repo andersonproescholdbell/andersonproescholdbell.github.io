@@ -260,7 +260,7 @@ export class GameController {
      */
     async loadDictionary() {
         try {
-            const { allWords, wordsByLength, hasWordsOfLength } = await import('/scripts/wordle-enhanced/english-mixed-lengths.js');
+            const { allWords, wordsByLength, hasWordsOfLength } = await import('/scripts/akordle/english-mixed-lengths.js');
             this.wordDict = allWords;
             this.wordsByLength = wordsByLength;
             this.hasWordsOfLengthFast = hasWordsOfLength;

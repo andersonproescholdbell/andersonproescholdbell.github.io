@@ -1,0 +1,139 @@
+---
+import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
+---
+
+<ProjectPageLayout 
+  title="Circles V2"
+  description="A faithful single-player port of newakpcircles using Phaser.js"
+  originalReference="https://github.com/andersonproescholdbell/newakpcircles"
+>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    
+    #game-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100vh;
+      background-color: #124184;
+    }
+  </style>
+
+  <div id="game-container"></div>
+
+  <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/phaser/2.6.2/phaser.min.js"></script>
+  <script is:inline>
+    // Wait for Phaser.js to load before initializing game
+    window.addEventListener('load', function() {
+      const game = new Phaser.Game(800, 600, Phaser.CANVAS, 'game-container', {
+        preload: preload,
+        create: create,
+        update: update,
+        render: render
+      });
+
+    class Player extends Phaser.Sprite {
+      constructor(x, y, radius, color) {
+        let graphics = new Phaser.Graphics(game, 0, 0);
+        graphics.beginFill(color, 1);
+        graphics.drawCircle(x, y, radius*2);
+
+        super(game, x, y, graphics.generateTexture());
+        this.anchor.set(0.5, 0.5);
+        game.physics.arcade.enable(this);
+        this.body.collideWorldBounds = true;
+      }
+    }
+
+    let player;
+    let keys;
+    let cursors;
+
+    function preload() {
+      // No assets to preload
+    }
+
+    function create() {
+      game.stage.backgroundColor = '#124184';
+
+      game.world.setBounds(0, 0, 1920, 1920);
+      addTiles(75);
+
+      keys = {
+        w: game.input.keyboard.addKey(Phaser.Keyboard.W),
+        a: game.input.keyboard.addKey(Phaser.Keyboard.A),
+        s: game.input.keyboard.addKey(Phaser.Keyboard.S),
+        d: game.input.keyboard.addKey(Phaser.Keyboard.D)
+      }
+
+      // Add cursor keys support
+      cursors = game.input.keyboard.createCursorKeys();
+
+      game.physics.startSystem(Phaser.Physics.ARCADE);
+
+      // Create single player
+      const startX = Math.floor(Math.random() * 1920);
+      const startY = Math.floor(Math.random() * 1920);
+      const playerColor = (Math.random()*0xFFFFFF<<0);
+      
+      player = new Player(startX, startY, 15, playerColor);
+      game.add.existing(player);
+      game.camera.follow(player);
+    }
+
+    function update() {
+      if (keys.w.isDown || cursors.up.isDown) {
+        player.y -= 5;
+        if (player.y < 0) {
+          player.y += 5;
+        }
+      }
+      if (keys.a.isDown || cursors.left.isDown) {
+        player.x -= 5;
+        if (player.x < 0) {
+          player.x += 5;
+        }
+      }
+      if (keys.s.isDown || cursors.down.isDown) {
+        player.y += 5;
+        if (player.y > 1920) {
+          player.y -= 5;
+        }
+      }
+      if (keys.d.isDown || cursors.right.isDown) {
+        player.x += 5;
+        if (player.x > 1920) {
+          player.x -= 5;
+        }
+      }
+    }
+
+    function render() {
+      // Render function - keeping for consistency with original structure
+    }
+
+    function addTiles(width) {
+      var tilesWide = Math.ceil(game.world.bounds.width/width);
+      var tilesHigh = Math.ceil(game.world.bounds.height/width);
+
+      let graphics = new Phaser.Graphics(game, 0, 0);
+      graphics.lineStyle(2, 0x000000, 0.5)
+
+      for (var i = 0; i < tilesWide; i++) {
+        for (var j = 0; j < tilesHigh; j++) {
+          // let color = (i%2) ^ (j%2) ? 0xffffff : 0xffffff;
+          let color = (Math.random()*0xFFFFFF<<0);
+          graphics.beginFill(color, 1);
+          graphics.drawRect(width*i, width*j, width, width);
+        }
+      }
+      game.add.existing(graphics);
+    }
+    }); // End of window.addEventListener('load')
+  </script>
+</ProjectPageLayout>

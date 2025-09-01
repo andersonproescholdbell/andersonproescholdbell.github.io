@@ -5,6 +5,7 @@ export interface Props {
   backText?: string;
   backHref?: string;
   className?: string;
+  originalReference?: string;
 }
 
 // Smart defaults for back navigation based on current path
@@ -33,7 +34,8 @@ const {
   description = "Interactive Project",
   backText = navDefaults.backText,
   backHref = navDefaults.backHref,
-  className = ""
+  className = "",
+  originalReference
 } = Astro.props;
 
 import UniversalNav from '../components/UniversalNav.astro';
@@ -58,7 +60,7 @@ import UniversalNav from '../components/UniversalNav.astro';
   </head>
   
   <body class={`has-universal-nav ${className}`}>
-    <UniversalNav backText={backText} backHref={backHref} />
+    <UniversalNav backText={backText} backHref={backHref} originalReference={originalReference} />
     
     <main class="project-main">
       <slot />

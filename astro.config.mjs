@@ -6,6 +6,11 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
+  redirects: {
+    // Legacy urls
+    '/floatsV1/index.html': '/counter-strike/floats-v1/',
+    '/floatsV3/index.html': '/counter-strike/floats-v3/',
+  },
   vite: {
     plugins: [tailwindcss()],
     resolve: {
