@@ -1,15 +1,282 @@
 ---
-import WIPPageTemplate from '../../../components/WIPPageTemplate.astro';
-import { getProjectColor } from '../../../config/projectUtils';
-
-const colors = getProjectColor('games', 'circles-basic');
+import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
 ---
 
-<WIPPageTemplate 
+<ProjectPageLayout 
   title="Circles Basic"
-  description="A basic circles game similar to Agario. Players control a circle that grows by consuming smaller circles while avoiding larger ones."
-  metaDescription="Similar to Agario"
-  categoryId="games"
-  categoryName="Games"
-  colors={colors}
-/>
+  description="A faithful single-player recreation of the akpcircles game"
+>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: lightgrey;
+    }
+
+    #ctx {
+      background-color: #9fc78d;
+      border: 1px solid black;
+    }
+
+    #container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    #joinContainer {
+      display: flex;
+      margin-top: 0.35%;
+    }
+
+    #name {
+      display: flex;
+      text-align: center;
+      margin-right: 5px;
+    }
+
+    #cPicker {
+      display: flex;
+      margin-right: 5px;
+    }
+
+    #canvasContainer {
+      display: flex;
+      margin-top: 0.5%;
+      flex-direction: row;
+    }
+  </style>
+
+  <div id="container">
+    <div id="joinContainer">
+      <input id="name" value="Name"/>
+      <input type="color" id="cPicker" value="#ff0000"/>
+      <button id="join">JOIN!</button>
+    </div>
+    <div id="canvasContainer">
+      <canvas id="ctx" width="1625px" height="900px"></canvas>
+    </div>
+  </div>
+
+  <script>
+    const can = document.getElementById('ctx');
+    const ctx = can.getContext('2d');
+    const canWidth = can.width;
+    const canHeight = can.height;
+    ctx.font = "19px Arial";
+
+    function lightOrDark(color) {
+      var r, g, b, hsp;
+      if (color.match(/^rgb/)) {
+        color = color.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/);
+        r = color[1];
+        g = color[2];
+        b = color[3];
+      }
+      else {
+        color = +("0x" + color.slice(1).replace(
+        color.length < 5 && /./g, '$&$&'));
+        r = color >> 16;
+        g = color >> 8 & 255;
+        b = color & 255;
+      }
+      hsp = Math.sqrt(
+      0.299 * (r * r) +
+      0.587 * (g * g) +
+      0.114 * (b * b)
+      );
+      if (hsp>127.5) {
+        return 'light';
+      }
+      else {
+        return 'dark';
+      }
+    }
+
+    // Game state
+    let PLAYER = null;
+    let FOOD_LIST = [];
+    let gameStarted = false;
+    let foodCount = 0;
+
+    const canvas = {
+      w: 1625,
+      h: 900
+    };
+
+    const sizes = {
+      fRadius: 12.5,
+      pRadius: 25
+    };
+
+    function getRndInteger(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function getDistance(x1, y1, x2, y2) {
+      return Math.sqrt(Math.pow((x2-x1),2)+Math.pow((y2-y1),2));
+    }
+
+    function updateCanvas() {
+      ctx.clearRect(0,0,canWidth,canHeight);
+      
+      // Draw food
+      for (let i = 0; i < FOOD_LIST.length; i++) {
+        const food = FOOD_LIST[i];
+        ctx.beginPath();
+        ctx.arc(food.x, food.y, food.radius, 0, 2*Math.PI, false);
+        ctx.fillStyle = food.color;
+        ctx.fill();
+      }
+      
+      // Draw player
+      if (PLAYER) {
+        ctx.beginPath();
+        ctx.arc(PLAYER.x, PLAYER.y, PLAYER.radius, 0, 2*Math.PI, false);
+        ctx.fillStyle = PLAYER.color;
+        ctx.fill();
+        ctx.fillStyle = PLAYER.nameColor;
+        ctx.textAlign = 'center';
+        ctx.fillText(PLAYER.name, PLAYER.x, PLAYER.y+3);
+      }
+    }
+
+    function foodContact() {
+      if (!PLAYER) return;
+      
+      for (let i = FOOD_LIST.length - 1; i >= 0; i--) {
+        const food = FOOD_LIST[i];
+        const distance = getDistance(PLAYER.x, PLAYER.y, food.x, food.y);
+        const range = PLAYER.radius + food.radius;
+        
+        if (distance < range) {
+          // Grow player using area calculation
+          const area = Math.pow(PLAYER.radius,2) * Math.PI + Math.pow(food.radius,2) * Math.PI;
+          PLAYER.radius = Math.sqrt(area / Math.PI);
+          FOOD_LIST.splice(i, 1);
+        }
+      }
+    }
+
+    function spawnFood() {
+      const food = {
+        id: foodCount,
+        x: getRndInteger(sizes.fRadius, canvas.w - sizes.fRadius),
+        y: getRndInteger(sizes.fRadius, canvas.h - sizes.fRadius),
+        radius: sizes.fRadius,
+        color: 'blue'
+      };
+      FOOD_LIST.push(food);
+      foodCount++;
+    }
+
+    // Game loop
+    function gameLoop() {
+      if (!gameStarted || !PLAYER) return;
+      
+      // Update player position based on key presses
+      if (PLAYER.pressingRight) {
+        PLAYER.maxSpeed = 400 * (1/PLAYER.radius);
+        PLAYER.x += PLAYER.maxSpeed;
+        if (PLAYER.x > canvas.w) {
+          PLAYER.x = canvas.w;
+        }
+      }
+      if (PLAYER.pressingLeft) {
+        PLAYER.maxSpeed = 400 * (1/PLAYER.radius);
+        PLAYER.x -= PLAYER.maxSpeed;
+        if (PLAYER.x < 0) {
+          PLAYER.x = 0;
+        }
+      }
+      if (PLAYER.pressingUp) {
+        PLAYER.maxSpeed = 400 * (1/PLAYER.radius);
+        PLAYER.y -= PLAYER.maxSpeed;
+        if (PLAYER.y < 0) {
+          PLAYER.y = 0;
+        }
+      }
+      if (PLAYER.pressingDown) {
+        PLAYER.maxSpeed = 400 * (1/PLAYER.radius);
+        PLAYER.y += PLAYER.maxSpeed;
+        if (PLAYER.y > canvas.h) {
+          PLAYER.y = canvas.h;
+        }
+      }
+      
+      foodContact();
+      updateCanvas();
+    }
+
+    // Controls
+    document.onkeydown = function(event) {
+      if (!PLAYER) return;
+      
+      if (event.keyCode === 39) // right
+        PLAYER.pressingRight = true;
+      else if (event.keyCode === 40) // down
+        PLAYER.pressingDown = true;
+      else if (event.keyCode === 37) // left
+        PLAYER.pressingLeft = true;
+      else if (event.keyCode === 38) // up
+        PLAYER.pressingUp = true;
+    }
+
+    document.onkeyup = function(event) {
+      if (!PLAYER) return;
+      
+      if (event.keyCode === 39) // right
+        PLAYER.pressingRight = false;
+      else if (event.keyCode === 40) // down
+        PLAYER.pressingDown = false;
+      else if (event.keyCode === 37) // left
+        PLAYER.pressingLeft = false;
+      else if (event.keyCode === 38) // up
+        PLAYER.pressingUp = false;
+    }
+
+    // Join game
+    document.getElementById('join').addEventListener('click', function() {
+      const name = document.getElementById('name').value;
+      const color = document.getElementById('cPicker').value;
+      let nameColor;
+      if (lightOrDark(color) == 'light') {
+        nameColor = 'black';
+      } else {
+        nameColor = 'white';
+      }
+      
+      PLAYER = {
+        x: getRndInteger(sizes.pRadius, canvas.w - sizes.pRadius),
+        y: getRndInteger(sizes.pRadius, canvas.h - sizes.pRadius),
+        radius: sizes.pRadius,
+        color: color,
+        name: name,
+        nameColor: nameColor,
+        pressingRight: false,
+        pressingLeft: false,
+        pressingUp: false,
+        pressingDown: false,
+        maxSpeed: 3,
+      };
+      
+      gameStarted = true;
+      updateCanvas();
+    });
+
+    // Food generation interval (1000ms like original)
+    setInterval(function() {
+      if (gameStarted) {
+        spawnFood();
+        // Remove excess food to maintain around 50 items total
+        while (FOOD_LIST.length > 50) {
+          FOOD_LIST.shift();
+        }
+      }
+    }, 1000);
+
+    // Game loop at 60 FPS
+    setInterval(gameLoop, 1000/60);
+  </script>
+</ProjectPageLayout>
