@@ -1,4 +1,6 @@
 ---
+import { projectData } from '../config/projects';
+
 export interface Props {
   title?: string;
   description?: string;
@@ -27,7 +29,36 @@ function getNavigationDefaults() {
   }
 }
 
+// Auto-detect original reference from project config
+function getOriginalReference() {
+  const pathname = Astro.url.pathname;
+  const segments = pathname.split('/').filter(Boolean);
+  
+  if (segments.length >= 2) {
+    const categorySlug = segments[0];
+    const projectSlug = segments[1];
+    
+    // Look up the category and project in config
+    const category = projectData[categorySlug];
+    if (category) {
+      const project = category.projects.find(p => {
+        // Match against the last segment of the project's link
+        const projectPath = p.link.split('/').filter(Boolean);
+        const projectId = projectPath[projectPath.length - 1];
+        return projectId === projectSlug;
+      });
+      
+      if (project && project['original-reference']) {
+        return project['original-reference'];
+      }
+    }
+  }
+  
+  return undefined;
+}
+
 const navDefaults = getNavigationDefaults();
+const autoOriginalReference = getOriginalReference();
 
 const { 
   title = "Project", 
@@ -37,6 +68,9 @@ const {
   className = "",
   originalReference
 } = Astro.props;
+
+// Use manual originalReference prop if provided, otherwise use auto-detected
+const finalOriginalReference = originalReference || autoOriginalReference;
 
 import UniversalNav from '../components/UniversalNav.astro';
 ---
@@ -60,7 +94,7 @@ import UniversalNav from '../components/UniversalNav.astro';
   </head>
   
   <body class={`has-universal-nav ${className}`}>
-    <UniversalNav backText={backText} backHref={backHref} originalReference={originalReference} />
+    <UniversalNav backText={backText} backHref={backHref} originalReference={finalOriginalReference} />
     
     <main class="project-main">
       <slot />

@@ -6,8 +6,7 @@ import { Settings, HelpCircle } from 'lucide-astro';
 
 <ProjectPageLayout 
   title="AKordle" 
-  description="Enhanced Wordle with advanced features"
-  originalReference="https://github.com/andersonproescholdbell/AKordle/tree/main"
+  description="Enhanced Wordle"
 >
   <style>
     @import '/src/config/design-tokens.css';
@@ -221,6 +220,7 @@ import { Settings, HelpCircle } from 'lucide-astro';
         margin: 0;
         text-align: center;
         font-weight: bold;
+        /* Base font size - JavaScript will dynamically adjust this based on actual box size */
         font-size: clamp(0.8rem, min(4vw, 4vh, calc(60px / var(--cols))), 2.5rem);
         color: white;
         display: flex;
@@ -408,7 +408,7 @@ import { Settings, HelpCircle } from 'lucide-astro';
                 </button>
             </div>
             
-            <h1 id="site">Enhanced Wordle</h1>
+            <h1 id="site">AKordle</h1>
             
             <div id="right" class="d-flex flex-row">
                 <button class="settings-btn" id="stats">
@@ -465,6 +465,9 @@ import { Settings, HelpCircle } from 'lucide-astro';
                 
                 // Set up event handlers
                 setupEventHandlers();
+                
+                // Set up window resize handler for text scaling
+                window.addEventListener('resize', game.handleWindowResize);
                 
                 // Wait for next animation frame to ensure page is fully rendered before loading dictionary
                 requestAnimationFrame(() => {

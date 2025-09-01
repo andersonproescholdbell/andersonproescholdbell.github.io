@@ -31,10 +31,14 @@ export class GameController {
         // Input state
         this.inputEnabled = false;
         
+        // Resize handling
+        this.resizeTimeout = null;
+        
         // Bind methods to preserve 'this' context
         this.handleKeyPress = this.handleKeyPress.bind(this);
         this.submitGuess = this.submitGuess.bind(this);
         this.removeLetter = this.removeLetter.bind(this);
+        this.handleWindowResize = this.handleWindowResize.bind(this);
     }
 
     /**
@@ -180,7 +184,7 @@ export class GameController {
         // Add loading indicator to the site title
         const siteTitle = document.getElementById('site');
         if (siteTitle && !this.dictionaryReady) {
-            siteTitle.textContent = 'Enhanced Wordle (Loading...)';
+            siteTitle.textContent = 'AKordle (Loading...)';
             siteTitle.style.opacity = '0.7';
         }
         
@@ -359,6 +363,11 @@ export class GameController {
             
             boxesContainer.appendChild(row);
         }
+        
+        // Update text scaling after boxes are created and rendered
+        setTimeout(() => {
+            this.updateTextScaling();
+        }, 0); // Next tick to ensure boxes are rendered
     }
 
     /**
@@ -635,6 +644,11 @@ export class GameController {
         // Update keyboard colors
         this.animationController.updateKeyboard();
         
+        // Update text scaling to ensure proper sizing
+        setTimeout(() => {
+            this.updateTextScaling();
+        }, 0);
+        
         // Disable input if game is completed
         if (this.currentGame.completed) {
             this.disableInput();
@@ -808,5 +822,63 @@ export class GameController {
     resetStats() {
         localStorage.removeItem(GAME_CONFIG.STORAGE_KEY_STATS);
         this.gameStats = { ...DEFAULT_STATS };
+    }
+
+    /**
+     * Update text scaling based on actual box dimensions
+     */
+    updateTextScaling() {
+        const boxes = document.querySelectorAll('.box');
+        if (boxes.length === 0) return;
+        
+        // Get the first box to determine sizing
+        const firstBox = boxes[0];
+        const boxRect = firstBox.getBoundingClientRect();
+        
+        // Only update if box has been rendered (has actual dimensions)
+        if (boxRect.width === 0 || boxRect.height === 0) {
+            return;
+        }
+        
+        const boxSize = Math.min(boxRect.width, boxRect.height);
+        
+        // Calculate font size based on box dimensions
+        // Use a percentage of box size with min/max constraints
+        let fontSizeRatio = 0.45; // 45% of box size for better fit
+        
+        // Adjust ratio based on box size for better scaling
+        if (boxSize > 80) {
+            fontSizeRatio = 0.5; // Larger boxes can handle bigger text ratio
+        } else if (boxSize < 40) {
+            fontSizeRatio = 0.35; // Smaller boxes need smaller text ratio
+        }
+        
+        const baseFontSize = boxSize * fontSizeRatio;
+        const minFontSize = 10; // minimum 10px
+        const maxFontSize = 64; // maximum 64px
+        
+        const calculatedFontSize = Math.max(minFontSize, Math.min(maxFontSize, baseFontSize));
+        
+        // Apply to all boxes with important to override CSS
+        boxes.forEach(box => {
+            box.style.setProperty('font-size', `${calculatedFontSize}px`, 'important');
+        });
+        
+        console.log(`Updated font size to ${calculatedFontSize}px for ${boxSize}px boxes`);
+    }
+
+    /**
+     * Handle window resize with debouncing
+     */
+    handleWindowResize() {
+        // Clear existing timeout
+        if (this.resizeTimeout) {
+            clearTimeout(this.resizeTimeout);
+        }
+        
+        // Set new timeout
+        this.resizeTimeout = setTimeout(() => {
+            this.updateTextScaling();
+        }, 150); // 150ms debounce
     }
 }
