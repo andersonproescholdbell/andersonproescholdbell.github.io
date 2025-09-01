@@ -39,6 +39,7 @@ const {
 } = Astro.props;
 
 import '../config/global.css';
+import UniversalNav from '../components/UniversalNav.astro';
 ---
 
 <html lang="en">
@@ -56,8 +57,11 @@ import '../config/global.css';
 			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap"
 			rel="stylesheet">
 	</head>
-	<body class="bg-gray-900 text-gray-300 min-h-screen flex items-center justify-center">
+	<body class="bg-gray-900 text-gray-300 min-h-screen">
+		{backLinkHref && <UniversalNav backText={backLinkText} backHref={backLinkHref} />}
 		<style>
+			@import '/src/config/design-tokens.css';
+			
 			/* Applying the custom fonts */
 			body {
 				font-family: 'Inter', sans-serif;
@@ -71,9 +75,27 @@ import '../config/global.css';
 			h6 {
 				font-family: 'Playfair Display', serif;
 			}
+
+			/* Base main styling */
+			.project-grid-main {
+				min-height: 100vh;
+			}
+
+			/* Add spacing for fixed nav when navigation is present */
+			.project-grid-main-with-nav {
+				padding-top: var(--nav-height-desktop);
+				min-height: 100vh;
+			}
+
+			/* Mobile adjustments */
+			@media (max-width: 768px) {
+				.project-grid-main-with-nav {
+					padding-top: var(--nav-height-mobile);
+				}
+			}
 		</style>
 
-		<main class="flex-grow">
+		<main class={`flex-grow ${backLinkHref ? 'project-grid-main-with-nav' : 'project-grid-main'}`}>
 			<div class="container mx-auto p-8 w-[50%] sm:w-[60%] md:w-[90%] lg:w-[80%] xl:w-[60%] 2xl:w-[60%] flex flex-col items-center">
 				<!-- Header Section -->
 				<div class="text-center mb-12">
@@ -92,17 +114,6 @@ import '../config/global.css';
 					<slot />
 				</div>
 
-				<!-- Back Link -->
-				{backLinkHref && (
-					<div class="text-center mt-12">
-						<a 
-							href={backLinkHref}
-							class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors duration-200"
-						>
-							{backLinkText}
-						</a>
-					</div>
-				)}
 			</div>
 		</main>
 	</body>
