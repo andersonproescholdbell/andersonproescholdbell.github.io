@@ -92,10 +92,13 @@ var app = new Vue({
       this.ctx.fill();
     },
     start: function() {
-      var points = [{x:(this.canw/2 - 300), y:(this.canh/2 - 300)},
-                    {x:(this.canw/2 - 300), y:(this.canh/2 + 300)},
-                    {x:(this.canw/2 + 300), y:(this.canh/2 + 300)},
-                    {x:(this.canw/2 + 300), y:(this.canh/2 - 300)}];
+      // Calculate maximum size that fits with 5% padding
+      var size = Math.min(this.canw * 0.9, this.canh * 0.9) / 2;
+      
+      var points = [{x:(this.canw/2 - size), y:(this.canh/2 - size)},
+                    {x:(this.canw/2 - size), y:(this.canh/2 + size)},
+                    {x:(this.canw/2 + size), y:(this.canh/2 + size)},
+                    {x:(this.canw/2 + size), y:(this.canh/2 - size)}];
 
       this.ctx.beginPath();
       this.ctx.moveTo(points[0].x, points[0].y);

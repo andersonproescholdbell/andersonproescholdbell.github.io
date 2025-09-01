@@ -90,21 +90,46 @@ var app = new Vue({
       this.ctx.fill();
     },
     start: function() {
-      // hexagon
+      // pentagon
       var numberOfSides = 5,
-        size = (this.canh*this.canw)/2600,
-        points = [],
         step = 2 * Math.PI / numberOfSides,//Precalculate step value
-        shift = (Math.PI / 180.0) * -18;//Quick fix ;)
-
-      for (var i = 0; i <= numberOfSides; i++) {
-        var curStep = i * step + shift;
-        points.push({x: ((this.canw/2) + size * Math.cos(curStep)), y: ((this.canh/2) + size * Math.sin(curStep))});
+        shift = (Math.PI / 180.0) * -18,//Quick fix ;)
+        
+        // Calculate pentagon bounds with rotation
+        minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+      
+      // Find the actual bounds of the rotated pentagon
+      for (var i = 0; i < numberOfSides; i++) {
+        var angle = i * step + shift;
+        var x = Math.cos(angle);
+        var y = Math.sin(angle);
+        minX = Math.min(minX, x);
+        maxX = Math.max(maxX, x);
+        minY = Math.min(minY, y);
+        maxY = Math.max(maxY, y);
       }
-      points.splice(-1);
-      points.forEach((point) => {
-        point.y += 33;
-      });
+      
+      var pentagonWidth = maxX - minX;
+      var pentagonHeight = maxY - minY;
+      
+      var unitCenterX = (minX + maxX) / 2;
+      var unitCenterY = (minY + maxY) / 2;
+      
+      // Calculate maximum size that fits with 5% padding
+      var maxSizeForWidth = (this.canw * 0.9) / pentagonWidth;
+      var maxSizeForHeight = (this.canh * 0.9) / pentagonHeight;
+      var size = Math.min(maxSizeForWidth, maxSizeForHeight);
+      
+      var points = [];
+      for (var i = 0; i < numberOfSides; i++) {
+        var curStep = i * step + shift;
+        var unitX = Math.cos(curStep);
+        var unitY = Math.sin(curStep);
+        points.push({
+          x: (this.canw / 2) + size * (unitX - unitCenterX),
+          y: (this.canh / 2) + size * (unitY - unitCenterY)
+        });
+      }
       this.ctx.beginPath();
       this.ctx.moveTo(points[0].x, points[0].y);
       this.ctx.lineTo(points[1].x, points[1].y);
