@@ -1,15 +1,22 @@
 ---
-import WIPPageTemplate from '../../../components/WIPPageTemplate.astro';
-import { getProjectColor } from '../../../config/projectUtils';
+import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
 
-const colors = getProjectColor('geometric', 'fractal-triangle');
+const title = "Sierpinski's Triangle";
+const description = "Interactive visualization of Sierpinski's Triangle using the chaos game algorithm with customizable parameters.";
 ---
 
-<WIPPageTemplate 
-  title="Sierpinski's Triangle"
-  description="Standard chaos game rules."
-  metaDescription="Interactive visualization of Sierpinski's Triangle using standard chaos game rules with HTML5 Canvas."
-  categoryId="geometric"
-  categoryName="Geometric"
-  colors={colors}
-/>
+<ProjectPageLayout title={title} description={description}>
+  <iframe
+    src="/geometric/fractal-triangle/app.html"
+    frameborder="0"
+    class="project-iframe"
+  ></iframe>
+</ProjectPageLayout>
+
+<style>
+  .project-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+</style>
