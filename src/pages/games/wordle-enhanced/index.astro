@@ -187,6 +187,7 @@ import { Settings, HelpCircle } from 'lucide-astro';
         width: 100%;
         min-height: 0; /* Allow content to shrink if needed */
         padding: var(--container-padding) 0;
+        overflow-x: auto; /* Allow horizontal scrolling for very long words */
     }
 
     #boxes {
@@ -196,6 +197,7 @@ import { Settings, HelpCircle } from 'lucide-astro';
         align-items: center;
         gap: var(--row-gap);
         display: flex;
+        min-width: calc(var(--cols) * 40px + var(--box-gap) * (var(--cols) - 1)); /* Ensure minimum width for very long words */
     }
 
     div.row {
@@ -212,10 +214,13 @@ import { Settings, HelpCircle } from 'lucide-astro';
         aspect-ratio: 1;
         height: 90%;
         max-height: calc((100vw - var(--box-gap) * (var(--cols) - 1)) / var(--cols));
+        min-height: 30px;
+        max-width: calc((100vw - var(--box-gap) * (var(--cols) - 1)) / var(--cols));
+        min-width: 30px;
         margin: 0;
         text-align: center;
         font-weight: bold;
-        font-size: clamp(1.5rem, min(5vw, 5vh), 3rem);
+        font-size: clamp(0.8rem, min(4vw, 4vh, calc(60px / var(--cols))), 2.5rem);
         color: white;
         display: flex;
         justify-content: center;
@@ -417,8 +422,7 @@ import { Settings, HelpCircle } from 'lucide-astro';
 
         <div id="panel" class="flex-column">
             <p id="rangeLength" class="text-center mb-0">Word Length - 5</p>
-            <input type="range" id="range" min="3" max="8" step="1" value="5">
-            <button id="newGame" class="btn btn-primary">Start New Game</button>
+            <input type="range" id="range" min="1" max="21" step="1" value="5">
         </div>
 
         <div id="boxes-con">
@@ -455,11 +459,32 @@ import { Settings, HelpCircle } from 'lucide-astro';
                 const animationController = new AnimationController(domHelper);
                 game = new GameController(domHelper, animationController);
                 
-                // Initialize the game
-                await game.initialize();
+                // Initialize UI immediately (fast, shows game board right away)
+                await game.initializeUI();
                 
                 // Set up event handlers
                 setupEventHandlers();
+                
+                // Wait for next animation frame to ensure page is fully rendered before loading dictionary
+                requestAnimationFrame(() => {
+                    console.log('Page render complete, starting dictionary load...');
+                    
+                    // Load dictionary in background and enable gameplay when ready
+                    game.loadDictionaryAsync().then((success) => {
+                        console.log('Dictionary loading completed, success:', success);
+                        
+                        // Wrap enableGameplay in try-catch to prevent errors from bubbling up
+                        try {
+                            game.enableGameplay();
+                        } catch (gameplayError) {
+                            console.error('Error during gameplay initialization:', gameplayError);
+                            // Don't alert for gameplay errors, just log them
+                        }
+                    }).catch((dictionaryError) => {
+                        console.error('Critical error loading dictionary:', dictionaryError);
+                        alert('Error loading word dictionary. Please refresh the page.');
+                    });
+                });
                 
             } catch (error) {
                 console.error('Failed to initialize game:', error);
@@ -478,14 +503,20 @@ import { Settings, HelpCircle } from 'lucide-astro';
                 game.newGame();
             });
 
-            // Settings panel handlers
-            document.getElementById('newGame')?.addEventListener('click', () => {
-                document.getElementById('panel').classList.remove('show');
-                game.newGame();
-            });
 
             document.getElementById('settings')?.addEventListener('click', () => {
                 const panel = document.getElementById('panel');
+                const slider = document.getElementById('range');
+                const rangeLength = document.getElementById('rangeLength');
+                
+                // Sync slider with current game word length when opening panel
+                if (!panel.classList.contains('show')) {
+                    // Panel is about to open - sync slider with current game
+                    const currentWordLength = game.getCols();
+                    slider.value = currentWordLength;
+                    rangeLength.textContent = `Word Length - ${currentWordLength}`;
+                }
+                
                 panel.classList.toggle('show');
             });
 
@@ -498,6 +529,8 @@ import { Settings, HelpCircle } from 'lucide-astro';
                 
                 if (game.hasWordsOfLength(value)) {
                     rangeLength.textContent = `Word Length - ${value}`;
+                    // Auto-start new game with the selected word length
+                    game.newGame();
                 } else {
                     rangeLength.textContent = `Word Length - ${value} (No words available)`;
                 }
@@ -511,6 +544,20 @@ import { Settings, HelpCircle } from 'lucide-astro';
             // Hint handler
             document.getElementById('hint')?.addEventListener('click', () => {
                 alert(game.getHint());
+            });
+
+            // Close panel when clicking outside
+            document.addEventListener('click', (e) => {
+                const panel = document.getElementById('panel');
+                const settingsBtn = document.getElementById('settings');
+                
+                // Check if panel is currently open
+                if (panel.classList.contains('show')) {
+                    // Check if click was outside panel AND not on settings button
+                    if (!panel.contains(e.target) && !settingsBtn.contains(e.target)) {
+                        panel.classList.remove('show');
+                    }
+                }
             });
         }
 

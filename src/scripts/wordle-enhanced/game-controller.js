@@ -23,6 +23,11 @@ export class GameController {
         this.gameStats = null;
         this.wordDict = [];
         
+        // Dictionary loading state
+        this.dictionaryLoading = false;
+        this.dictionaryReady = false;
+        this.pendingActions = [];
+        
         // Input state
         this.inputEnabled = false;
         
@@ -33,11 +38,11 @@ export class GameController {
     }
 
     /**
-     * Initialize the game controller
+     * Initialize the game UI immediately (fast, no dictionary required)
      */
-    async initialize() {
+    async initializeUI() {
         try {
-            await this.loadDictionary();
+            // Load stats and game state (these are fast, local operations)
             this.gameStats = this.loadStats();
             this.currentGame = this.loadGameState();
             
@@ -45,35 +50,220 @@ export class GameController {
             this.setWordLength(GAME_CONFIG.DEFAULT_COLS);
             this.setRows(GAME_CONFIG.DEFAULT_ROWS);
             
-            if (this.currentGame && !this.currentGame.completed) {
+            // Create UI elements immediately
+            if (this.currentGame && !this.currentGame.completed && this.dictionaryReady) {
                 this.updateGameDimensions(this.currentGame.rows, this.currentGame.cols);
                 this.createGame();
                 this.restoreGameState();
             } else {
-                this.newGame();
+                // Create empty game board without starting a game
+                this.createGameUI();
             }
             
             return true;
         } catch (error) {
-            console.error('Failed to initialize game:', error);
-            alert(GAME_MESSAGES.DICTIONARY_LOAD_ERROR);
+            console.error('Failed to initialize game UI:', error);
             throw error;
         }
     }
 
     /**
-     * Load word dictionary from server
+     * Load dictionary asynchronously in the background
+     */
+    async loadDictionaryAsync() {
+        if (this.dictionaryLoading || this.dictionaryReady) {
+            return this.dictionaryReady;
+        }
+        
+        this.dictionaryLoading = true;
+        
+        try {
+            console.log('Starting dictionary load...');
+            await this.loadDictionary();
+            this.dictionaryReady = true;
+            this.dictionaryLoading = false;
+            
+            console.log('Dictionary loaded successfully');
+            
+            // Process any pending actions that were waiting for dictionary
+            this.processPendingActions();
+            
+            return true;
+        } catch (error) {
+            console.error('Failed to load dictionary:', error.message, error);
+            this.dictionaryLoading = false;
+            this.dictionaryReady = false;
+            
+            // Re-throw the error so it can be handled by the caller
+            throw error;
+        }
+    }
+
+    /**
+     * Enable full gameplay after dictionary loads
+     */
+    enableGameplay() {
+        if (!this.dictionaryReady) {
+            console.warn('Attempted to enable gameplay before dictionary ready');
+            return;
+        }
+        
+        try {
+            console.log('Hiding loading state...');
+            this.hideLoadingState();
+        } catch (error) {
+            console.error('Error hiding loading state:', error);
+        }
+        
+        try {
+            console.log('Enabling input...');
+            this.enableInput();
+        } catch (error) {
+            console.error('Error enabling input:', error);
+        }
+        
+        try {
+            console.log('Starting or restoring game...');
+            if (!this.currentGame || this.currentGame.completed) {
+                console.log('Starting new game...');
+                this.newGame();
+            } else {
+                console.log('Restoring existing game...');
+                this.restoreGameState();
+            }
+        } catch (error) {
+            console.error('Error starting/restoring game:', error);
+            // Don't let game errors prevent the overall success
+        }
+        
+        console.log('Gameplay enabled - dictionary ready');
+    }
+
+
+    /**
+     * Process actions that were queued while waiting for dictionary
+     */
+    processPendingActions() {
+        console.log(`Processing ${this.pendingActions.length} pending actions`);
+        
+        while (this.pendingActions.length > 0) {
+            const action = this.pendingActions.shift();
+            try {
+                action.execute();
+            } catch (error) {
+                console.error('Error executing pending action:', error);
+            }
+        }
+    }
+
+    /**
+     * Queue an action to be executed when dictionary is ready
+     */
+    queueAction(actionName, executeFunction) {
+        if (this.dictionaryReady) {
+            // Execute immediately if dictionary is ready
+            executeFunction();
+        } else {
+            // Queue for later execution
+            this.pendingActions.push({
+                name: actionName,
+                execute: executeFunction
+            });
+            console.log(`Queued action: ${actionName} (dictionary loading...)`);
+        }
+    }
+
+    /**
+     * Show loading state in UI
+     */
+    showLoadingState() {
+        // Add loading indicator to the site title
+        const siteTitle = document.getElementById('site');
+        if (siteTitle && !this.dictionaryReady) {
+            siteTitle.textContent = 'Enhanced Wordle (Loading...)';
+            siteTitle.style.opacity = '0.7';
+        }
+        
+        // Disable keyboard interaction during loading
+        const keyboard = document.getElementById('keyboard');
+        if (keyboard) {
+            keyboard.style.opacity = '0.5';
+            keyboard.style.pointerEvents = 'none';
+        }
+        
+        // Show loading message in the game board area
+        this.showLoadingMessage();
+    }
+
+    /**
+     * Hide loading state in UI
+     */
+    hideLoadingState() {
+        const siteTitle = document.getElementById('site');
+        if (siteTitle) {
+            siteTitle.textContent = 'Enhanced Wordle';
+            siteTitle.style.opacity = '1';
+        }
+        
+        // Re-enable keyboard interaction
+        const keyboard = document.getElementById('keyboard');
+        if (keyboard) {
+            keyboard.style.opacity = '1';
+            keyboard.style.pointerEvents = 'auto';
+        }
+        
+        // Remove loading message
+        this.hideLoadingMessage();
+    }
+
+    /**
+     * Show loading message in game area
+     */
+    showLoadingMessage() {
+        const boxesContainer = document.getElementById('boxes-con');
+        if (boxesContainer && !document.getElementById('loading-message')) {
+            const loadingDiv = document.createElement('div');
+            loadingDiv.id = 'loading-message';
+            loadingDiv.style.cssText = `
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                color: white;
+                font-size: 1.2rem;
+                text-align: center;
+                z-index: 1000;
+                opacity: 0.8;
+            `;
+            loadingDiv.innerHTML = `
+                <div>Loading dictionary...</div>
+                <div style="font-size: 0.9rem; margin-top: 0.5rem; opacity: 0.7;">
+                    Game will start automatically when ready
+                </div>
+            `;
+            boxesContainer.appendChild(loadingDiv);
+        }
+    }
+
+    /**
+     * Hide loading message
+     */
+    hideLoadingMessage() {
+        const loadingMessage = document.getElementById('loading-message');
+        if (loadingMessage) {
+            loadingMessage.remove();
+        }
+    }
+
+    /**
+     * Load word dictionary from JavaScript module (optimized)
      */
     async loadDictionary() {
         try {
-            const response = await fetch('/scripts/wordle-enhanced/english-mixed-lengths.txt');
-            if (!response.ok) {
-                throw new Error(`Failed to load dictionary: ${response.status}`);
-            }
-            const text = await response.text();
-            this.wordDict = text.trim().split('\n')
-                .map(word => word.trim().toLowerCase())
-                .filter(word => word.length > 0);
+            const { allWords, wordsByLength, hasWordsOfLength } = await import('/scripts/wordle-enhanced/english-mixed-lengths.js');
+            this.wordDict = allWords;
+            this.wordsByLength = wordsByLength;
+            this.hasWordsOfLengthFast = hasWordsOfLength;
             
             console.log(`Loaded ${this.wordDict.length} words from dictionary`);
             return this.wordDict;
@@ -92,14 +282,15 @@ export class GameController {
         const cols = this.getCols();
         const rows = this.getRows();
         
-        if (this.wordDict.length === 0) {
-            console.error('Dictionary not loaded yet');
+        if (!this.dictionaryReady) {
+            // Queue the new game action for when dictionary is ready
+            this.queueAction('newGame', () => this.newGame());
             return false;
         }
         
-        // Generate random word of correct length
-        const wordsOfLength = this.wordDict.filter(word => word.length === cols);
-        if (wordsOfLength.length === 0) {
+        // Generate random word of correct length (optimized lookup)
+        const wordsOfLength = this.wordsByLength ? this.wordsByLength[cols] : this.wordDict.filter(word => word.length === cols);
+        if (!wordsOfLength || wordsOfLength.length === 0) {
             console.error(`No words of length ${cols} found in dictionary`);
             alert(GAME_MESSAGES.NO_WORDS_AVAILABLE(cols));
             return false;
@@ -131,6 +322,22 @@ export class GameController {
         this.createRows(rows, cols);
         this.createKeyboard();
         this.enableInput();
+    }
+
+    /**
+     * Create game UI without starting a game (for immediate loading)
+     */
+    createGameUI() {
+        const rows = this.getRows();
+        const cols = this.getCols();
+        
+        this.updateGameDimensions(rows, cols);
+        this.createRows(rows, cols);
+        this.createKeyboard();
+        
+        // Don't enable input until dictionary is ready
+        // Show loading state instead
+        this.showLoadingState();
     }
 
     /**
@@ -277,8 +484,8 @@ export class GameController {
             const guess = this.getGuess();
             
             // Check dictionary
-            if (this.wordDict.length === 0) {
-                alert(GAME_MESSAGES.DICTIONARY_NOT_LOADED);
+            if (!this.dictionaryReady) {
+                alert('Dictionary still loading, please wait...');
                 return;
             }
             
@@ -389,6 +596,13 @@ export class GameController {
         const boxes = document.querySelectorAll('.box');
         let boxIndex = 0;
         
+        // Validate that we have enough boxes for the saved game
+        const totalLettersNeeded = this.currentGame.guesses.reduce((total, guess) => total + guess.word.length, 0);
+        if (boxes.length < totalLettersNeeded) {
+            console.error(`Cannot restore game state: need ${totalLettersNeeded} boxes but only found ${boxes.length}`);
+            return;
+        }
+        
         // Restore each previous guess
         for (const guessData of this.currentGame.guesses) {
             const guess = guessData.word;
@@ -397,6 +611,11 @@ export class GameController {
             // Fill boxes with letters and apply colors
             for (let i = 0; i < guess.length; i++) {
                 const box = boxes[boxIndex];
+                if (!box) {
+                    console.error(`Box at index ${boxIndex} not found during game restoration`);
+                    return; // Exit gracefully instead of crashing
+                }
+                
                 box.textContent = guess[i].toUpperCase();
                 this.domHelper.addClasses(box, TILE_STATE.FILLED, TILE_STATE.FINAL);
                 
@@ -476,10 +695,16 @@ export class GameController {
     }
 
     /**
-     * Set word length and update CSS
+     * Set word length, update CSS, and redraw the game grid for immediate feedback
      */
     setWordLength(length) {
         this.domHelper.setCSSProperty(CSS_CUSTOM_PROPERTIES.COLS, length);
+        
+        // Get the current number of rows to rebuild the grid correctly
+        const rows = this.getRows();
+        
+        // Re-create the grid of boxes to reflect the new number of columns
+        this.createRows(rows, length);
     }
 
     /**
@@ -512,9 +737,16 @@ export class GameController {
     }
 
     /**
-     * Check if words of given length are available
+     * Check if words of given length are available (optimized)
      */
     hasWordsOfLength(length) {
+        if (this.hasWordsOfLengthFast) {
+            return this.hasWordsOfLengthFast(length);
+        }
+        if (this.wordsByLength) {
+            return this.wordsByLength[length] && this.wordsByLength[length].length > 0;
+        }
+        // Fallback to original method
         return this.wordDict.some(word => word.length === length);
     }
 

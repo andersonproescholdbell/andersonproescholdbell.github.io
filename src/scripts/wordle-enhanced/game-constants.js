@@ -18,8 +18,8 @@ export const KEY_STATE = {
 export const GAME_CONFIG = {
     DEFAULT_ROWS: 6,
     DEFAULT_COLS: 5,
-    MIN_WORD_LENGTH: 3,
-    MAX_WORD_LENGTH: 8,
+    MIN_WORD_LENGTH: 1,
+    MAX_WORD_LENGTH: 21,
     
     // Animation timing (in milliseconds)
     TILE_FLIP_DELAY: 300,
