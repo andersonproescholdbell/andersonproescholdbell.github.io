@@ -6,17 +6,142 @@ const description = "Interactive visualization of Sierpinski's Triangle using th
 ---
 
 <ProjectPageLayout title={title} description={description}>
-  <iframe
-    src="/geometric/fractal-triangle/app.html"
-    frameborder="0"
-    class="project-iframe"
-  ></iframe>
-</ProjectPageLayout>
+  <style>
+    @import '/src/styles/nav-heights.css';
+    
+    /* Ensure full height usage */
+    #sierpinski-app {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
 
-<style>
-  .project-iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-  }
-</style>
+    #canvasContainer {
+      width: 100%;
+      height: 100%;
+    }
+
+    #ctx {
+      display: block;
+    }
+
+    /* Control panel styling */
+    .control-panel {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      background-color: rgba(255,255,255,0.9);
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      width: 300px;
+      z-index: 100;
+    }
+
+    .control-buttons {
+      margin-bottom: 10px;
+    }
+
+    .control-buttons button {
+      margin-right: 10px;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .start-btn {
+      background-color: #3b82f6;
+    }
+
+    .start-btn:hover {
+      background-color: #2563eb;
+    }
+
+    .stop-btn {
+      background-color: #ef4444;
+    }
+
+    .stop-btn:hover {
+      background-color: #dc2626;
+    }
+
+    .control-grid {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 8px 10px;
+      align-items: center;
+      font-size: 14px;
+    }
+
+    .control-grid label {
+      font-weight: 500;
+      color: #374151;
+    }
+
+    .control-grid input {
+      box-sizing: border-box;
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
+      padding: 4px 8px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      font-size: 14px;
+    }
+
+    .control-grid input:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 1px #3b82f6;
+    }
+  </style>
+
+  <div id="sierpinski-app">
+    <div id="canvasContainer">
+      <canvas id="ctx" width="10" height="10"></canvas>
+    </div>
+
+    <div class="control-panel">
+      <div class="control-buttons">
+        <button v-on:click="start" class="start-btn">Start!</button>
+        <button v-on:click="stop" class="stop-btn">Stop!</button>
+      </div>
+      
+      <div class="control-grid">
+        <label for="polySidesInput">Polygon Sides:</label>
+        <input id="polySidesInput" type="number" v-model="polySides"/>
+        
+        <label for="minAreaInput">Min Area:</label>
+        <input id="minAreaInput" type="number" v-model="minArea"/>
+        
+        <label for="sideDotRadInput">Side Dot Radius:</label>
+        <input id="sideDotRadInput" type="number" v-model="sideDotRad"/>
+        
+        <label for="sideDotColorInput">Side Dot Color:</label>
+        <input id="sideDotColorInput" v-model="sideDotColor" placeholder="random, color name, or hex"/>
+        
+        <label for="dotRadInput">Dot Radius:</label>
+        <input id="dotRadInput" type="number" v-model="dotRad"/>
+        
+        <label for="dotMoveInput">Dot Movement:</label>
+        <input id="dotMoveInput" type="number" v-model="dotMove"/>
+        
+        <label for="canvasBgColorInput">Canvas Color:</label>
+        <input id="canvasBgColorInput" v-model="canvasBgColor" placeholder="random, color name, or hex"/>
+        
+        <label for="dotCounterBgColorInput">Counter Color:</label>
+        <input id="dotCounterBgColorInput" v-model="dotCounterBgColor" placeholder="random, color name, or hex"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- Load Vue.js from CDN -->
+  <script is:inline src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  
+  <!-- Load the Sierpinski Triangle script inline -->
+  <script is:inline src="/scripts/fractal-triangle/script.js"></script>
+</ProjectPageLayout>

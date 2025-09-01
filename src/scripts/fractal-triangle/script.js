@@ -1,5 +1,5 @@
 var app = new Vue({
-  el: '#app',
+  el: '#sierpinski-app',
   data: {
     canvasBgColor: 'slategray',//color of the canvas background
     dotCounterBgColor: 'slateblue',//color of the background behind the dot counter
@@ -9,7 +9,7 @@ var app = new Vue({
     sideDotColor: 'blue',//the dots that make up the side's colorl either random or color name or hex
     dotRad: 1,//radius of the dots being generated in px
     dotMove: 2,// 1/dotMove will be how far dots are placed towards their destination
-    cycle: 1000/60,//how often a dot is generated in milleseconds
+    cycle: 1000 / 60,//how often a dot is generated in milleseconds
     canw: 10,
     canh: 10,
     can: undefined,
@@ -17,28 +17,28 @@ var app = new Vue({
     active: false
   },
   methods: {
-    randInt: function(min, max) {
-      return Math.floor(Math.random() * (max - min) ) + min;
+    randInt: function (min, max) {
+      return Math.floor(Math.random() * (max - min)) + min;
     },
-    randCirc: function() {
-      var randx = this.randInt(0, (this.canw+1));
-      var randy = this.randInt(0, (this.canh+1));
-      return {x: randx, y: randy};
+    randCirc: function () {
+      var randx = this.randInt(0, (this.canw + 1));
+      var randy = this.randInt(0, (this.canh + 1));
+      return { x: randx, y: randy };
     },
-    getDist: function(x1, y1, x2, y2) {
+    getDist: function (x1, y1, x2, y2) {
       var a = x1 - x2;
       var b = y1 - y2;
-      return Math.sqrt( a*a + b*b );
+      return Math.sqrt(a * a + b * b);
     },
-    findCenter: function(points) {
+    findCenter: function (points) {
       var x = 0, y = 0, len = points.length;
       for (var i = 0; i < len; i++) {
         x += points[i].x;
         y += points[i].y;
       }
-      return {x: x / len, y: y / len};
+      return { x: x / len, y: y / len };
     },
-    findAngles: function(c, points) {
+    findAngles: function (c, points) {
       var len = points.length, p, dx, dy;
       for (var i = 0; i < len; i++) {
         p = points[i];
@@ -47,33 +47,33 @@ var app = new Vue({
         p.angle = Math.atan2(dy, dx);
       }
     },
-    polyArea: function(points) {
+    polyArea: function (points) {
       var area = 0, n = points.length;
-      for (var i=0; i < n-1;i++){
-        area += points[i].x * points[i+1].y - points[i].y* points[i+1].x;
+      for (var i = 0; i < n - 1; i++) {
+        area += points[i].x * points[i + 1].y - points[i].y * points[i + 1].x;
       }
-      if (n > 2){
-        area += points[n-1].x * points[0].y - points[n-1].y * points[0].x;
+      if (n > 2) {
+        area += points[n - 1].x * points[0].y - points[n - 1].y * points[0].x;
       }
-      return Math.abs(area/2);
+      return Math.abs(area / 2);
     },
-    randColor: function() {
-      return '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6);
+    randColor: function () {
+      return '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
     },
-    drawCircle: function(x, y, rad, color) {
+    drawCircle: function (x, y, rad, color) {
       this.ctx.beginPath();
-      this.ctx.arc(x, y, rad, 0, 2*Math.PI, false);
+      this.ctx.arc(x, y, rad, 0, 2 * Math.PI, false);
       this.ctx.fillStyle = color;
       this.ctx.fill();
       this.ctx.stroke();
     },
-    drawLine: function(x1, y1, x2, y2) {
+    drawLine: function (x1, y1, x2, y2) {
       this.ctx.beginPath();
       this.ctx.moveTo(x1, y1);
       this.ctx.lineTo(x2, y2);
       this.ctx.stroke();
     },
-    inside: function(x, y, vs) {
+    inside: function (x, y, vs) {
       var inside = false;
       for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
         var xi = vs[i].x, yi = vs[i].y;
@@ -83,7 +83,7 @@ var app = new Vue({
       }
       return inside;
     },
-    canvas: function() {
+    canvas: function () {
       var points = [];
       while (1) {
         for (var i = 0; i < this.polySides; i++) {
@@ -93,27 +93,27 @@ var app = new Vue({
           points.forEach((cords) => {
             if (this.sideDotColor == 'random') {
               this.drawCircle(cords.x, cords.y, this.sideDotRad, this.randColor());
-            }else {
+            } else {
               this.drawCircle(cords.x, cords.y, this.sideDotRad, this.sideDotColor);
             }
           });
           break;
-        }else {
+        } else {
           points = [];
         }
       }
 
       this.findAngles(this.findCenter(points), points);
-      points.sort(function(a, b) {
+      points.sort(function (a, b) {
         if (a.angle > b.angle) return 1;
         else if (a.angle < b.angle) return -1;
         return 0;
       });
 
       for (var i = 0; i < points.length; i++) {
-        if (i !== points.length-1) {
-          this.drawLine(points[i].x, points[i].y, points[i+1].x, points[i+1].y);
-        }else {
+        if (i !== points.length - 1) {
+          this.drawLine(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
+        } else {
           this.drawLine(points[i].x, points[i].y, points[0].x, points[0].y);
         }
       }
@@ -134,44 +134,44 @@ var app = new Vue({
         });
 
         this.ctx.fillStyle = this.dotCounterBgColor;
-        this.ctx.fillRect(this.canw-120, 0, 150, 30);
+        this.ctx.fillRect(this.canw - 120, 0, 150, 30);
         this.ctx.fillStyle = 'black';
         this.ctx.textAlign = 'right';
-        this.ctx.fillText(('Dots:'+dots), this.canw-5, 20);
+        this.ctx.fillText(('Dots:' + dots), this.canw - 5, 20);
       }, this.cycle);
     },
-    createDots: function(points, lastx, lasty, dots, allDots) {
+    createDots: function (points, lastx, lasty, dots, allDots) {
       for (var i = 0; i < 7; i++) {
-        var dir = this.randInt(0,points.length);
+        var dir = this.randInt(0, points.length);
 
-        var newx = (lastx+points[dir].x)/this.dotMove;
-        var newy = (lasty+points[dir].y)/this.dotMove;
+        var newx = (lastx + points[dir].x) / this.dotMove;
+        var newy = (lasty + points[dir].y) / this.dotMove;
 
-        allDots.push({x:newx, y:newy});
+        allDots.push({ x: newx, y: newy });
 
         lastx = newx;
         lasty = newy;
 
         dots++;
       }
-      return {lastx:lastx, lasty:lasty, dots:dots, allDots:allDots};
+      return { lastx: lastx, lasty: lasty, dots: dots, allDots: allDots };
     },
-    start: async function() {
+    start: async function () {
       this.active = false;
       await this.sleep(100);
       this.clearCan();
       this.canvas();
     },
-    stop: function() {
+    stop: function () {
       this.active = false;
     },
-    sleep: function(ms) {
+    sleep: function (ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
     },
-    createCtx: function() {
+    createCtx: function () {
       this.can = document.getElementById('ctx');
       this.ctx = this.can.getContext('2d');
-      this.ctx.canvas.width  = document.body.clientWidth;
+      this.ctx.canvas.width = document.body.clientWidth;
       this.ctx.canvas.height = document.body.clientHeight;
       this.canw = this.can.width;
       this.canh = this.can.height;
@@ -181,17 +181,16 @@ var app = new Vue({
       this.ctx.font = '30px Arial';
       this.ctx.fillStyle = 'black';
       this.ctx.textAlign = 'center';
-      this.ctx.fillText('Scroll Down To Start', this.canw/2, this.canh/2);
       this.ctx.font = '18px Arial';
     },
-    clearCan: function() {
+    clearCan: function () {
       this.ctx.beginPath();
       this.ctx.rect(0, 0, this.canw, this.canh);
       this.ctx.fillStyle = this.canvasBgColor;
       this.ctx.fill();
     }
   },
-  mounted: function() {
+  mounted: function () {
     this.createCtx();
   }
 });
