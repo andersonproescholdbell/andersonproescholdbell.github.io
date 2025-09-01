@@ -1,15 +1,41 @@
 ---
-import WIPPageTemplate from '../../../components/WIPPageTemplate.astro';
-import { getProjectColor } from '../../../config/projectUtils';
+import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
 
-const colors = getProjectColor('geometric', 'fractal-square-4');
+const title = "Square Fractal 4";
+const description = "Square fractal with complex rule: if previous two vertices are the same, next cannot be neighbors.";
 ---
 
-<WIPPageTemplate 
-  title="Square Fractal 4"
-  description="Rule: If previous two are same, cannot be neighbors."
-  metaDescription="Square fractal with complex rule: if previous two vertices are the same, next cannot be neighbors."
-  categoryId="geometric"
-  categoryName="Geometric"
-  colors={colors}
-/>
+<ProjectPageLayout title={title} description={description}>
+  <style>
+    @import '/src/styles/nav-heights.css';
+    
+    /* Ensure full height usage */
+    #geometric-app {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #canvasContainer {
+      width: 100%;
+      height: 100%;
+    }
+
+    #ctx {
+      display: block;
+    }
+  </style>
+
+  <div id="geometric-app">
+    <div id="canvasContainer">
+      <canvas id="ctx" width="10" height="10"></canvas>
+    </div>
+  </div>
+
+  <!-- Load Vue.js from CDN -->
+  <script is:inline src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  
+  <!-- Load the Square Fractal 4 script -->
+  <script is:inline src="/scripts/fractal-square-4/script.js"></script>
+</ProjectPageLayout>

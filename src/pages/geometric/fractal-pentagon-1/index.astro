@@ -1,15 +1,41 @@
 ---
-import WIPPageTemplate from '../../../components/WIPPageTemplate.astro';
-import { getProjectColor } from '../../../config/projectUtils';
+import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
 
-const colors = getProjectColor('geometric', 'fractal-pentagon-1');
+const title = "Pentagon Fractal 1";
+const description = "Pentagon fractal visualization using chaos game with rule: cannot select the same vertex twice in a row.";
 ---
 
-<WIPPageTemplate 
-  title="Pentagon Fractal 1"
-  description="Rule: Not the same vertex twice."
-  metaDescription="Pentagon fractal visualization using chaos game with rule: cannot select the same vertex twice in a row."
-  categoryId="geometric"
-  categoryName="Geometric"
-  colors={colors}
-/>
+<ProjectPageLayout title={title} description={description}>
+  <style>
+    @import '/src/styles/nav-heights.css';
+    
+    /* Ensure full height usage */
+    #geometric-app {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #canvasContainer {
+      width: 100%;
+      height: 100%;
+    }
+
+    #ctx {
+      display: block;
+    }
+  </style>
+
+  <div id="geometric-app">
+    <div id="canvasContainer">
+      <canvas id="ctx" width="10" height="10"></canvas>
+    </div>
+  </div>
+
+  <!-- Load Vue.js from CDN -->
+  <script is:inline src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  
+  <!-- Load the Pentagon Fractal 1 script -->
+  <script is:inline src="/scripts/fractal-pentagon-1/script.js"></script>
+</ProjectPageLayout>

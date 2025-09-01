@@ -1,15 +1,70 @@
 ---
-import WIPPageTemplate from '../../../components/WIPPageTemplate.astro';
-import { getProjectColor } from '../../../config/projectUtils';
+import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
 
-const colors = getProjectColor('geometric', 'fractal-square-2');
+const title = "Square Fractal 2";
+const description = "Square fractal visualization with rule: cannot select vertex clockwise or counter-clockwise to the previous one.";
 ---
 
-<WIPPageTemplate 
-  title="Square Fractal 2"
-  description="Rule: Not clockwise/counter-clockwise of previous."
-  metaDescription="Square fractal visualization with rule: cannot select vertex clockwise or counter-clockwise to the previous one."
-  categoryId="geometric"
-  categoryName="Geometric"
-  colors={colors}
-/>
+<ProjectPageLayout title={title} description={description}>
+  <style>
+    @import '/src/styles/nav-heights.css';
+    
+    /* Ensure full height usage */
+    #geometric-app {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #canvasContainer {
+      width: 100%;
+      height: 100%;
+    }
+
+    #ctx {
+      display: block;
+    }
+
+    /* Control panel styling */
+    .control-panel {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      background-color: rgba(255,255,255,0.9);
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      z-index: 100;
+    }
+
+    .control-panel button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      background-color: #3b82f6;
+      color: white;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .control-panel button:hover {
+      background-color: #2563eb;
+    }
+  </style>
+
+  <div id="geometric-app">
+    <div id="canvasContainer">
+      <canvas id="ctx" width="10" height="10"></canvas>
+      <div class="control-panel">
+        <button id="clock" v-on:click="clockwise">Toggle Clockwise</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Load Vue.js from CDN -->
+  <script is:inline src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  
+  <!-- Load the Square Fractal 2 script -->
+  <script is:inline src="/scripts/fractal-square-2/script.js"></script>
+</ProjectPageLayout>
