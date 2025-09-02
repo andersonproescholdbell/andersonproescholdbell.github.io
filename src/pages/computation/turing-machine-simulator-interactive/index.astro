@@ -1,15 +1,123 @@
 ---
-import WIPPageTemplate from '../../../components/WIPPageTemplate.astro';
-import { getProjectColor } from '../../../config/projectUtils';
+import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
 
-const colors = getProjectColor('computation', 'turing-interactive');
+const title = "Turing Machine Simulator";
+const description = "An interactive Turing Machine simulator with visual tape representation and configurable states and transitions.";
 ---
 
-<WIPPageTemplate 
-  title="Turing Machine (Interactive)"
-  description="An interactive Turing Machine simulator."
-  metaDescription="An interactive Turing Machine simulator with visual interface for designing and testing Turing machines."
-  categoryId="computation"
-  categoryName="Theory of Computation"
-  colors={colors}
-/>
+<ProjectPageLayout title={title} description={description}>
+  <style>
+    body {
+        background-color: black;
+    }
+
+    label {
+        color: white;
+    }
+
+    textarea {
+        background-color: rgb(39, 38, 38);
+        color: white;
+        width: 100%;
+        font-size: large;
+        flex: 1;
+        resize: none;
+        border: 1px solid #666;
+        border-radius: 4px;
+        padding: 0.5rem;
+        box-sizing: border-box;
+    }
+
+    input {
+        text-align: center;
+        background-color: rgb(39, 38, 38);
+        color: white;
+        font-size: large;
+    }
+
+    #parent {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        max-height: 100%;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        box-sizing: border-box;
+    }
+
+    #container2 {
+        display: flex;
+        flex-direction: row;
+        flex: 1;
+        gap: 1rem;
+        width: 100%;
+        max-width: 1200px;
+    }
+
+    #statesContainer {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        text-align: center;
+        font-size: large;
+        font-weight: bold;
+    }
+
+    #transitionsContainer {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        text-align: center;
+        font-size: large;
+        font-weight: bold;
+    }
+
+    #runButton {
+        display: flex;
+        text-align: center;
+        background-color: grey;
+        margin-top: 1%;
+        margin-bottom: 1%;
+    }
+
+    #output {
+        text-align: center;
+        font-size: large;
+        font-weight: bold;
+        width: auto;
+    }
+  </style>
+
+  <div id="parent">
+    <div id="container">
+      <div id="container2">
+        <div id="statesContainer">
+          <label for="states">States</label>
+          <textarea id="states" class="textarea"></textarea>
+        </div>
+        <div id="transitionsContainer">
+          <label for="states">Transitions</label>
+          <textarea id="transitions" class="textarea"></textarea>
+        </div>
+      </div>
+      <label for="delay">Delay (ms)</label>
+      <input id="delay" value="200">
+      <label for="input">Input</label>
+      <input id="input" onkeyup="resizeInput()" value="101010110">
+      <button id="runButton" onclick="run()">Run Turing Machine</button>
+      <textarea id="output" class="textarea" style="height: 4rem; flex: none;"></textarea>
+    </div>
+  </div>
+
+  <script is:inline src="/scripts/turing-machine-simulator-interactive/script.js"></script>
+</ProjectPageLayout>
