@@ -1,15 +1,444 @@
 ---
-import WIPPageTemplate from '../../../components/WIPPageTemplate.astro';
-import { getProjectColor } from '../../../config/projectUtils';
-
-const colors = getProjectColor('games', 'ai-or-real-human');
+import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
 ---
 
-<WIPPageTemplate 
+<ProjectPageLayout 
   title="AI or Real Human"
-  description="Guess if the image is AI-generated or real."
-  metaDescription="Test your ability to distinguish AI-generated images from real human photos."
-  categoryId="games"
-  categoryName="Games"
-  colors={colors}
-/>
+  description="A faithful single-player port of the hackathon-project game"
+>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      padding: 0 2rem;
+    }
+
+    .main {
+      height: var(--content-height-desktop);
+      padding: 1rem 0;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
+    }
+
+    .title {
+      margin: 0;
+      line-height: 1.15;
+      font-size: 4rem;
+      text-align: center;
+    }
+
+    .grid {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 800px;
+    }
+
+    .card {
+      margin: 1rem;
+      text-align: left;
+      color: inherit;
+      text-decoration: none;
+      border-radius: 10px;
+      transition: color 0.15s ease, border-color 0.15s ease;
+      max-width: 300px;
+      cursor: pointer;
+    }
+
+    .img {
+      border-radius: 10px;
+      width: 300px;
+      height: 300px;
+      object-fit: cover;
+    }
+
+    .countdown {
+      width: 100px;
+      height: 100px;
+      position: absolute;
+      right: 20px;
+      top: calc(var(--nav-height-desktop) + 20px);
+      text-align: center;
+    }
+
+    .countdownText {
+      color: black;
+      position: relative;
+      top: 50%;
+      font-size: 40px;
+      transform: translateY(-50%);
+    }
+
+    .svg {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100px;
+      height: 100px;
+      transform: rotateY(-180deg) rotateZ(-90deg);
+    }
+
+    .svg circle {
+      stroke-dasharray: 281px;
+      stroke-dashoffset: 0px;
+      stroke-linecap: round;
+      stroke-width: 5px;
+      fill: none;
+      animation: countdown 10s linear forwards;
+      animation-delay: 0.3s;
+    }
+
+    @keyframes countdown {
+      from {
+        stroke-dashoffset: 0px;
+        stroke: var(--stroke, black);
+      }
+      to {
+        stroke-dashoffset: 281px;
+        stroke: red;
+      }
+    }
+
+    .correctText {
+      text-align: center;
+      color: green;
+    }
+
+    .incorrectText {
+      text-align: center;
+      color: red;
+    }
+
+    .dark {
+      position: absolute;
+      top: calc(var(--nav-height-desktop) + 20px);
+      left: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .countdown {
+        top: calc(var(--nav-height-mobile) + 20px);
+      }
+      
+      .dark {
+        top: calc(var(--nav-height-mobile) + 20px);
+      }
+    }
+
+    /* Dark mode toggle styles */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+    }
+
+    input:checked + .slider {
+      background-color: #2196F3;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+
+    .slider.round {
+      border-radius: 34px;
+    }
+
+    .slider.round:before {
+      border-radius: 50%;
+    }
+
+    @media (max-width: 768px) {
+      .main {
+        height: var(--content-height-mobile);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .grid {
+        width: 100%;
+        flex-direction: column;
+      }
+      
+      .title {
+        font-size: 2rem;
+      }
+      
+      .img {
+        width: 250px;
+        height: 250px;
+      }
+    }
+  </style>
+
+  <div class="container">
+    <main class="main">
+      <div id="countdown" class="countdown">
+        <div id="countdownText" class="countdownText">10</div>
+        <svg class="svg">
+          <circle r="45" cx="50" cy="50"></circle>
+        </svg>
+      </div>
+
+      <h1 id="title" class="title">Choose the REAL human</h1>
+      
+      <div id="grid" class="grid">
+        <div>
+          <div id="card0" class="card photo">
+            <img id="img0" class="img" alt="Picture" />
+          </div>
+          <h3 id="correctText0" class="correctText"></h3>
+          <h3 id="incorrectText0" class="incorrectText"></h3>
+        </div>
+        
+        <div>
+          <div id="card1" class="card photo">
+            <img id="img1" class="img" alt="Picture" />
+          </div>
+          <h3 id="correctText1" class="correctText"></h3>
+          <h3 id="incorrectText1" class="incorrectText"></h3>
+        </div>
+      </div>
+
+      <h2 id="points">Points: 0</h2>
+
+      <div class="dark">
+        <label class="switch">
+          <input type="checkbox" id="darkToggle">
+          <span class="slider round"></span>
+        </label>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Game state variables (faithful to original React state)
+    let userPoints = 0;
+    let selected = -1;
+    let countdown = 10;
+    let iteration = 0;
+    let clickable = true;
+    
+    // Local AI face images (replacing external API)
+    const totalAIFaces = 20;
+
+    // Helper functions (faithful to original)
+    function decideCorrectImage() {
+      // 0 is left image, 1 is right image
+      return 0;
+    }
+
+    function points(x) {
+      var correctVal = decideCorrectImage();
+      return x === correctVal;
+    }
+
+    function percent(min, max) {
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+
+    function getRndInteger(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function getAIFace() {
+      const imageNumber = getRndInteger(1, totalAIFaces);
+      const filename = `ai-face-${imageNumber.toString().padStart(3, '0')}.jpg`;
+      return `/src/scripts/ai-or-real-human/ai-faces/${filename}`;
+    }
+
+    function getRealFace() {
+      const imageNumber = getRndInteger(0, 300);
+      let filename;
+      if (imageNumber >= 100) {
+        filename = `00${imageNumber}.png`;
+      } else if (imageNumber >= 10) {
+        filename = `000${imageNumber}.png`;
+      } else {
+        filename = `0000${imageNumber}.png`;
+      }
+      return `/src/scripts/ai-or-real-human/real-faces/${filename}`;
+    }
+
+    function setFaces() {
+      // Left image is always real (correct answer)
+      document.getElementById('img0').src = getRealFace();
+      // Right image is always AI-generated  
+      document.getElementById('img1').src = getAIFace();
+    }
+
+    function toggleDark() {
+      if (document.body.style.background != 'black') {
+        document.body.style.background = 'black';
+        document.body.style.color = 'white';
+        document.getElementById('countdownText').style.color = 'white';
+        document.documentElement.style.setProperty('--stroke', 'white');
+      } else {
+        document.body.style.background = 'rgb(221, 221, 221)';
+        document.body.style.color = 'black';
+        document.getElementById('countdownText').style.color = 'black';
+        document.documentElement.style.setProperty('--stroke', 'black');
+      }
+    }
+
+    function resetAnimation() {
+      var el = document.querySelector('svg circle');
+      el.style.animationName = "none";
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          el.style.animationName = "";
+        }, 0);
+      });
+      el.style.animationPlayState = '';
+    }
+
+    function resetText() {
+      document.getElementById('correctText0').textContent = '';
+      document.getElementById('correctText1').textContent = '';
+      document.getElementById('incorrectText0').textContent = '';
+      document.getElementById('incorrectText1').textContent = '';
+    }
+
+    function resetBorders() {
+      document.getElementById('card0').style.cssText = "border: ;";
+      document.getElementById('card1').style.cssText = "border: ;";
+    }
+
+    function selectImage(selectedIndex) {
+      if (clickable) {
+        selected = selectedIndex;
+        document.getElementById('card0').style.cssText = "";
+        document.getElementById('card1').style.cssText = "";
+        document.getElementById(`card${selectedIndex}`).style.cssText = "border: 5px solid white;";
+      }
+    }
+
+    function result() {
+      let correct = points(selected);
+      let t = `${percent(40, 60)}% players chose this option`;
+      
+      if (selected >= 0) {
+        if (correct) {
+          document.getElementById('title').textContent = 'Well done!';
+          document.getElementById(`card${selected}`).style.cssText = "border: 5px solid green;";
+          document.getElementById(`correctText${selected}`).textContent = t;
+          userPoints += 10;
+          document.getElementById('points').textContent = `Points: ${userPoints}`;
+        } else {
+          document.getElementById('title').textContent = 'Not quite...';
+          document.getElementById(`card${selected}`).style.cssText = "border: 5px solid red;";
+          document.getElementById(`incorrectText${selected}`).textContent = t;
+        }
+      } else {
+        document.getElementById('title').textContent = 'Select an option next time!';
+        const correctIndex = decideCorrectImage();
+        document.getElementById(`correctText${correctIndex}`).textContent = t;
+      }
+    }
+
+    function end() {
+      document.getElementById('countdown').style.display = 'none';
+      document.getElementById('points').style.display = 'none';
+      document.getElementById('grid').style.display = 'none';
+      const titleEl = document.getElementById('title');
+      titleEl.style.fontSize = '30px';
+      titleEl.style.position = 'absolute';
+      titleEl.style.top = '30%';
+      titleEl.style.margin = '0 30px 0 30px';
+      titleEl.textContent = 'Your turns are up for this pump, thank you for playing! You can use the points you earned on the variety of snacks we offer.';
+    }
+
+    function gameLoop() {
+      setTimeout(() => {
+        if (countdown - 1 == 0) {
+          document.querySelector('svg circle').style.animationPlayState = 'paused';
+          document.querySelector('svg circle').style.animationDelay = '0s';
+        }
+
+        if (countdown >= 1) {
+          countdown--;
+          document.getElementById('countdownText').textContent = countdown;
+        }
+
+        if (countdown == 0) {
+          if (iteration == 9) {
+            end();
+            return;
+          }
+
+          countdown = 10;
+          document.getElementById('countdownText').textContent = countdown;
+          
+          if (iteration % 2 == 0) {
+            clickable = false;
+            result();
+          } else {
+            document.getElementById('title').textContent = 'Choose the REAL human';
+            resetText();
+            clickable = true;
+            setFaces();
+            selected = -1;
+            resetBorders();
+          }
+          iteration++;
+          resetAnimation();
+        }
+        
+        gameLoop();
+      }, 1000);
+    }
+
+    // Initialize game
+    window.addEventListener('load', function() {
+      // Set initial faces
+      setFaces();
+      
+      // Add click handlers
+      document.getElementById('card0').addEventListener('click', () => selectImage(0));
+      document.getElementById('card1').addEventListener('click', () => selectImage(1));
+      
+      // Add dark mode toggle
+      document.getElementById('darkToggle').addEventListener('change', toggleDark);
+      
+      // Start game loop
+      gameLoop();
+    });
+  </script>
+</ProjectPageLayout>
