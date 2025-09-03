@@ -167,7 +167,7 @@ function genMap(map, terrain, ports, rolls) {
   return map;
 }
 
-function getCoords(map, vertToVert, apothem) {
+function getCoords(map, vertToVert, apothem, offsetX = 0, offsetY = 0) {
   let coords = {centers: [], edges: [], vertices: []};
   let lastLen = map[0].length;
   for (let row = 0; row < map.length; row++) {
@@ -181,8 +181,8 @@ function getCoords(map, vertToVert, apothem) {
       let acp3 = apothem*Math.cos(Math.PI/3);
       let asp3 = apothem*Math.sin(Math.PI/3);
       //centers 
-      let cx = left + col*2*apothem;
-      let cy = top + row*apothem*Math.sqrt(3);
+      let cx = left + col*2*apothem + offsetX;
+      let cy = top + row*apothem*Math.sqrt(3) + offsetY;
       if (map[row][col].roll) {
         coords.centers.push({x: cx, y: cy, terrain: map[row][col].terrain, roll: map[row][col].roll});
       }else if (map[row][col].plankLoc) {
@@ -368,58 +368,49 @@ function drawMap(coords, vertToVert, ctx, scale) {
   }
 }
 
-function getWHVA(map) {
+function calculateMapDimensions(availableWidth, availableHeight, map) {
   let widest = 0;
   for (let row = 0; row < map.length; row++) {
-    let isWidest = 0;
+    let currentWidth = 0;
     for (let col = 0; col < map[row].length; col++) {
       if (map[row][col].terrain == '_') {
-        isWidest += 1;
-      }else {
-        isWidest += 2;
+        currentWidth += 1;
+      } else {
+        currentWidth += 2;
       }
     }
-    if (isWidest > widest) {
-      widest = isWidest;
+    if (currentWidth > widest) {
+      widest = currentWidth;
     }
   }
-  
-  let availableHeight, availableWidth;
-  
-  // Match CSS breakpoint logic exactly
-  if (window.innerWidth <= 768) {
-    // Mobile: canvas gets 60vh height (matches CSS)
-    availableHeight = window.innerHeight * 0.6;
-    // Mobile: canvas takes full container width minus padding
-    availableWidth = window.innerWidth - 32; // 16px padding on each side
-  } else {
-    // Desktop: calculate based on flex layout
-    const container2 = document.getElementById('container2');
-    const infoContainer = document.getElementById('infoContainer');
-    
-    // Desktop: canvas takes remaining width after info panel
-    const infoWidth = infoContainer ? Math.max(infoContainer.offsetWidth, 250) : 300; // min-width 250px
-    availableWidth = window.innerWidth - infoWidth - 64; // 32px padding/gap on each side
-    
-    // Desktop: canvas can take full height minus nav and padding
-    const navHeight = 32; // --nav-height-desktop from design tokens
-    availableHeight = window.innerHeight - navHeight - 32; // 16px padding top/bottom
-  }
-  
-  // Calculate dimensions based on map size and available space
-  let vertToVert = availableHeight/(map.length-(0.25*(map.length-1)));
-  let apothem = vertToVert/2 * Math.sin(Math.PI/3);
-  let calculatedWidth = widest*apothem;
-  
-  // Ensure canvas fits within available width
+
+  let vertToVert = availableHeight / (map.length - (0.25 * (map.length - 1)));
+  let apothem = vertToVert / 2 * Math.sin(Math.PI / 3);
+  let calculatedWidth = widest * apothem;
+
   if (calculatedWidth > availableWidth) {
-    let scale = availableWidth / calculatedWidth;
-    vertToVert *= scale;
-    apothem *= scale;
+    let scaleRatio = availableWidth / calculatedWidth;
+    vertToVert *= scaleRatio;
+    apothem *= scaleRatio;
     calculatedWidth = availableWidth;
   }
-  
-  return {h: availableHeight, w: calculatedWidth, vtv: vertToVert*0.99, apoth: apothem};
+
+  // Calculate actual board dimensions
+  let boardWidth = calculatedWidth;
+  let boardHeight = (map.length - 1) * apothem * Math.sqrt(3) + vertToVert;
+
+  // Calculate centering offsets
+  let offsetX = (availableWidth - boardWidth) / 2;
+  let offsetY = (availableHeight - boardHeight) / 2;
+
+  return { 
+    vtv: vertToVert * 0.99, 
+    apoth: apothem,
+    offsetX: offsetX,
+    offsetY: offsetY,
+    boardWidth: boardWidth,
+    boardHeight: boardHeight
+  };
 }
 
 function main() {
@@ -428,55 +419,60 @@ function main() {
   const tileInput = document.getElementById('tile');
   const portInput = document.getElementById('port');
   const rollInput = document.getElementById('roll');
-  
+
   let maps = ['_-wwww,-wlllw,_wllllw,wlllllw,_wllllw,-wlllw,_-wwww',
               '--wwwww,_-wllllw,-wlllllw,_wllllllw,wllllllw,_wlllllw,-wllllw,_-wwwww',
               '--wwww,_-wlllw,-wllllw,_wlllllw,wllllllw,_wlllllw,-wllllw,_-wlllw,--wllw'];
-              
+
   // Use user input or defaults
   let mapPattern = mapInput ? mapInput.value.replace(/[\r\n]/g, ',').replace(/,+/g, ',') : maps[1];
   let terrain = tileInput ? tileInput.value : 'f,f,f,f,s,s,s,s,w,w,w,w,o,o,o,b,b,b,d';
   let ports = portInput ? portInput.value : 'fsobw3333';
   let rolls = rollInput ? rollInput.value : '2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12';
-  
+
   let map = genMap(mapPattern, terrain, ports, rolls);
-
-  let whva = getWHVA(map);
-
+  
   let can = document.getElementById('canvas');
   if (!can) return; // Exit if canvas not found
+
+  // Read the canvas's actual display size set by CSS
+  const displayWidth = can.clientWidth;
+  const displayHeight = can.clientHeight;
+
+  // Stop if the canvas isn't visible
+  if (displayWidth === 0 || displayHeight === 0) return;
   
   let ctx = can.getContext('2d');
   
-  // Responsive scale based on screen size
-  let scale = window.innerWidth <= 768 ? 1.5 : 2;
-  
-  can.width = whva.w * scale;
-  can.height = whva.h * scale;
-  
-  // Set canvas display size to fit container
-  can.style.width = whva.w + 'px';
-  can.style.height = whva.h + 'px';
+  // Use device pixel ratio for a sharper image on high-res screens
+  let scale = window.devicePixelRatio || 1;
 
-  let coords = getCoords(map, whva.vtv, whva.apoth);
-  drawMap(coords, whva.vtv, ctx, scale);
+  // Set the canvas's internal resolution
+  can.width = displayWidth * scale;
+  can.height = displayHeight * scale;
+
+  // CRITICAL: The lines that set can.style.width and can.style.height have been removed.
+
+  // Calculate internal map geometry based on the canvas's actual size
+  let dims = calculateMapDimensions(displayWidth, displayHeight, map);
+  
+  let coords = getCoords(map, dims.vtv, dims.apoth, dims.offsetX, dims.offsetY);
+  drawMap(coords, dims.vtv, ctx, scale);
 }
 
-// Add resize event listener for responsive behavior
-function initializeResizeHandler() {
-  let resizeTimeout;
-  window.addEventListener('resize', function() {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(main, 250); // Debounce resize calls
-  });
-}
 
-// Initialize when DOM is loaded and layout is complete
+// Debounce function to limit how often main() is called during resize
+let resizeTimer;
+const debouncedMain = () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(main, 100); // 100ms delay
+};
+
+// Initialize when DOM is loaded and add the resize listener
 function initialize() {
-  // Use requestAnimationFrame to ensure layout is complete
   requestAnimationFrame(() => {
     main();
-    initializeResizeHandler();
+    window.addEventListener('resize', debouncedMain);
   });
 }
 
