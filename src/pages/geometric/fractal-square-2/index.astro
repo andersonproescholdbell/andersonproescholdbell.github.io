@@ -67,13 +67,13 @@ const description = "Square fractal visualization with rule: cannot select verte
     <div id="canvasContainer">
       <canvas id="ctx" width="10" height="10"></canvas>
       <div class="control-panel">
-        <button id="clock" v-on:click="clockwise">Toggle Clockwise</button>
+        <button id="clock" @click="clockwise">Toggle Clockwise</button>
       </div>
     </div>
   </div>
 
   <!-- Load Vue.js from CDN -->
-  <script is:inline src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script is:inline src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   
   <!-- Load the Square Fractal 2 script -->
   <script is:inline src="/scripts/fractal-square-2/script.js"></script>

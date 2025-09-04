@@ -1,12 +1,13 @@
-var app = new Vue({
-  el: '#geometric-app',
-  data: {
+var app = Vue.createApp({
+  data() {
+    return {
     canw: 0,
     canh: 0,
     can: undefined,
     ctx: undefined,
     clock: true,
     active: false
+    };
   },
   methods: {
     randInt: function(min, max) {
@@ -178,10 +179,7 @@ var app = new Vue({
   },
   mounted: async function() {
     this.createCtx();
-    document.getElementById('clock').style.position = 'absolute';
-    document.getElementById('clock').style.top = '38px';
-    document.getElementById('clock').style.right = '7px';
     await this.sleep(150);
     this.start();
   }
-});
+}).mount('#geometric-app');

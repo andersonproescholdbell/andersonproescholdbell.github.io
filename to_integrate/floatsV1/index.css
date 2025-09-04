@@ -1,0 +1,1040 @@
+* {box-sizing: border-box}
+body {
+  font-family: "Lato", sans-serif;
+  background-color: #8f91ff;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input {
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+}
+
+.displayNone {
+  display: none;
+}
+
+.width100 {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.centerFlex {
+  display: flex;
+  justify-content: center;
+}
+
+.flex1 {
+  display: flex;
+  flex: 1;
+}
+
+/*-----------------------------------website wide ends--------------------------*/
+
+.tab {
+  float: left;
+  background-color: #a2a2a2;
+  width: 10%;
+}
+
+.tabButton {
+  display: block;
+  background-color: inherit;
+  background-color: #2196F3;
+  padding: 22px 16px;
+  width: 100%;
+  border: none;
+  outline: none;
+  text-align: left;
+  cursor: pointer;
+  transition: 0.7s;
+  font-size: 17px;
+}
+
+.tab button:hover {
+  background-color: #5cd6ff;
+}
+
+.tabcontent {
+  display: none;
+  float: left;
+  padding: 0px 12px;
+  width: 90%;
+  border-left: none;
+  height: 300px;
+}
+
+#creatorInfo {
+  background-color: #8f91ff;
+}
+
+#steam {
+  color: #000000;
+  font-weight: bold;
+}
+
+#reload {
+  color: #000000;
+}
+
+#showHelp {
+  background-color: #a2a2a2;
+  color: #16122b;
+  border: 1px solid black;
+}
+
+#overlay {
+  position: fixed; /* Sit on top of the page content */
+  display: none; /* Hidden by default */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.80); /* Black background with opacity */
+  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+  cursor: pointer; /* Add a pointer on hover */
+}
+
+#helpText {
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  color: #b5bfce;
+  font-size: 22px;
+  transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+}
+
+.link {
+  color: #0048ff;
+}
+
+#disclaimer {
+  position: fixed; /* Sit on top of the page content */
+  display: block;
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.80); /* Black background with opacity */
+  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+  cursor: pointer; /* Add a pointer on hover */
+}
+
+#disclaimerText {
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  color: #b5bfce;
+  font-size: 22px;
+  transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+}
+
+/*-----------------------------------tabs ends--------------------------*/
+#tfParent {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+
+#tfEntering {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+#tfEnterFloatsText {
+  text-align: center;
+  margin-top: -1.25%;
+  margin-bottom: 0%;
+  font-size: 36px;
+  color: #000000;
+}
+
+.tfFloatsSpacing {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+}
+
+.tfFloats {
+  display: flex;
+  width: 100%;
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 1%;
+  margin-right: 1%;
+  background-color: #a9e5ff;
+  color: #000000;
+  border: 1px solid #000000;
+}
+
+.tfInfoSpacing {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#tfEnterMaxWearText {
+  margin-top: 15%;
+}
+
+.tfInfoText {
+  text-align: center;
+  margin-bottom: 0.25%;
+  margin-top: 0.25%;
+  color: #000000;
+}
+
+.tfExtraInfo {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  text-align: center;
+  border: 1px solid black;
+  font-size: 20px;
+  background-color: #80DEEA;
+  color: #000000;
+}
+
+#tfOutcomes {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.tfOutcomesSpacing {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+#tfOutputFloatsText {
+  margin-top: 0%;
+}
+
+.tfOutputsText {
+  margin-left: 0px;
+  margin-bottom: 0px;
+  text-align: center;
+  margin-top: 0px;
+  color: #000000;
+}
+
+.tfOutputs {
+  display: flex;
+  font-size: 30px;
+  margin-left: .5%;
+  border: 1px solid black;
+  width: 100%;
+  font-weight: bold;
+  text-align: center;
+  color: #000000;
+  background-color: #81ffc1;
+}
+
+/*-----------------------------------ten floats styling ends--------------------------*/
+#ieee754 {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.ieeeLargeText {
+  font-size: 35px;
+}
+
+.ieeeSmallerText {
+  font-size: 27px;
+}
+
+.IEEEs {
+  display: flex;
+  flex-direction: row;
+  margin-top: 0.5%;
+  margin-bottom: 0%;
+  color: #000000;
+}
+
+.IEEEsInput {
+  display: inline-block;
+  text-align: center;
+  color: #000000;
+  background-color: #a9e5ff;
+  border: 0.5px solid black;
+  margin-left: 0.25%;
+  margin-right: 0.25%;
+}
+
+#minIEEEinput {
+  max-height: 50px;
+}
+
+#maxIEEEinput {
+  max-height: 50px;
+}
+
+/*-----------------------------------ieee754 styling ends------------------------------*/
+#fcEnterFloatsText {
+  display: flex;
+  font-size: 25px;
+  font-weight: bold;
+  margin-top: 0.65%;
+  margin-bottom: 0.4%;
+}
+
+#fcMoreFloatsDiv {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.fcMoreFloatsFlex {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.fcMoreFloats {
+  display: flex;
+  flex: 1;
+  text-align: center;
+  border: 1px solid black;
+  font-size: 20px;
+  background-color: #a9e5ff;
+  color: #000000;
+  margin-top: 0%;
+  margin-right: 0.45%;
+  margin-bottom: 0.35%;
+}
+
+#fcAltInput {
+  display: flex;
+  font-size: 16px;
+  width: 90%;
+  text-align: center;
+  background-color: #a9e5ff;
+  color: #000000;
+  border: 1px solid black;
+  margin-top: 0%;
+  margin-bottom: 0%;
+}
+
+#criteriaDiv {
+  display: flex;
+  justify-content: center;
+}
+
+.fcExtraInfo {
+  text-align: center;
+  border: 1px solid black;
+  font-size: 20px;
+  background-color: #80DEEA;
+  color: #000000;
+  border: 1px solid black;
+}
+
+.fcComboInfo {
+  margin-top: 1%;
+  display: flex;
+  flex-direction: column;
+  margin-right: 0.55%;
+  flex: 1;
+}
+
+.fcCinfoText {
+  margin-top: -1.5%;
+  margin-bottom: -0.5%;
+  text-align: center;
+  font-size: 20px;
+  display: block;
+  color: #000000;
+  flex: 1;
+  width: 100%;
+}
+
+.fcCinfoInputs {
+  margin-top: 0%;
+  display: flex;
+  width: 100%;
+}
+
+#fcOnlyLowerDiv {
+  margin-top: 0.4%;
+  margin-bottom: 0.15%;
+}
+
+#fcOnlyLowerChk {
+  display: flex;
+  height: 16px;
+  width: 16px;
+}
+
+#fcOnlyLowerText {
+  display: flex;
+  font-size: 18px;
+}
+
+#fcGenerateCombos{
+  margin-top: 0.35%;
+  margin-bottom: 0.25%;
+  font-size: 20px;
+  display: flex;
+  background-color: #0fa72c;
+  border: 1px solid #000000;
+  color:#000000;
+}
+
+#fcStop {
+  font-size: 18px;
+  display: flex;
+  background-color: #c10032;
+  border: 1px solid black;
+  margin-bottom: -0.75%;
+}
+
+#fcWarning {
+  font-size: 15px;
+  display: flex;
+  color: #000000;
+}
+
+#fcTotalCombosText {
+  display: flex;
+  color: black;
+  font-size: 20px;
+  margin-top: 0%;
+  margin-bottom: 0%;
+}
+
+#fcTheProgress {
+  display: flex;
+  width: 100%;
+  height: 22px;
+  margin-top: 0%;
+  margin-bottom: 0%;
+  text-align: center;
+  background-color: #861b1b;
+}
+
+#fcProgressBar {
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 0%;
+  height: 22px;
+  margin-top: 0%;
+  margin-bottom: 0%;
+  background-color: #38c158;
+}
+
+#fcLimited {
+  margin-top: 0.25%;
+  margin-bottom: 0.25%;
+  display: flex;
+  font-size: 15px;
+  font-weight: 1100;
+  color: #000000;
+}
+
+#fcCombinationsText {
+  background-color: #536bff;
+  font-weight: 2000;
+  clear: both;
+}
+
+/*-----------------------------------float combos styling ends--------------------------*/
+.opskinsStuff {
+  display: flex;
+  margin-top: 0.25%;
+  margin-bottom: 0.5%;
+  margin-right: 0.2%;
+  font-size: 16px;
+}
+
+.opApiSpacing {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.infoText {
+  color: #000000;
+  text-align: center;
+  justify-content: center;
+  display: flex;
+}
+
+.CinfoText {
+  justify-content: center;
+  margin-top: 0%;
+  margin-bottom: 0%;
+  text-align: center;
+  font-size: 20px;
+  display: flex;
+}
+
+.opSearchClass {
+  font-size: 17px;
+}
+
+.extrainfo {
+  display: flex;
+  text-align: center;
+  border: 1px solid black;
+  font-size: 20px;
+  background-color: #80DEEA;
+  color: #000000;
+}
+
+.CinfoInputs {
+  margin: auto;
+  margin-top: 0%;
+  width: 100%;
+  display: flex;
+}
+
+#apiInput {
+  width: 100%;
+  margin-top: 0.4%;
+}
+
+#apiKeyDiv {
+  display: flex;
+  flex: 3.05;
+  margin-left: 0%;
+}
+
+#secCodeDiv {
+  display: flex;
+  flex: 1.7;
+}
+
+#searchDiv {
+  display: flex;
+  flex: 1.6;
+}
+
+#minPriceDiv {
+  display: flex;
+  flex: 1.13;
+}
+
+#maxPriceDiv {
+  display: flex;
+  flex: 1.1;
+}
+
+#wearDiv {
+  margin-right: 0.3%;
+}
+
+.wears {
+  display: flex;
+  flex-direction: column;
+}
+
+#statDiv {
+  display: flex;
+  flex: 1.65;
+}
+
+#delayDiv {
+  display: flex;
+  flex: 1.7;
+}
+
+#addRemoveDiv {
+  display: flex;
+  margin-top: 0%;
+  text-align: center;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+#getInfoInput {
+  background-color: #0fa72c;
+}
+
+#removeInfoInput {
+  background-color: #c10032;
+}
+
+#addCustomBtn {
+  background-color: #ea7d7d;
+}
+
+#opLinkDiv {
+  display: flex;
+  text-align: center;
+  margin-top: -0.90%;
+  margin-bottom: 1.5%;
+}
+
+#susText {
+  margin-bottom: 0.10%;
+}
+
+#opLink {
+  display: flex;
+  width: 90%;
+  text-align: center;
+  margin-bottom: -1.25%;
+  background-color: #a9e5ff;
+  color: #000000;
+  border: 1px solid black;
+}
+
+#pastedJSON {
+  display: flex;
+  width: 95%;
+  height: 250px;
+  background-color: #a9e5ff;
+  color: #000000;
+  border: 1px solid black;
+  margin-top: 0%;
+  margin-bottom: 0%;
+}
+
+#formattedOpskins {
+  display: flex;
+  flex: 15;
+  font-size: 16px;
+  width: 85%;
+  height: 80px;
+  margin-top: 0.25%;
+  margin-bottom: 0.5%;
+  text-align: center;
+  background-color: #8eead5;
+  color: #000000;
+  border: 1px solid black;
+}
+
+.comboInfo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-right: 0.5%;
+  margin-top: 0%;
+}
+
+#numFloatsInput {
+  width: 100%;
+  margin-top: 0.4%;
+}
+
+#comboInfo1 {
+  display: flex;
+  flex: 0.6;
+}
+
+#comboInfo2 {
+  display: flex;
+  flex: 0.6;
+}
+
+#comboInfo3 {
+  display: flex;
+  flex: 0.8;
+}
+
+#comboInfo4 {
+  display: flex;
+  flex: 1.6;
+}
+
+#numFloatsDiv {
+  display: flex;
+  flex: 2.25;
+}
+
+#CmaxPriceDiv  {
+  display: flex;
+  flex: 0.9;
+}
+
+#CmatchesDiv {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#CmatchesText {
+  margin-top: 0.3%;
+  color: #b5bfce;
+}
+
+#CmatchesInput {
+  margin-top: 0.15%;
+  display: flex;
+  width: 40%;
+}
+
+#saveParams {
+  display: flex;
+  flex: 1.5;
+  flex-direction: column;
+  font-size: 16px;
+  height: 80px;
+  border: 1px solid black;
+  margin-top: 0.25%;
+  margin-bottom: 0.5%;
+  margin-right: 0.25%;
+  text-align: center;
+  background-color: #a5afb7;
+  color: #16122b;
+      justify-content: space-evenly;
+}
+
+#opInfoButton {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  font-size: 16px;
+  height: 80px;
+  border: 1px solid black;
+  margin-top: 0.25%;
+  margin-bottom: 0.5%;
+  margin-left: 0.25%;
+  text-align: center;
+  background-color: #a5afb7;
+  color: #16122b;
+  justify-content: space-evenly;
+}
+
+#opInfoOverlay {
+  position: fixed; /* Sit on top of the page content */
+  display: none; /* Hidden by default */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.85); /* Black background with opacity */
+  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+  cursor: pointer; /* Add a pointer on hover */
+}
+
+#pastParams {
+  position: absolute;
+  text-align: center;
+  top: 62%;
+  left: 25%;
+  color: #b5bfce;
+  font-size: 20px;
+  transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+}
+
+#opInfoText {
+  position: absolute;
+  text-align: center;
+  top: 62%;
+  left: 75%;
+  color: #b5bfce;
+  font-size: 20px;
+  transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+}
+
+#hidingDiv {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#hideOpInfoButton {
+  text-align: center;
+  margin-top: 0.5%;
+  display: flex;
+  background-color: grey;
+  border: 0px solid black;
+  font-size: 35px;
+}
+
+#savedSearchesText {
+  color: #b5bfce;
+  margin-top: 0.5%;
+  display: flex;
+}
+
+#savedSearchesText2 {
+  font-size: 17px;
+  color: grey;
+  margin-top: 0%;
+  margin-bottom: 0%;
+  text-align: center;
+}
+
+#savedSearchesTextarea {
+  display: flex;
+  margin-top: 0.05%;
+  width: 95%;
+  height: 60px;
+  text-align: left;
+  background-color: #8eead5;
+  color: #000000;
+  border: 1px solid black;
+}
+
+#searchLinks {
+  margin-top: 0.25%;
+  text-align: center;
+  display: flex;
+  background-color: #0fa72c;
+  border: 1px solid black;
+  font-size: 20px;
+}
+
+#onlyLowerDiv {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  margin-bottom: 0.25%;
+  margin-top: -0.35%;
+}
+
+#onlyLower {
+  height: 18px;
+  width: 18px;
+}
+
+#onlyLowerText {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+#generateDiv {
+  margin-top: 0%;
+  display: flex;
+  text-align: center;
+  margin-bottom: 1.5%;
+}
+
+#generatecombos{
+  font-size: 20px;
+  text-align: center;
+  display: flex;
+  margin-top: 0.25%;
+  margin-bottom: 0.35%;
+  background-color: #0fa72c;
+  border: 1px solid #000000;
+  color:#000000;
+}
+
+#stop {
+  font-size: 18px;
+  text-align: center;
+  display: flex;
+  margin-top: 0%;
+  margin-bottom: 0%;
+  background-color: #c10032;
+  border: 1px solid black;
+}
+
+#warning {
+  font-size: 15px;
+  margin-top: 0.25%;
+  margin-bottom: -1%;
+  display: flex;
+  text-align: center;
+  color: #000000;
+}
+
+#totalcombostext {
+  color: black;
+  font-size: 20px;
+  margin-bottom: -0.4%;
+  margin-top: 0%;
+  display: flex;
+  text-align: center;
+}
+
+#theProgress {
+  display: flex;
+  width: 100%;
+  height: 22px;
+  margin-bottom: 0%;
+  margin-top: -0.35%;
+  margin-left: 0%;
+  text-align: center;
+  background-color: #861b1b;
+}
+
+#progress_bar {
+  display: flex;
+  width: 0%;
+  height: 22px;
+  margin-bottom: 0px;
+  margin-top: 0%;
+  background-color: #38c158;
+}
+
+#limited {
+  display: flex;
+  font-size: 15px;
+  text-align: center;
+  margin-top: 0.5%;
+  margin-bottom: 0%;
+  font-weight: 1100;
+  color: #000000;
+}
+
+#opskinsInput {
+  display: flex;
+  font-size: 16px;
+  height: 250px;
+  margin-top: 0%;
+  margin-bottom: 0%;
+  text-align: center;
+  background-color: #A7FFEB;
+  color: #00695C;
+  border: 1px solid black;
+}
+
+#combinationstext {
+  background-color: #536bff;
+  font-weight: 2000;
+  clear: both;
+}
+
+/*-----------------------------------opskins combos styling ends--------------------------*/
+#ATCDiv {
+  display: flex;
+  width: 90%;
+}
+#ATCApiKeyDiv {
+  display: flex;
+  flex: 5;
+}
+
+#ATCSecCodeDiv {
+  display: flex;
+  flex: 5;
+}
+
+#ATC {
+  margin-top: 2%;
+  background-color: #5abd81;
+}
+
+/*-----------------------------------add to cart styling ends--------------------------*/
+.fpFloats {
+  width: 8.35%;
+  text-align: center;
+  border: 1px solid black;
+}
+
+.fpGrey {
+  background-color: #afafaf;
+}
+
+#fpGo {
+  width: 10%;
+  font-weight: bolder;
+  background-color: #22c722;
+  border: 1px solid black;
+  font-size: 20px;
+}
+
+#row1float {
+  background-color: #ffe559;
+  width: 70%;
+}
+
+#row1div {
+  margin-top: 0.5%;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+#row2div {
+  margin-top: 0.5%;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+#row3div {
+  margin-top: 0.5%;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+#r1min {
+  text-align: center;
+  width: 6%;
+  background-color: #85add0;
+  border: 1px solid black;
+}
+
+#r1max {
+  text-align: center;
+  width: 6%;
+  background-color: #85add0;
+  border: 1px solid black;
+}
+
+#r2min {
+  text-align: center;
+  width: 6%;
+  background-color: #85add0;
+  border: 1px solid black;
+}
+
+#r2max {
+  text-align: center;
+  width: 6%;
+  background-color: #85add0;
+  border: 1px solid black;
+}
+
+#r3min {
+  text-align: center;
+  width: 6%;
+  background-color: #85add0;
+  border: 1px solid black;
+}
+
+#r3max {
+  text-align: center;
+  width: 6%;
+  background-color: #85add0;
+  border: 1px solid black;
+}
+
+/*-----------------------------------float pyramid styling ends--------------------------*/
+#separator {
+  margin-top: 0.75%;
+  height: 1%;
+  margin-bottom: 0.75%;
+  background-color: grey;
+  border: 4px solid grey;
+}
+
+#arrowPop {
+  display: none;
+  position: fixed;
+  text-align: center;
+  top: 0%;
+  left: 0%;
+  transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+}
