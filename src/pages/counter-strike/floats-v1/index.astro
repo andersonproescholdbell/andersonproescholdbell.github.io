@@ -1,15 +1,1479 @@
 ---
-import WIPPageTemplate from '../../../components/WIPPageTemplate.astro';
 import { getProjectColor } from '../../../config/projectUtils';
+
+// Import JavaScript files as URLs
+import sharedFunctionsUrl from '../../../scripts/floats-v1/sharedfunctions.js?url';
+import tabsUrl from '../../../scripts/floats-v1/tabs.js?url';
+import calculatorUrl from '../../../scripts/floats-v1/calculator.js?url';
+import ieeeUrl from '../../../scripts/floats-v1/ieee.js?url';
+import combinationsUrl from '../../../scripts/floats-v1/combinations.js?url';
+import floatPyramidUrl from '../../../scripts/floats-v1/floatpyramid.js?url';
 
 const colors = getProjectColor('counter-strike', 'floats-v1');
 ---
 
-<WIPPageTemplate 
-  title="Floats-V1 - Counter-Strike Trade-up Calculator"
-  description="Counter-Strike trade-up calculator - version 1. This project is currently under development and will feature advanced float value calculations for CS trade-ups."
-  metaDescription="Counter-Strike trade-up calculator - version 1"
-  categoryId="counter-strike"
-  categoryName="Counter-Strike Projects"
-  colors={colors}
-/>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="initial-scale=1"/>
+  <title>Float Creator V1 - Counter-Strike Trade-up Calculator</title>
+  <meta name="description" content="Counter-Strike trade-up calculator - version 1. Calculate float values for CS trade-ups with precision.">
+</head>
+<body>
+  <style>
+    * {box-sizing: border-box}
+    body {
+      font-family: "Lato", sans-serif;
+      background-color: #8f91ff;
+      margin: 0;
+      padding: 0;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input {
+      border-radius: 10px;
+      -moz-border-radius: 10px;
+      -webkit-border-radius: 10px;
+    }
+
+    .displayNone {
+      display: none;
+    }
+
+    .width100 {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .centerFlex {
+      display: flex;
+      justify-content: center;
+    }
+
+    .flex1 {
+      display: flex;
+      flex: 1;
+    }
+
+    /*-----------------------------------website wide ends--------------------------*/
+
+    .tab {
+      float: left;
+      background-color: #a2a2a2;
+      width: 10%;
+    }
+
+    .tabButton {
+      display: block;
+      background-color: inherit;
+      background-color: #2196F3;
+      padding: 22px 16px;
+      width: 100%;
+      border: none;
+      outline: none;
+      text-align: left;
+      cursor: pointer;
+      transition: 0.7s;
+      font-size: 17px;
+    }
+
+    .tab button:hover {
+      background-color: #5cd6ff;
+    }
+
+    .tabcontent {
+      display: none;
+      float: left;
+      padding: 0px 12px;
+      width: 90%;
+      border-left: none;
+      height: 300px;
+    }
+
+    #creatorInfo {
+      background-color: #8f91ff;
+    }
+
+    #steam {
+      color: #000000;
+      font-weight: bold;
+    }
+
+
+
+
+
+    .link {
+      color: #0048ff;
+    }
+
+    #disclaimer {
+      position: fixed; /* Sit on top of the page content */
+      display: block;
+      width: 100%; /* Full width (cover the whole page) */
+      height: 100%; /* Full height (cover the whole page) */
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.80); /* Black background with opacity */
+      z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+      cursor: pointer; /* Add a pointer on hover */
+    }
+
+    #disclaimerText {
+      position: absolute;
+      text-align: center;
+      top: 50%;
+      left: 50%;
+      color: #b5bfce;
+      font-size: 22px;
+      transform: translate(-50%,-50%);
+      -ms-transform: translate(-50%,-50%);
+    }
+
+    /*-----------------------------------tabs ends--------------------------*/
+    #tfParent {
+      display: flex;
+      justify-content: center;
+      flex-direction: row;
+    }
+
+    #tfEntering {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+    }
+
+    #tfEnterFloatsText {
+      text-align: center;
+      margin-top: 0%;
+      margin-bottom: 0%;
+      font-size: 36px;
+      color: #000000;
+    }
+
+    .tfFloatsSpacing {
+      display: flex;
+      flex-direction: row;
+      flex: 1;
+    }
+
+    .tfFloats {
+      display: flex;
+      width: 100%;
+      text-align: center;
+      font-size: 20px;
+      margin-bottom: 1%;
+      margin-right: 1%;
+      background-color: #a9e5ff;
+      color: #000000;
+      border: 1px solid #000000;
+    }
+
+    .tfInfoSpacing {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    #tfEnterMaxWearText {
+      margin-top: 15%;
+    }
+
+    .tfInfoText {
+      text-align: center;
+      margin-bottom: 0.25%;
+      margin-top: 0.25%;
+      color: #000000;
+    }
+
+    .tfExtraInfo {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      text-align: center;
+      border: 1px solid black;
+      font-size: 20px;
+      background-color: #80DEEA;
+      color: #000000;
+    }
+
+    #tfOutcomes {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+    }
+
+    .tfOutcomesSpacing {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      width: 100%;
+    }
+
+    #tfOutputFloatsText {
+      margin-top: 0%;
+    }
+
+    .tfOutputsText {
+      margin-left: 0px;
+      margin-bottom: 0px;
+      text-align: center;
+      margin-top: 0px;
+      color: #000000;
+    }
+
+    .tfOutputs {
+      display: flex;
+      font-size: 30px;
+      margin-left: .5%;
+      border: 1px solid black;
+      width: 100%;
+      font-weight: bold;
+      text-align: center;
+      color: #000000;
+      background-color: #81ffc1;
+    }
+
+    /*-----------------------------------ten floats styling ends--------------------------*/
+    #ieee754 {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+    }
+
+    .ieeeLargeText {
+      font-size: 35px;
+    }
+
+    .ieeeSmallerText {
+      font-size: 27px;
+    }
+
+    .IEEEs {
+      display: flex;
+      flex-direction: row;
+      margin-top: 0.5%;
+      margin-bottom: 0%;
+      color: #000000;
+    }
+
+    .IEEEsInput {
+      display: inline-block;
+      text-align: center;
+      color: #000000;
+      background-color: #a9e5ff;
+      border: 0.5px solid black;
+      margin-left: 0.25%;
+      margin-right: 0.25%;
+    }
+
+    #minIEEEinput {
+      max-height: 50px;
+    }
+
+    #maxIEEEinput {
+      max-height: 50px;
+    }
+
+    /*-----------------------------------ieee754 styling ends------------------------------*/
+    #fcEnterFloatsText {
+      display: flex;
+      font-size: 25px;
+      font-weight: bold;
+      margin-top: 0.65%;
+      margin-bottom: 0.4%;
+    }
+
+    #fcMoreFloatsDiv {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .fcMoreFloatsFlex {
+      display: flex;
+      justify-content: center;
+      flex-direction: row;
+    }
+
+    .fcMoreFloats {
+      display: flex;
+      flex: 1;
+      text-align: center;
+      border: 1px solid black;
+      font-size: 20px;
+      background-color: #a9e5ff;
+      color: #000000;
+      margin-top: 0%;
+      margin-right: 0.45%;
+      margin-bottom: 0.35%;
+    }
+
+    #fcAltInput {
+      display: flex;
+      font-size: 16px;
+      width: 90%;
+      text-align: center;
+      background-color: #a9e5ff;
+      color: #000000;
+      border: 1px solid black;
+      margin-top: 0%;
+      margin-bottom: 0%;
+    }
+
+    #criteriaDiv {
+      display: flex;
+      justify-content: center;
+    }
+
+    .fcExtraInfo {
+      text-align: center;
+      border: 1px solid black;
+      font-size: 20px;
+      background-color: #80DEEA;
+      color: #000000;
+      border: 1px solid black;
+    }
+
+    .fcComboInfo {
+      margin-top: 1%;
+      display: flex;
+      flex-direction: column;
+      margin-right: 0.55%;
+      flex: 1;
+    }
+
+    .fcCinfoText {
+      margin-top: -1.5%;
+      margin-bottom: -0.5%;
+      text-align: center;
+      font-size: 20px;
+      display: block;
+      color: #000000;
+      flex: 1;
+      width: 100%;
+    }
+
+    .fcCinfoInputs {
+      margin-top: 0%;
+      display: flex;
+      width: 100%;
+    }
+
+    #fcOnlyLowerDiv {
+      margin-top: 0.4%;
+      margin-bottom: 0.15%;
+    }
+
+    #fcOnlyLowerChk {
+      display: flex;
+      height: 16px;
+      width: 16px;
+    }
+
+    #fcOnlyLowerText {
+      display: flex;
+      font-size: 18px;
+    }
+
+    #fcGenerateCombos{
+      margin-top: 0.35%;
+      margin-bottom: 0.25%;
+      font-size: 20px;
+      display: flex;
+      background-color: #0fa72c;
+      border: 1px solid #000000;
+      color:#000000;
+    }
+
+    #fcStop {
+      font-size: 18px;
+      display: flex;
+      background-color: #c10032;
+      border: 1px solid black;
+      margin-bottom: -0.75%;
+    }
+
+    #fcWarning {
+      font-size: 15px;
+      display: flex;
+      color: #000000;
+    }
+
+    #fcTotalCombosText {
+      display: flex;
+      color: black;
+      font-size: 20px;
+      margin-top: 0%;
+      margin-bottom: 0%;
+    }
+
+    #fcTheProgress {
+      display: flex;
+      width: 100%;
+      height: 22px;
+      margin-top: 0%;
+      margin-bottom: 0%;
+      text-align: center;
+      background-color: #861b1b;
+    }
+
+    #fcProgressBar {
+      top: 0;
+      left: 0;
+      display: flex;
+      width: 0%;
+      height: 22px;
+      margin-top: 0%;
+      margin-bottom: 0%;
+      background-color: #38c158;
+    }
+
+
+    #fcCombinationsText {
+      background-color: #536bff;
+      font-weight: 2000;
+      clear: both;
+    }
+
+    /*-----------------------------------float combos styling ends--------------------------*/
+    .opskinsStuff {
+      display: flex;
+      margin-top: 0.25%;
+      margin-bottom: 0.5%;
+      margin-right: 0.2%;
+      font-size: 16px;
+    }
+
+    .opApiSpacing {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .infoText {
+      color: #000000;
+      text-align: center;
+      justify-content: center;
+      display: flex;
+    }
+
+    .CinfoText {
+      justify-content: center;
+      margin-top: 0%;
+      margin-bottom: 0%;
+      text-align: center;
+      font-size: 20px;
+      display: flex;
+    }
+
+    .opSearchClass {
+      font-size: 17px;
+    }
+
+    .extrainfo {
+      display: flex;
+      text-align: center;
+      border: 1px solid black;
+      font-size: 20px;
+      background-color: #80DEEA;
+      color: #000000;
+    }
+
+    .CinfoInputs {
+      margin: auto;
+      margin-top: 0%;
+      width: 100%;
+      display: flex;
+    }
+
+    #apiInput {
+      width: 100%;
+      margin-top: 0.4%;
+    }
+
+    #apiKeyDiv {
+      display: flex;
+      flex: 3.05;
+      margin-left: 0%;
+    }
+
+    #secCodeDiv {
+      display: flex;
+      flex: 1.7;
+    }
+
+    #searchDiv {
+      display: flex;
+      flex: 1.6;
+    }
+
+    #minPriceDiv {
+      display: flex;
+      flex: 1.13;
+    }
+
+    #maxPriceDiv {
+      display: flex;
+      flex: 1.1;
+    }
+
+    #wearDiv {
+      margin-right: 0.3%;
+    }
+
+    .wears {
+      display: flex;
+      flex-direction: column;
+    }
+
+    #statDiv {
+      display: flex;
+      flex: 1.65;
+    }
+
+    #delayDiv {
+      display: flex;
+      flex: 1.7;
+    }
+
+    #addRemoveDiv {
+      display: flex;
+      margin-top: 0%;
+      text-align: center;
+      flex-direction: row;
+      justify-content: space-evenly;
+    }
+
+    #getInfoInput {
+      background-color: #0fa72c;
+    }
+
+    #removeInfoInput {
+      background-color: #c10032;
+    }
+
+    #addCustomBtn {
+      background-color: #ea7d7d;
+    }
+
+    #opLinkDiv {
+      display: flex;
+      text-align: center;
+      margin-top: -0.90%;
+      margin-bottom: 1.5%;
+    }
+
+    #susText {
+      margin-bottom: 0.10%;
+    }
+
+    #opLink {
+      display: flex;
+      width: 90%;
+      text-align: center;
+      margin-bottom: -1.25%;
+      background-color: #a9e5ff;
+      color: #000000;
+      border: 1px solid black;
+    }
+
+    #pastedJSON {
+      display: flex;
+      width: 95%;
+      height: 250px;
+      background-color: #a9e5ff;
+      color: #000000;
+      border: 1px solid black;
+      margin-top: 0%;
+      margin-bottom: 0%;
+    }
+
+    #formattedOpskins {
+      display: flex;
+      flex: 15;
+      font-size: 16px;
+      width: 85%;
+      height: 80px;
+      margin-top: 0.25%;
+      margin-bottom: 0.5%;
+      text-align: center;
+      background-color: #8eead5;
+      color: #000000;
+      border: 1px solid black;
+    }
+
+    .comboInfo {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      margin-right: 0.5%;
+      margin-top: 0%;
+    }
+
+    #numFloatsInput {
+      width: 100%;
+      margin-top: 0.4%;
+    }
+
+    #comboInfo1 {
+      display: flex;
+      flex: 0.6;
+    }
+
+    #comboInfo2 {
+      display: flex;
+      flex: 0.6;
+    }
+
+    #comboInfo3 {
+      display: flex;
+      flex: 0.8;
+    }
+
+    #comboInfo4 {
+      display: flex;
+      flex: 1.6;
+    }
+
+    #numFloatsDiv {
+      display: flex;
+      flex: 2.25;
+    }
+
+    #CmaxPriceDiv  {
+      display: flex;
+      flex: 0.9;
+    }
+
+    #CmatchesDiv {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    #CmatchesText {
+      margin-top: 0.3%;
+      color: #b5bfce;
+    }
+
+    #CmatchesInput {
+      margin-top: 0.15%;
+      display: flex;
+      width: 40%;
+    }
+
+    #saveParams {
+      display: flex;
+      flex: 1.5;
+      flex-direction: column;
+      font-size: 16px;
+      height: 80px;
+      border: 1px solid black;
+      margin-top: 0.25%;
+      margin-bottom: 0.5%;
+      margin-right: 0.25%;
+      text-align: center;
+      background-color: #a5afb7;
+      color: #16122b;
+          justify-content: space-evenly;
+    }
+
+    #opInfoButton {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      font-size: 16px;
+      height: 80px;
+      border: 1px solid black;
+      margin-top: 0.25%;
+      margin-bottom: 0.5%;
+      margin-left: 0.25%;
+      text-align: center;
+      background-color: #a5afb7;
+      color: #16122b;
+      justify-content: space-evenly;
+    }
+
+    #opInfoOverlay {
+      position: fixed; /* Sit on top of the page content */
+      display: none; /* Hidden by default */
+      width: 100%; /* Full width (cover the whole page) */
+      height: 100%; /* Full height (cover the whole page) */
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0,0,0,0.85); /* Black background with opacity */
+      z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+      cursor: pointer; /* Add a pointer on hover */
+    }
+
+    #pastParams {
+      position: absolute;
+      text-align: center;
+      top: 62%;
+      left: 25%;
+      color: #b5bfce;
+      font-size: 20px;
+      transform: translate(-50%,-50%);
+      -ms-transform: translate(-50%,-50%);
+    }
+
+    #opInfoText {
+      position: absolute;
+      text-align: center;
+      top: 62%;
+      left: 75%;
+      color: #b5bfce;
+      font-size: 20px;
+      transform: translate(-50%,-50%);
+      -ms-transform: translate(-50%,-50%);
+    }
+
+    #hidingDiv {
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #hideOpInfoButton {
+      text-align: center;
+      margin-top: 0.5%;
+      display: flex;
+      background-color: grey;
+      border: 0px solid black;
+      font-size: 35px;
+    }
+
+    #savedSearchesText {
+      color: #b5bfce;
+      margin-top: 0.5%;
+      display: flex;
+    }
+
+    #savedSearchesText2 {
+      font-size: 17px;
+      color: grey;
+      margin-top: 0%;
+      margin-bottom: 0%;
+      text-align: center;
+    }
+
+    #savedSearchesTextarea {
+      display: flex;
+      margin-top: 0.05%;
+      width: 95%;
+      height: 60px;
+      text-align: left;
+      background-color: #8eead5;
+      color: #000000;
+      border: 1px solid black;
+    }
+
+    #searchLinks {
+      margin-top: 0.25%;
+      text-align: center;
+      display: flex;
+      background-color: #0fa72c;
+      border: 1px solid black;
+      font-size: 20px;
+    }
+
+    #onlyLowerDiv {
+      display: flex;
+      justify-content: center;
+      flex-direction: row;
+      margin-bottom: 0.25%;
+      margin-top: -0.35%;
+    }
+
+    #onlyLower {
+      height: 18px;
+      width: 18px;
+    }
+
+    #onlyLowerText {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    #generateDiv {
+      margin-top: 0%;
+      display: flex;
+      text-align: center;
+      margin-bottom: 1.5%;
+    }
+
+    #generatecombos{
+      font-size: 20px;
+      text-align: center;
+      display: flex;
+      margin-top: 0.25%;
+      margin-bottom: 0.35%;
+      background-color: #0fa72c;
+      border: 1px solid #000000;
+      color:#000000;
+    }
+
+    #stop {
+      font-size: 18px;
+      text-align: center;
+      display: flex;
+      margin-top: 0%;
+      margin-bottom: 0%;
+      background-color: #c10032;
+      border: 1px solid black;
+    }
+
+    #warning {
+      font-size: 15px;
+      margin-top: 0.25%;
+      margin-bottom: -1%;
+      display: flex;
+      text-align: center;
+      color: #000000;
+    }
+
+    #totalcombostext {
+      color: black;
+      font-size: 20px;
+      margin-bottom: -0.4%;
+      margin-top: 0%;
+      display: flex;
+      text-align: center;
+    }
+
+    #theProgress {
+      display: flex;
+      width: 100%;
+      height: 22px;
+      margin-bottom: 0%;
+      margin-top: -0.35%;
+      margin-left: 0%;
+      text-align: center;
+      background-color: #861b1b;
+    }
+
+    #progress_bar {
+      display: flex;
+      width: 0%;
+      height: 22px;
+      margin-bottom: 0px;
+      margin-top: 0%;
+      background-color: #38c158;
+    }
+
+    #limited {
+      display: flex;
+      font-size: 15px;
+      text-align: center;
+      margin-top: 0.5%;
+      margin-bottom: 0%;
+      font-weight: 1100;
+      color: #000000;
+    }
+
+    #opskinsInput {
+      display: flex;
+      font-size: 16px;
+      height: 250px;
+      margin-top: 0%;
+      margin-bottom: 0%;
+      text-align: center;
+      background-color: #A7FFEB;
+      color: #00695C;
+      border: 1px solid black;
+    }
+
+    #combinationstext {
+      background-color: #536bff;
+      font-weight: 2000;
+      clear: both;
+    }
+
+    /*-----------------------------------opskins combos styling ends--------------------------*/
+    #ATCDiv {
+      display: flex;
+      width: 90%;
+    }
+    #ATCApiKeyDiv {
+      display: flex;
+      flex: 5;
+    }
+
+    #ATCSecCodeDiv {
+      display: flex;
+      flex: 5;
+    }
+
+    #ATC {
+      margin-top: 2%;
+      background-color: #5abd81;
+    }
+
+    /*-----------------------------------add to cart styling ends--------------------------*/
+    .fpFloats {
+      width: 8.35%;
+      text-align: center;
+      border: 1px solid black;
+    }
+
+    .fpGrey {
+      background-color: #afafaf;
+    }
+
+    #fpGo {
+      width: 10%;
+      font-weight: bolder;
+      background-color: #22c722;
+      border: 1px solid black;
+      font-size: 20px;
+    }
+
+    #row1float {
+      background-color: #ffe559;
+      width: 70%;
+    }
+
+    #row1div {
+      margin-top: 0.5%;
+      flex-direction: row;
+      justify-content: flex-start;
+    }
+
+    #row2div {
+      margin-top: 0.5%;
+      flex-direction: row;
+      justify-content: flex-start;
+    }
+
+    #row3div {
+      margin-top: 0.5%;
+      flex-direction: row;
+      justify-content: flex-start;
+    }
+
+    #r1min {
+      text-align: center;
+      width: 6%;
+      background-color: #85add0;
+      border: 1px solid black;
+    }
+
+    #r1max {
+      text-align: center;
+      width: 6%;
+      background-color: #85add0;
+      border: 1px solid black;
+    }
+
+    #r2min {
+      text-align: center;
+      width: 6%;
+      background-color: #85add0;
+      border: 1px solid black;
+    }
+
+    #r2max {
+      text-align: center;
+      width: 6%;
+      background-color: #85add0;
+      border: 1px solid black;
+    }
+
+    #r3min {
+      text-align: center;
+      width: 6%;
+      background-color: #85add0;
+      border: 1px solid black;
+    }
+
+    #r3max {
+      text-align: center;
+      width: 6%;
+      background-color: #85add0;
+      border: 1px solid black;
+    }
+
+    /*-----------------------------------float pyramid styling ends--------------------------*/
+    #separator {
+      margin-top: 0.75%;
+      height: 1%;
+      margin-bottom: 0.75%;
+      background-color: grey;
+      border: 4px solid grey;
+    }
+
+    #arrowPop {
+      display: none;
+      position: fixed;
+      text-align: center;
+      top: 0%;
+      left: 0%;
+      transform: translate(-50%,-50%);
+      -ms-transform: translate(-50%,-50%);
+    }
+  </style>
+
+  <img src="/assets/floats-v1/downarrow.png" alt="Look Below" id="arrowPop">
+
+  <div class="tab">
+    <button id="tfDivbtn" class="tablinks tabButton" onclick="openTab('tfDiv')">Simple Calculator for 10 Floats</button>
+    <button id="floatCombosDivbtn" class="tablinks tabButton" onclick="openTab('floatCombosDiv')">Float Combinations Generator</button>
+    <button id="ieee754Divbtn" class="tablinks tabButton" onclick="openTab('ieee754Div')">IEEE754 Converter</button>
+    <button id="floatPyramidDivbtn" class="tablinks tabButton" onclick="openTab('floatPyramidDiv')">Float Pyramid</button>
+
+    <div id="creatorInfo">
+    </div>
+  </div>
+
+
+<!-- ********************************************************************************************************************************************************************* -->
+  <div id="tfDiv" class="tabcontent">
+    <div id="tfParent">
+      <div id="tfEntering">
+        <div>
+          <h1 id="tfEnterFloatsText">Enter Floats</h1>
+        </div>
+        <div class="width100">
+          <div class="centerFlex">
+            <div class="tfFloatsSpacing">
+              <input class="tfFloats" type="number" max="1.0" min="0.0" value="0.1" onkeyup="tfUpdateOutputs()"/>
+            </div>
+            <div class="tfFloatsSpacing">
+              <input class="tfFloats" type="number" max="1.0" min="0.0" value="0.2" onkeyup="tfUpdateOutputs()"/>
+            </div>
+          </div>
+        </div>
+        <div class="width100">
+          <div class="centerFlex">
+            <div class="tfFloatsSpacing">
+              <input class="tfFloats" type="number" max="1.0" min="0.0" value="0.3" onkeyup="tfUpdateOutputs()"/>
+            </div>
+            <div class="tfFloatsSpacing">
+              <input class="tfFloats" type="number" max="1.0" min="0.0" value="0.4" onkeyup="tfUpdateOutputs()"/>
+            </div>
+          </div>
+        </div>
+        <div class="width100">
+          <div class="centerFlex">
+            <div class="tfFloatsSpacing">
+              <input class="tfFloats" type="number" max="1.0" min="0.0" value="0.5" onkeyup="tfUpdateOutputs()"/>
+            </div>
+            <div class="tfFloatsSpacing">
+              <input class="tfFloats" type="number" max="1.0" min="0.0" value="0.6" onkeyup="tfUpdateOutputs()"/>
+            </div>
+          </div>
+        </div>
+        <div class="width100">
+          <div class="centerFlex">
+            <div class="tfFloatsSpacing">
+              <input class="tfFloats" type="number" max="1.0" min="0.0" value="0.7" onkeyup="tfUpdateOutputs()"/>
+            </div>
+            <div class="tfFloatsSpacing">
+              <input class="tfFloats" type="number" max="1.0" min="0.0" value="0.8" onkeyup="tfUpdateOutputs()"/>
+            </div>
+          </div>
+        </div>
+        <div class="width100">
+          <div class="centerFlex">
+            <div class="tfFloatsSpacing">
+              <input class="tfFloats" type="number" max="1.0" min="0.0" value="0.9" onkeyup="tfUpdateOutputs()"/>
+            </div>
+            <div class="tfFloatsSpacing">
+              <input class="tfFloats" type="number" max="1.0" min="0.0" value="0.10" onkeyup="tfUpdateOutputs()"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="tfExtraInfo width100">
+        <div class="centerFlex">
+          <div class="tfInfoSpacing">
+            <h4 id="tfEnterMaxWearText" class="tfInfoText">Enter Max Wear</h4>
+            <input id="tfMaxWearInput" class="tfExtraInfo" type="number" value="1.00000" onkeyup="tfUpdateOutputs()"/>
+          </div>
+        </div>
+        <div class="centerFlex">
+          <div class="tfInfoSpacing">
+            <h4 id="tfEnterMinWearText" class="tfInfoText">Enter Min Wear</h4>
+            <input id="tfMinWearInput" class="tfExtraInfo" type="number" value="0.00000" onkeyup="tfUpdateOutputs()"/>
+          </div>
+        </div>
+        <div class="centerFlex">
+          <div class="tfInfoSpacing">
+            <h4 id="tfDesiredFloatText" class="tfInfoText">Desired Float</h4>
+            <input id="tfDesiredFloatInput" class="tfExtraInfo" type="number" value="0.50000" onkeyup="tfUpdateOutputs()"/>
+          </div>
+        </div>
+      </div>
+
+      <div id="tfOutcomes">
+        <div class="centerFlex">
+          <div class="tfOutcomesSpacing">
+            <h2 id="tfOutputFloatsText" class="tfOutputsText">Current Output Wear</h2>
+            <input type="text" class="tfOutputs" id="tfOutputFloatInput" readonly value="0.00000"/>
+          </div>
+        </div>
+        <div class="centerFlex">
+          <div class="tfOutcomesSpacing">
+            <h2 id="tfNeededAverageText" class="tfOutputsText">Needed Average for Desired Float</h2>
+            <input type="text" class="tfOutputs" id="tfNeededAverageInput" readonly value="0.00000"/>
+          </div>
+        </div>
+        <div class="centerFlex">
+          <div class="tfOutcomesSpacing">
+            <h2 id="tfCurrentAverageText" class="tfOutputsText">Current Average of 0 Floats</h2>
+            <input type="text" class="tfOutputs" id="tfCurrentAverageInput" readonly value="0.00000"/>
+          </div>
+        </div>
+        <div class="centerFlex">
+          <div class="tfOutcomesSpacing">
+            <h2 id="tfNewAverageNeededText" class="tfOutputsText">Average of Last Float(s) Needed</h2>
+            <input type="text" class="tfOutputs" id="tfNewAverageNeededInput" readonly value="0.00000"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- ********************************************************************************************************************************************************************* -->
+  <div id="floatCombosDiv" class="tabcontent width100">
+    <div class="width100">
+      <div class="centerFlex">
+        <p id="fcEnterFloatsText">Enter Floats</p>
+      </div>
+    </div>
+
+    <div id="fcMoreFloatsDiv">
+      <div class="fcMoreFloatsFlex">
+        <input class="fcMoreFloats" type="number" max="1.0" min="0.0" value="0.00000" onkeyup="fcUpdateCombinations()"/>
+        <input class="fcMoreFloats" type="number" max="1.0" min="0.0" value="0.00000" onkeyup="fcUpdateCombinations()"/>
+        <input class="fcMoreFloats" type="number" max="1.0" min="0.0" value="0.00000" onkeyup="fcUpdateCombinations()"/>
+        <input class="fcMoreFloats" type="number" max="1.0" min="0.0" value="0.00000" onkeyup="fcUpdateCombinations()"/>
+        <input class="fcMoreFloats" type="number" max="1.0" min="0.0" value="0.00000" onkeyup="fcUpdateCombinations()"/>
+      </div>
+      <div class="fcMoreFloatsFlex">
+        <input class="fcMoreFloats" type="number" max="1.0" min="0.0" value="0.00000" onkeyup="fcUpdateCombinations()"/>
+        <input class="fcMoreFloats" type="number" max="1.0" min="0.0" value="0.00000" onkeyup="fcUpdateCombinations()"/>
+        <input class="fcMoreFloats" type="number" max="1.0" min="0.0" value="0.00000" onkeyup="fcUpdateCombinations()"/>
+        <input class="fcMoreFloats" type="number" max="1.0" min="0.0" value="0.00000" onkeyup="fcUpdateCombinations()"/>
+        <input class="fcMoreFloats" type="number" max="1.0" min="0.0" value="0.00000" onkeyup="fcUpdateCombinations()"/>
+      </div>
+      <div class="fcMoreFloatsFlex">
+        <input class="fcMoreFloats" type="number" max="1.0" min="0.0" value="0.00000" onkeyup="fcUpdateCombinations()"/>
+        <input class="fcMoreFloats" type="number" max="1.0" min="0.0" value="0.00000" onkeyup="fcUpdateCombinations()"/>
+        <input class="fcMoreFloats" type="number" max="1.0" min="0.0" value="0.00000" onkeyup="fcUpdateCombinations()"/>
+        <input class="fcMoreFloats" type="number" max="1.0" min="0.0" value="0.00000" onkeyup="fcUpdateCombinations()"/>
+        <input class="fcMoreFloats" type="number" max="1.0" min="0.0" value="0.00000" onkeyup="fcUpdateCombinations()"/>
+      </div>
+      <div class="fcMoreFloatsFlex">
+        <input class="fcMoreFloats" type="number" max="1.0" min="0.0" value="0.00000" onkeyup="fcUpdateCombinations()"/>
+        <input class="fcMoreFloats" type="number" max="1.0" min="0.0" value="0.00000" onkeyup="fcUpdateCombinations()"/>
+        <input class="fcMoreFloats" type="number" max="1.0" min="0.0" value="0.00000" onkeyup="fcUpdateCombinations()"/>
+        <input class="fcMoreFloats" type="number" max="1.0" min="0.0" value="0.00000" onkeyup="fcUpdateCombinations()"/>
+        <input class="fcMoreFloats" type="number" max="1.0" min="0.0" value="0.00000" onkeyup="fcUpdateCombinations()"/>
+      </div>
+      <div class="fcMoreFloatsFlex">
+        <input class="fcMoreFloats" type="number" max="1.0" min="0.0" value="0.00000" onkeyup="fcUpdateCombinations()"/>
+        <input class="fcMoreFloats" type="number" max="1.0" min="0.0" value="0.00000" onkeyup="fcUpdateCombinations()"/>
+        <input class="fcMoreFloats" type="number" max="1.0" min="0.0" value="0.00000" onkeyup="fcUpdateCombinations()"/>
+        <input class="fcMoreFloats" type="number" max="1.0" min="0.0" value="0.00000" onkeyup="fcUpdateCombinations()"/>
+        <input class="fcMoreFloats" type="number" max="1.0" min="0.0" value="0.00000" onkeyup="fcUpdateCombinations()"/>
+      </div>
+      <div class="fcMoreFloatsFlex">
+        <input class="fcMoreFloats" type="number" max="1.0" min="0.0" value="0.00000" onkeyup="fcUpdateCombinations()"/>
+        <input class="fcMoreFloats" type="number" max="1.0" min="0.0" value="0.00000" onkeyup="fcUpdateCombinations()"/>
+        <input class="fcMoreFloats" type="number" max="1.0" min="0.0" value="0.00000" onkeyup="fcUpdateCombinations()"/>
+        <input class="fcMoreFloats" type="number" max="1.0" min="0.0" value="0.00000" onkeyup="fcUpdateCombinations()"/>
+        <input class="fcMoreFloats" type="number" max="1.0" min="0.0" value="0.00000" onkeyup="fcUpdateCombinations()"/>
+      </div>
+    </div>
+
+    <div id="fcTotalCombosDiv" class="width100">
+      <div class="centerFlex">
+        <input id="fcAltInput" onkeyup="fcUpdateCombinations()" value="Enter floats separated by a commas (float,float,float,float)"/>
+      </div>
+    </div>
+
+    <div id="criteriaDiv">
+      <div id="comboInfo1" class="fcComboInfo">
+        <h4 id="Centermaxweartext" class="fcCinfoText">Enter Max Wear</h4>
+        <input id="fcCmaxwearinput" class="fcExtraInfo fcCinfoInputs" type="number" value="1.00000"/>
+      </div>
+      <div id="comboInfo2" class="fcComboInfo">
+        <h4 id="Centerminweartext" class="fcCinfoText">Enter Min Wear</h4>
+        <input id="fcCminwearinput" class="fcExtraInfo fcCinfoInputs" type="number" value="0.00000"/>
+      </div>
+      <div id="comboInfo3" class="fcComboInfo">
+        <h4 id="Cdesiredfloattext" class="fcCinfoText">Desired Float</h4>
+        <input id="fcCdesiredfloatinput" class="fcExtraInfo fcCinfoInputs" type="number" value="0.5555"/>
+      </div>
+      <div id="comboInfo4" class="fcComboInfo">
+        <h4 id="howmuchabovetext" class="fcCinfoText">How Much Above Float To Show</h4>
+        <input id="fcCspecificityinput" class="fcExtraInfo fcCinfoInputs" type="number" value="0.01"/>
+      </div>
+    </div>
+
+    <div class="width100">
+      <div id="fcOnlyLowerDiv" class="centerFlex">
+        <input id="fcOnlyLowerChk" type="checkbox">
+        <label for="fcOnlyLowerChk" id="fcOnlyLowerText">Only Show Floats Lower Than Previous</label>
+      </div>
+    </div>
+
+    <div class="width100">
+      <div class="centerFlex">
+        <button id="fcGenerateCombos" onclick="fcCombinations()">Generate Combinations With Inputed Floats Below</button>
+      </div>
+      <div class="centerFlex">
+        <button id="fcStop" onclick="done = true;">Stop The Current Run</button>
+      </div>
+      <div class="centerFlex">
+        <p id="fcWarning">3s Delay Before Starting (to hopefully help browser) -- Uses Information Inputted Above</p>
+      </div>
+    </div>
+
+    <div class="centerFlex">
+      <p id='fcTotalCombosText'>Total Combinations Possible: 0</p>
+    </div>
+
+    <div id="fcTheProgress" class="width100">
+      <div id="fcProgressBar"></div>
+    </div>
+
+    <div class="width100">
+      <div class="centerFlex">
+      </div>
+    </div>
+    <div id="fcCombinationsText"></div>
+  </div>
+<!-- ********************************************************************************************************************************************************************* -->
+  <div id="ieee754Div" class="tabcontent">
+    <div class="width100">
+      <div id="ieee754">
+        <div class="IEEEs">
+          <p id="desiredIEEE" class="IEEEs ieeeLargeText">Desired Float</p>
+          <input id="desiredIEEEInput" class="IEEEsInput ieeeLargeText" value="0.50000" onkeyup="updateIeeeRange()"/>
+        </div>
+        <br>
+        <div class="IEEEs">
+          <p id="floatIEEE" class="IEEEs ieeeLargeText">IEEE754 of Desired Float</p>
+          <input id="floatIEEEInput" class="IEEEsInput ieeeLargeText" value="0.50000" onkeyup="updateIeeeRange()"/>
+        </div>
+        <br>
+        <div class="IEEEs">
+          <p id="minIEEE" class="IEEEs ieeeSmallerText">Lowest average to give Desired Float</p>
+          <input id="minIEEEinput" class="IEEEsInput ieeeSmallerText" value="0.00000" readonly/>
+          <p id="maxIEEE" class="IEEEs ieeeSmallerText">Highest average to give Desired Float</p>
+          <input id="maxIEEEinput" class="IEEEsInput ieeeSmallerText" value="0.00000" readonly/>
+        </div>
+        <br>
+        <div class="IEEEs">
+          <p id="middleIEEE" class="IEEEs ieeeLargeText">Middle of min and max IEEE754</p>
+          <input id="middleIEEEinput" class="IEEEsInput ieeeLargeText" value="0.00000" readonly/>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- ********************************************************************************************************************************************************************* -->
+  <div id="floatPyramidDiv" class="tabcontent" >
+    <div id="rowscontainer">
+      <div id="row1div">
+        <input id="r1min" value="float min"></input>
+        <input id="r1max" value="float max"></input>
+        <input id="row1float" class="fpFloats" ></input>
+        <button id="fpGo" onclick="fpGo()">Go/Calculate!</button>
+      </div>
+      <hr id="separator">
+      <div id="row2div">
+        <input id="r2min" value="float min"></input>
+        <input id="r2max" value="float max"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+      </div>
+      <hr id="separator">
+      <div id="row3div">
+        <input id="r3min" value="" readonly></input>
+        <input id="r3max" value="" readonly></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+      </div>
+      <div id="row3div">
+        <input id="r3min" value="" readonly></input>
+        <input id="r3max" value="" readonly></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+      </div>
+      <div id="row3div">
+        <input id="r3min" value="" readonly></input>
+        <input id="r3max" value="" readonly></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+      </div>
+      <div id="row3div">
+        <input id="r3min" value="" readonly></input>
+        <input id="r3max" value="" readonly></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+      </div>
+      <div id="row3div">
+        <input id="r3min" value="" readonly></input>
+        <input id="r3max" value="" readonly></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+      </div>
+      <div id="row3div">
+        <input id="r3min" value="" readonly></input>
+        <input id="r3max" value="" readonly></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+      </div>
+      <div id="row3div">
+        <input id="r3min" value="" readonly></input>
+        <input id="r3max" value="" readonly></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+      </div>
+      <div id="row3div">
+        <input id="r3min" value="" readonly></input>
+        <input id="r3max" value="" readonly></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+      </div>
+      <div id="row3div">
+        <input id="r3min" value="" readonly></input>
+        <input id="r3max" value="" readonly></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+      </div>
+      <div id="row3div">
+        <input id="r3min" value="" readonly></input>
+        <input id="r3max" value="" readonly></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+        <input class="fpFloats fpGrey" value="0"></input>
+        <input class="fpFloats" value="0"></input>
+      </div>
+    </div>
+  </div>
+
+  <!-- Load External Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/async/2.6.0/async.min.js"></script>
+  
+  <!-- Load JavaScript Modules from src/scripts -->
+  <script src={sharedFunctionsUrl}></script>
+  <script src={tabsUrl}></script>
+  <script src={calculatorUrl}></script>
+  <script src={ieeeUrl}></script>
+  <script src={combinationsUrl}></script>
+  <script src={floatPyramidUrl}></script>
+
+  <script>
+    // Initialize on page load
+    window.addEventListener('DOMContentLoaded', function() {
+      if (typeof load === 'function') {
+        load();
+      }
+    });
+  </script>
+
+</body>
+</html>
