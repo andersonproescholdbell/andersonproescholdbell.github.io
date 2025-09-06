@@ -1,15 +1,304 @@
 ---
-import WIPPageTemplate from '../../../components/WIPPageTemplate.astro';
 import { getProjectColor } from '../../../config/projectUtils';
+
+// Import JavaScript files as URLs
+import globalUrl from '../../../scripts/floats-v3/global.js?url';
+import elementCreationUrl from '../../../scripts/floats-v3/elementCreation.js?url';
+import helpersUrl from '../../../scripts/floats-v3/helpers.js?url';
+import chooseSkinUrl from '../../../scripts/floats-v3/chooseSkin.js?url';
+import chooseFloatUrl from '../../../scripts/floats-v3/chooseFloat.js?url';
+import addFloatsUrl from '../../../scripts/floats-v3/addFloats.js?url';
+import combinationsUrl from '../../../scripts/floats-v3/combinations.js?url';
+
+// Import data files as URLs
+import skinDataBySearchUrl from '../../../scripts/floats-v3/data/skinDataBySearch.js?url';
+import skinDataBySkinUrl from '../../../scripts/floats-v3/data/skinDataBySkin.js?url';
 
 const colors = getProjectColor('counter-strike', 'floats-v3');
 ---
 
-<WIPPageTemplate 
-  title="Floats-V3 - Counter-Strike Trade-up Calculator"
-  description="Counter-Strike trade-up calculator - version 3. The most advanced version with comprehensive trade-up analysis, profit calculations, and market integration."
-  metaDescription="Counter-Strike trade-up calculator - version 3"
-  categoryId="counter-strike"
-  categoryName="Counter-Strike Projects"
-  colors={colors}
-/>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+  <title>Float Creator V3 - Counter-Strike Trade-up Calculator</title>
+  <meta name="description" content="Counter-Strike trade-up calculator - version 3. The most advanced version with comprehensive trade-up analysis and float combination generation."/>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,300" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+  <style>
+    /* Global styles */
+    html, body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(#000c0b, black);
+      font-family: "Open Sans", sans-serif;
+    }
+
+    :global(input) {
+      text-align: center;
+      border-radius: 10px;
+      background-color: #bdbdbd;
+      font-size: 16pt;
+      outline: none;
+      border: 2px solid black;
+    }
+
+    /* Chrome, Safari, Edge, Opera */
+    :global(input::-webkit-outer-spin-button),
+    :global(input::-webkit-inner-spin-button) {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Firefox */
+    :global(input[type=number]) {
+      -moz-appearance: textfield;
+    }
+
+    /* Utility classes */
+    :global(.col) {
+      flex-direction: column;
+    }
+
+    :global(.row) {
+      display: flex;
+      flex-direction: row;
+    }
+
+    :global(.centered) {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    :global(.display-none) {
+      display: none;
+    }
+
+    :global(.width-100) {
+      width: 100%;
+    }
+
+    :global(.margin-zero) {
+      margin: 0;
+    }
+
+    :global(.text-center) {
+      text-align: center;
+    }
+
+    :global(.instructionText) {
+      color: #bdbdbd;
+    }
+
+    :global(.white) {
+      color: white;
+    }
+
+    /* And replace it with this */
+    :global(.bgConsumer) {
+      background-color: #b0c3d9; /* [cite: 19] */
+    }
+
+    :global(.bgIndustrial) {
+      background-color: #5e98d9; /* [cite: 20] */
+    }
+
+    :global(.bgMilSpec) {
+      background-color: #4b69ff; /* [cite: 21] */
+    }
+
+    :global(.bgRestricted) {
+      background-color: #8847ff; /* [cite: 22] */
+    }
+
+    :global(.bgClassified) {
+      background-color: #d32ee6; /* [cite: 23] */
+    }
+
+    :global(.bgCovert) {
+      background-color: #eb4b4b; /* [cite: 24] */
+    }
+
+    /* Skin image styling */
+    :global(.skinImg) {
+      border-style: outset;
+      border-radius: 40px;
+      border: 2px solid black;
+    }
+
+    :global(.skinImgCon) {
+      padding: 0;
+      zoom: 0.85;
+    }
+
+    :global(.skinLabel) {
+      background-color: black;
+      color: white;
+      font-weight: bold;
+      font-size: 24px;
+      position: absolute;
+      padding: 2px 7px;
+      border-radius: 10px;
+    }
+
+    :global(.button) {
+      border-radius: 10px;
+      background-color: cadetblue;
+      font-weight: bold;
+      font-size: 24px;
+      border: 3px solid black;
+    }
+
+    :global(.floatInput) {
+      text-align: center;
+      border-radius: 10px;
+      padding: 0;
+      margin: 0;
+      min-width: 22%;
+    }
+
+    :global(.combo) {
+      border-radius: 12px;
+      background-color: cadetblue;
+      font-weight: bold;
+      font-size: 24px;
+      padding: 5px;
+      text-align: center;
+      margin: 4px 0 4px 0;
+    }
+
+    :global(.comboFloats) {
+      font-size: 16pt;
+      font-weight: normal;
+    }
+
+    /* Main page-specific styles */
+    #back {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      border-radius: 5%;
+      border: none;
+      background-color: #3eace7;
+      font-size: 14pt;
+      font-weight: bold;
+    }
+
+    #chooseSkin {
+      position: relative;
+      top: 10px;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    #search {
+      text-align: center;
+      margin-top: -15px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+    }
+
+    #skins {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-evenly;
+    }
+
+    #chooseFloat {
+      display: none;
+      text-align: center;
+      flex-direction: column;
+      justify-content: center;
+      height: 100%;
+    }
+
+    #addFloats {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 100%;
+    }
+
+    #addFloats > button {
+      display: none;
+      text-align: center;
+      align-self: center;
+    }
+
+    #totalCombos {
+      margin: 10px 0 0 0;
+    }
+
+    #floatInputs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-evenly;
+      margin-top: 10px;
+    }
+
+    #combinations {
+      display: none;
+      min-height: 100%;
+    }
+  </style>
+
+  <button id="back" onclick="back()">Back</button>
+
+  <div id="chooseSkin" class="col centered">
+    <h1 class="instructionText">Choose a skin to craft</h1>
+    <input id="search" onkeyup="search()" placeholder="search skin name"/>
+    <div id="skins"></div>
+  </div>
+  
+  <div id="chooseFloat" class="col centered">
+    <h1 class="instructionText text-center margin-zero">What float would you like to craft?</h1>
+    <div class="row centered">
+      <input id="floatInput" class="margin-zero" type="number"/>
+      <button id="enterFloatsBtn" class="button margin-zero" onclick="enterFloats()">Proceed</button>
+    </div>
+  </div>
+
+  <div id="addFloats" class="col">
+    <h1 class="instructionText text-center margin-zero">Add 10+ floats to continue</h1>
+    <button class="button" onclick="generateCombinations()">Proceed</button>
+    <div id="floatInputs" class="width-100"></div>
+    <h2 id="totalCombos" class="instructionText text-center">0 possible combinations</h2>
+  </div>
+
+  <div id="combinations" class="col centered">
+    <div class="col centered width-100">
+      <h2 id="progress" class="instructionText text-center margin-zero"></h2>
+    </div>
+    <div id="generatedCombinations" class="col centered width-100"></div>
+  </div>
+
+  <!-- Load data files first -->
+  <script src={skinDataBySearchUrl}></script>
+  <script src={skinDataBySkinUrl}></script>
+
+  <!-- Load JavaScript modules -->
+  <script src={globalUrl}></script>
+  <script src={helpersUrl}></script>
+  <script src={elementCreationUrl}></script>
+  <script src={chooseSkinUrl}></script>
+  <script src={chooseFloatUrl}></script>
+  <script src={addFloatsUrl}></script>
+  <script src={combinationsUrl}></script>
+
+  <script>
+    // Initialize the application when the page loads
+    window.addEventListener('DOMContentLoaded', function() {
+      if (typeof load === 'function') {
+        load();
+      }
+    });
+  </script>
+
+</body>
+</html>

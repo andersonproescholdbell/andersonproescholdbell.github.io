@@ -1,0 +1,75 @@
+<div class="flex row">
+  <div class="row" id="searchListContainer">
+    <input placeholder="Search for a skin" v-model="searchTerm"/>
+    <ul id="searchList" class="column">
+      <li :class="[item.hidden ? 'hidden' : 'flex']" v-for="item in skins">
+        <button :disabled="item.disabled" :class="[item.rarity, 'margin']" @click="addSkin(item.index)">+</button>
+        <span :class="[item.rarity, 'margin']">{{item.skin}}</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="row" id="addedSkinsContainer">
+    <ul>
+      <li :class="[hideSkin ? 'hidden' : 'flex', column]">
+        <button :class="['flex', addedSkin.rarity, 'margin']" @click="removeSkin">-</button>
+        <span :class="['flex', addedSkin.rarity, 'margin']">{{addedSkin.skin}}</span>
+        <input class="floats" type="number" :placeholder="floatPlaceholder" v-model="userFloat"/>
+        <button id="go" @click="go">Go</button>
+        <button id="resetAll" @click="resetAll">Reset All</button>
+      </li>
+    </ul>
+
+    <div class="column" :class="[lvl2Hidden ? 'hidden' : 'flex']">
+      <p id="neededAvg" v-model="neededAvgData">{{neededAvgData}}</p>
+      <p id="whatToBuy" v-model="whatToBuyData">{{whatToBuyData}}</p>
+    </div>
+    <div :class="[lvl2Hidden ? 'hidden' : 'flex']">
+      <div id="wearRangesContainer"">
+        <pre id="wearRanges" class="lessSpace">
+  Factory New:    0.00 - 0.07
+  Minimal Wear:   0.07 - 0.15
+  Field-Tested:   0.15 - 0.38
+  Well-Worn:      0.38 - 0.45
+  Battle-Scarred: 0.45 - 1.00</pre>
+      </div>
+      <div id="scmLinks">
+        <div v-for="(item, key) in scmLinks" :key="key">
+          <a :href="item.link">{{key}}</a>
+        </div>
+      </div>
+      <div id="scmFloatRanges">
+        <div v-for="(item, key) in scmLinks" :key="key" >{{item.range}}</div>
+      </div>
+      <div id="tip">
+        <p>Tip: add "?query=&start=0&count=100" to the</p>
+        <p>end of SCM pages to see 100 skins at a time</p>
+      </div>
+    </div>
+
+    <div class="column" :class="[lvl2Hidden ? 'hidden' : 'flex']">
+      <textarea id="floatInput" v-model="floatInputData">{{floatInputData}}</textarea>
+      <div class="column">
+        <div>
+          <input id="specificity" :placeholder="specificityPlaceholder" v-model="specificity"/>
+        </div>
+        <div>
+          <button id="genCombosBtn" @click="checkDataBeforeCombos">Generate Combinations (erases existing)</button>
+          <button id="stopBtn" @click="stopGeneration">Stop</button>
+        </div>
+      </div>
+
+      <div class="column" :class="[lvl3Hidden ? 'hidden' : 'flex']">
+        <textarea id="combosOutput" v-model="combosOutputData">{{combosOutputData}}</textarea>
+        <div class="row">
+          <input id="showData" placeholder="ex. 1" v-model="showDataData"/>
+          <button id="showDataBtn" @click="showData">Check Data</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div >
+    <router-link id="home" to="/home">Home</router-link>
+  </div>
+</div>

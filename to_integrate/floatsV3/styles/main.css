@@ -1,0 +1,68 @@
+#back {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border-radius: 5%;
+  border: none;
+  background-color: #3eace7;
+  font-size: 14pt;
+  font-weight: bold;
+}
+
+#chooseSkin {
+  position: relative;
+  top: 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+#search {
+  text-align: center;
+  margin-top: -15px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+}
+
+#skins {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+#chooseFloat {
+  display: none;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+#addFloats {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100%;
+}
+
+#addFloats > button {
+  display: none;
+  text-align: center;
+  align-self: center;
+}
+
+#totalCombos {
+  margin: 10px 0 0 0;
+}
+
+#floatInputs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin-top: 10px;
+}
+
+#combinations {
+  display: none;
+  min-height: 100%;
+}

@@ -1,0 +1,12 @@
+<div>
+  <router-view v-if="signedIn"></router-view>
+
+  <div id="loginContainer" v-else>
+    <div>
+      <input @keyup.enter="go" v-model="password" autofocus/>
+      <button @click="go">Login</button>
+    </div>
+    <p id="text1">If you don't know the password for this new version (in development),</p>
+    <p id="text2">maybe you are looking for <a href="https://andersonp196.github.io/">https://andersonp196.github.io/</a>.</p>
+  </div>
+</div>

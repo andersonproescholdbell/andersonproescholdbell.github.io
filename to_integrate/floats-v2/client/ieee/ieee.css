@@ -1,0 +1,21 @@
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.container {
+  display: flex;
+}
+
+.container > div {
+  display: flex;
+}
+
+#ieeeOutput {
+  margin-left: 10%;
+}
+
+#spacer {
+  flex: 1;
+}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="./styles/global.css">
+    <link rel="stylesheet" href="./styles/classes.css">
+    <link rel="stylesheet" href="./styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,300" rel="stylesheet" type="text/css">
+    <title>Float Creator V3</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112244519-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-112244519-1');
+    </script>
+  </head>
+  <body onload="load()">
+
+    <button id="back" onclick="back()">Back</button>
+
+    <div id="chooseSkin" class="col centered">
+      <h1 class="instructionText">Choose a skin to craft</h2>
+      <input id="search" onkeyup="search()" placeholder="search skin name">
+      <div id="skins"></div>
+    </div>
+    
+    <div id="chooseFloat" class="col centered">
+      <h1 class="instructionText text-center margin-zero">What float would you like to craft?</h1>
+      <div class="row centered">
+        <input id="floatInput" class="margin-zero" type="number">
+        <button id="enterFloatsBtn" class="button margin-zero" onclick="enterFloats()">Proceed</button>
+      </div>
+    </div>
+
+    <div id="addFloats" class="col">
+      <h1 class="instructionText text-center margin-zero">Add 10+ floats to continue</h1>
+      <button class="button" onclick="generateCombinations()">Proceed</button>
+      <div id="floatInputs" class="width-100"></div>
+      <h2 id="totalCombos" class="instructionText text-center">0 possible combinations</h2>
+    </div>
+
+    <div id="combinations" class="col centered">
+      <div class="col centered width-100">
+        <h2 id="progress" class="instructionText text-center margin-zero"></h2>
+      </div>
+      <div id="generatedCombinations" class="col centered width-100"></div>
+    </div>
+
+
+    <script src="./js/chooseSkin.js"></script>
+    <script src="./js/chooseFloat.js"></script>
+    <script src="./js/addFloats.js"></script>
+    <script src="./js/combinations.js"></script>
+
+    <script src="./js/global.js"></script>
+    <script src="./js/elementCreation.js"></script>
+    <script src="./js/helpers.js"></script>
+
+    <script src="./data/skinDataBySearch.js"></script>
+    <script src="./data/skinDataBySkin.js"></script>
+  </body>
+</html>

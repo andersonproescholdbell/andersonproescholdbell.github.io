@@ -1,0 +1,29 @@
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: radial-gradient(#000c0b, black);
+  font-family: "Open Sans";
+}
+
+input {
+  text-align: center;
+  border-radius: 10px;
+  background-color: #bdbdbd;
+  font-size: 16pt;
+  outline: none;
+  border: 2px solid black;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

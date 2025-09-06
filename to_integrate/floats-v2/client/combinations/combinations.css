@@ -1,0 +1,149 @@
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#searchList {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  height: 600px;
+  overflow: hidden;
+}
+
+#searchList:hover, #searchList:active, #searchList:focus {
+  overflow-y: auto;
+}
+
+#searchList li a {
+  border: 1px solid #ddd; /* Add a border to all links */
+  margin-top: -1px; /* Prevent double borders */
+  padding: 4px; /* Add some padding */
+  text-decoration: none; /* Remove default text underline */
+  font-size: 14px; /* Increase the font-size */
+  color: black; /* Add a black text color */
+  cursor: grab;
+}
+
+.hidden {
+  display: none;
+}
+
+.flex {
+  display: flex;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.industrial {
+  background-color: #99ccff;
+  border: 1px solid black;
+}
+
+.mil-spec {
+  background-color: #0000ff;
+  border: 1px solid #adadad;
+  color: #adadad;
+}
+
+.restricted {
+  background-color: #800080;
+  border: 1px solid black;
+}
+
+.classified {
+  background-color: #ff00ff;
+  border: 1px solid black;
+}
+
+.covert {
+  background-color: #ff0000;
+  border: 1px solid black;
+}
+
+#container {
+  display: flex;
+  flex-direction: row;
+  height: 10%;
+}
+
+#addedSkinsContainer {
+  flex: 1;
+}
+
+#home {
+  float: right;
+}
+
+#chooseFloat {
+  height: 16px;
+  width: 160px;
+}
+
+#floatInput {
+  width: 700px;
+  height: 200px;
+}
+
+#neededAvg {
+  margin-top: 4px;
+  margin-bottom: 1px;
+}
+
+#whatToBuy {
+  margin-top: 0px;
+  margin-bottom: 1px;
+}
+
+#scmLinks {
+  margin-left: 2%;
+}
+
+#scmFloatRanges {
+  margin-left: 2%;
+}
+
+.lessSpace {
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+.vertCenter {
+  align-items: center;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.row {
+  flex-direction: row;
+}
+
+#genCombosBtn, #stopBtn {
+  font-size: 22px;
+  height: 30px;
+}
+
+#specificity {
+  font-size: 14px;
+  width: 30%;
+  text-align: left;
+}
+
+#combosOutput {
+  margin-top: 10px;
+  width: 300px;
+  height: 250px;
+}
+
+#tip {
+  margin-left: 1%;
+}
+
+#tip > p {
+  margin: 0;
+}

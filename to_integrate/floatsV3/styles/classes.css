@@ -1,0 +1,117 @@
+.col {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.display-none {
+  display: none;
+}
+
+.width-100 {
+  width: 100%;
+}
+
+.margin-zero {
+  margin: 0;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.instructionText {
+  color: #bdbdbd;
+}
+
+.white {
+  color: white;
+}
+
+.bgConsumer {
+  background-color: #b0c3d9;
+}
+
+.bgIndustrial {
+  background-color: #5e98d9;
+}
+
+.bgMilSpec {
+  background-color: #4b69ff;
+}
+
+.bgRestricted {
+  background-color: #8847ff;
+}
+
+.bgClassified {
+  background-color: #d32ee6;
+}
+
+.bgCovert {
+  background-color: #eb4b4b;
+}
+
+.skinImg {
+  border-style: outset;
+  border-radius: 40px;
+  border: 2px solid black;
+}
+
+.skinImgCon {
+  margin: 0 0 20px 0;
+  padding: 0;
+  zoom: 0.85;
+}
+
+.skinLabel {
+  background-color: black;
+  color: white;
+  font-weight: bold;
+  font-size: 24px;
+  position: absolute;
+  padding-left: 7px;
+  padding-right: 7px;
+  border-radius: 10px;
+}
+
+.button {
+  border-radius: 10px;
+  background-color: cadetblue;
+  font-weight: bold;
+  font-size: 24px;
+  border: 3px solid black;
+}
+
+.floatInput {
+  text-align: center;
+  border-radius: 10px;
+  padding: 0;
+  margin: 0;
+  min-width: 22%;
+}
+
+.combo {
+  border-radius: 12px;
+  background-color: cadetblue;
+  font-weight: bold;
+  font-size: 24px;
+  padding: 5px;
+  text-align: center;
+  margin: 4px 0 4px 0;
+}
+
+.comboFloats {
+  font-size: 16pt;
+  font-weight: normal;
+}
