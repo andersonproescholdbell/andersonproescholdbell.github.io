@@ -1,15 +1,1249 @@
 ---
-import WIPPageTemplate from '../../../components/WIPPageTemplate.astro';
+import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
 import { getProjectColor } from '../../../config/projectUtils';
 
 const colors = getProjectColor('counter-strike', 'floats-v2');
 ---
 
-<WIPPageTemplate 
-  title="Floats-V2 - Counter-Strike Trade-up Calculator"
-  description="Counter-Strike trade-up calculator - version 2. This enhanced version will feature improved algorithms and user interface for CS trade-up calculations."
-  metaDescription="Counter-Strike trade-up calculator - version 2"
-  categoryId="counter-strike"
-  categoryName="Counter-Strike Projects"
-  colors={colors}
-/>
+<ProjectPageLayout
+  title="Float Creator V2"
+  description="Counter-Strike trade-up calculator - version 2"
+  backText="← Back to Counter-Strike"
+  backHref="/counter-strike/"
+>
+  <div id="app">
+    <div id="linksContainer" class="hidden">
+      <button onclick="showSection('tradeup')" class="nav-link">Tradeup Calculator</button>
+      <button onclick="showSection('simpletradeup')" class="nav-link">Simple Tradeup Calculator</button>
+      <button onclick="showSection('ieee')" class="nav-link">IEEE754 Converter</button>
+      <button onclick="showSection('help')" class="nav-link">Help/More</button>
+    </div>
+
+    <!-- Tradeup Calculator Section -->
+    <div id="tradeup" class="section hidden">
+      <button onclick="goHome()" class="back-btn">Back to Menu</button>
+      <div id="tradeup-content">
+        <div class="row">
+          <div class="column">
+            <input placeholder="Search for a skin" id="searchInput" />
+            <ul id="searchList">
+              <!-- Skins list will be populated by JavaScript -->
+            </ul>
+          </div>
+
+          <div class="column marginleft1 flex1">
+            <div class="row">
+              <button id="go">Go</button>
+              <button id="resetAll">Reset All</button>
+            </div>
+
+            <ul id="addedSkinsList">
+              <!-- Added skins will be populated by JavaScript -->
+            </ul>
+          </div>
+
+          <div id="outcomesContainer" class="marginleft1 marginright1 hidden">
+            <textarea id="outcomesArea" rows="30" readonly></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Simple Tradeup Section -->
+    <div id="simpletradeup" class="section hidden">
+      <button onclick="goHome()" class="back-btn">Back to Menu</button>
+      <div id="simpletradeup-content">
+        <div class="simple-row">
+          <div class="simple-column">
+            <h1 class="margin0">Enter Floats</h1>
+            <div id="floatInputs">
+              <!-- Float inputs will be populated by JavaScript -->
+            </div>
+          </div>
+
+          <div class="simple-column vertCent left2">
+            <div id="infoInputs">
+              <!-- Info inputs will be populated by JavaScript -->
+            </div>
+          </div>
+
+          <div class="simple-column vertCent left2">
+            <div id="calcOutputs">
+              <!-- Calculation outputs will be populated by JavaScript -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- IEEE754 Converter Section -->
+    <div id="ieee" class="section hidden">
+      <button onclick="goHome()" class="back-btn">Back to Menu</button>
+      <div id="ieee-content">
+        <h2>IEEE754 Converter</h2>
+        <div>
+          <label for="inputFloat">Input Float:</label>
+          <input type="text" id="inputFloat" value="0.0123456789" />
+        </div>
+        <div>
+          <label for="outputFloat">Output Float (IEEE754):</label>
+          <input type="text" id="outputFloat" readonly />
+        </div>
+      </div>
+    </div>
+
+    <!-- Help Section -->
+    <div id="help" class="section hidden">
+      <button onclick="goHome()" class="back-btn">Back to Menu</button>
+      <div id="help-content">
+        <div class="help-container">
+          <h2>CS:GO Float Calculator - Help</h2>
+          
+          <div class="help-section">
+            <h3>How to Use This Tool</h3>
+            <ul>
+              <li><strong>IEEE754 Converter:</strong> Convert regular decimal floats to IEEE754 format used by CS:GO</li>
+              <li><strong>Tradeup Calculator:</strong> Calculate trade-up outcomes and probabilities (Note: Price data has been removed in this version)</li>
+              <li><strong>Simple Tradeup Calculator:</strong> Calculate float outcomes for trade-ups with custom min/max wear values</li>
+            </ul>
+          </div>
+
+          <div class="help-section">
+            <h3>Float Ranges</h3>
+            <pre class="float-ranges">
+Factory New:    0.00 - 0.07
+Minimal Wear:   0.07 - 0.15  
+Field-Tested:   0.15 - 0.38
+Well-Worn:      0.38 - 0.45
+Battle-Scarred: 0.45 - 1.00</pre>
+          </div>
+
+          <div class="help-section">
+            <h3>About This Version</h3>
+            <p>This is a client-side port of the original floats-v2 calculator. Some features have been modified:</p>
+            <ul>
+              <li>No authentication required</li>
+              <li>Price data functionality removed (was server-dependent)</li>
+              <li>Inspect link processing removed (required external API)</li>
+              <li>All core mathematical functions preserved exactly</li>
+            </ul>
+          </div>
+
+          <div class="help-section">
+            <h3>Bookmarklet Tool</h3>
+            <p>The following bookmarklet can be used on Steam Community Market or Bitskins to collect float data:</p>
+            <div class="bookmarklet-container">
+              <a href="javascript:(function(){var itemData;try{itemData=JSON.parse(localStorage.getItem('itemData'))}catch(error){itemData=[]}
+if(itemData==null||itemData=='null'){itemData=[]}
+if(window.location.href.includes('bitskins')){bit()}else if(window.location.href.includes('steamcommunity')){scm()}
+function bit(){var showBtn=createBtn({className:{prop:'btn btn-success btn-xs'},marginLeft:{prop:'10px',style:'true'},innerText:{prop:'Show Float List'}});showBtn.addEventListener('click',function(){var showText='';for(item of itemData){try{showText+=item+'\n'}catch(error){}}(showText==='')?alert('No floats added'):prompt('Copy and paste this info',showText)});document.querySelector('div.col-md-8.col-sm-12.col-xs-12.col-md-offset-2.col-sm-offset-0.col-xs-offset-0').appendChild(showBtn);var resetBtn=showBtn=createBtn({className:{prop:'btn btn-success btn-xs'},marginLeft:{prop:'10px',style:'true'},innerText:{prop:'Clear Float List'}});resetBtn.addEventListener('click',function(){localStorage.setItem('itemData','');itemData=[];bitBtns()});document.querySelector('div.col-md-8.col-sm-12.col-xs-12.col-md-offset-2.col-sm-offset-0.col-xs-offset-0').appendChild(resetBtn);bitBtns()}
+function scm(){var showBtn=createBtn({className:{prop:'btn_green_white_innerfade btn_small float-btn'},background:{prop:'linear-gradient( to bottom, #002879 5%, #141805 95%)',style:'true'}},{innerText:{prop:'Show Float List'},background:{prop:'linear-gradient(rgb(0, 87, 133) 5%, rgb(3, 40, 80) 95%)',style:'true'}});showBtn.addEventListener('click',function(){var showText='';for(item of itemData){try{showText+=item+'\n'}catch(error){}}(showText==='')?alert('No floats added'):prompt('Copy and paste this info',showText)});document.getElementById('floatUtilities').appendChild(showBtn);var resetBtn=createBtn({className:{prop:'btn_green_white_innerfade btn_small float-btn'},background:{prop:'linear-gradient( to bottom, #5a1239 5%, #242b0b 95%)',style:'true'}},{innerText:{prop:'Clear Float List'},background:{prop:'linear-gradient(rgb(155, 26, 26) 5%, rgb(62, 15, 15) 95%)',style:'true'}});resetBtn.addEventListener('click',function(){localStorage.setItem('itemData','');itemData=[];scmBtns()});document.getElementById('floatUtilities').appendChild(resetBtn);scmBtns()}
+function createBtn(btn,span){var tempBtn=document.createElement('button');for(key of Object.keys(btn)){if(btn[key].style){tempBtn.style[key]=btn[key].prop}else{tempBtn[key]=btn[key].prop}}
+if(span){var tempSpan=document.createElement('span');for(key of Object.keys(span)){if(span[key].style){tempSpan.style[key]=span[key].prop}else{tempSpan[key]=span[key].prop}}
+tempBtn.appendChild(tempSpan)}
+return tempBtn}
+function clearBtns(index){var floatBtns=document.querySelectorAll('button.andersonp196');if(index=='all'){for(floatBtn of floatBtns){floatBtn.parentNode.removeChild(floatBtn)}}else{floatBtns[index].parentNode.removeChild(floatBtns[index])}}
+function bitBtns(){clearBtns('all');var itemDivs=document.querySelectorAll('div.item-solo');for(div of itemDivs){var tempInfo=`${div.querySelector('div.text-muted.text-center').innerText.replace('Wear: ', '')}++${div.querySelector('div.panel-heading.item-title').innerText}++${div.querySelector('span.item-price-display').innerText}`,floatBtn;(itemData.includes(tempInfo))?floatBtn=createBtn({className:{prop:'btn btn-success btn-xs added andersonp196'},marginLeft:{prop:'0.1px',style:'true'},innerText:{prop:'Remove Float'},backgroundColor:{prop:'#960d0d',style:'true'},border:{prop:'#960d0d',style:'true'}}):floatBtn=createBtn({className:{prop:'btn btn-success btn-xs andersonp196'},marginLeft:{prop:'0.1px',style:'true'},innerText:{prop:'Add Float'}});floatBtn.addEventListener('click',function(){var info=`${this.parentNode.parentNode.parentNode.parentNode.querySelector('div.text-muted.text-center').innerText.replace('Wear: ', '')}++${this.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('div.panel-heading.item-title').innerText}++${this.parentNode.parentNode.parentNode.querySelector('span.item-price-display').innerText}`;if(!this.classList.contains('added')){this.classList.add('added');this.innerHTML='Remove Float';this.style.backgroundColor='#960d0d';this.style.border='#960d0d';itemData.push(info)}else{this.classList.remove('added');this.innerHTML='Add Float';this.style.backgroundColor='';this.style.border='';itemData.splice(itemData.indexOf(info),1)}
+localStorage.setItem('itemData',JSON.stringify(itemData))});div.querySelector('button.btn.btn-success.btn-xs.addToCartButton').parentNode.appendChild(floatBtn)}}
+function scmBtns(){clearBtns('all');var floatDivs=document.querySelectorAll('div.float-div');for(floatDiv of floatDivs){var tempInfo=`${floatDiv.parentNode.querySelector('div.csgofloat-itemfloat').innerText.replace('Float: ', '')}++${floatDiv.parentNode.parentNode.querySelector('span.market_listing_item_name.economy_item_hoverable').innerText}++${floatDiv.parentNode.parentNode.querySelector('span.market_listing_price.market_listing_price_with_fee').innerText.replace(/ /g,'')}`,floatBtn;(itemData.includes(tempInfo))?floatBtn=createBtn({className:{prop:'btn_green_white_innerfade btn_small float-btn added andersonp196',},marginLeft:{prop:'10px',style:'true'},background:{prop:'linear-gradient( to bottom, #5a1239 5%, #242b0b 95%)',style:'true'}},{innerHTML:{prop:'Remove Float'},background:{prop:'linear-gradient(rgb(155, 26, 26) 5%, rgb(62, 15, 15) 95%)',style:'true'}}):floatBtn=createBtn({className:{prop:'btn_green_white_innerfade btn_small float-btn andersonp196',},marginLeft:{prop:'10px',style:'true'},background:{prop:'linear-gradient( to bottom, #002879 5%, #141805 95%)',style:'true'}},{innerHTML:{prop:'Add Float'},background:{prop:'linear-gradient(rgb(0, 87, 133) 5%, rgb(3, 40, 80) 95%)',style:'true'}});floatBtn.addEventListener('click',function(){var info=`${this.parentNode.querySelector('div.csgofloat-itemfloat').innerText.replace('Float: ', '')}++${this.parentNode.parentNode.querySelector('span.market_listing_item_name.economy_item_hoverable').innerText}++${this.parentNode.parentNode.parentNode.querySelector('span.market_listing_price.market_listing_price_with_fee').innerText.replace(/ /g,'')}`;if(!this.classList.contains('added')){this.classList.add('added');this.childNodes[0].innerHTML='Remove Float';this.childNodes[0].style.background='linear-gradient(rgb(155, 26, 26) 5%, rgb(62, 15, 15) 95%)';this.style.background='linear-gradient(rgb(90, 18, 57) 5%, rgb(36, 43, 11) 95%)';itemData.push(info)}else{this.classList.remove('added');this.childNodes[0].innerHTML='Add Float';this.childNodes[0].style.background='linear-gradient(rgb(0, 87, 133) 5%, rgb(3, 40, 80) 95%)';this.style.background='linear-gradient(rgb(0, 40, 121) 5%, rgb(20, 24, 5) 95%)';itemData.splice(itemData.indexOf(info),1)}
+localStorage.setItem('itemData',JSON.stringify(itemData))});floatDiv.appendChild(floatBtn)}}})();" class="bookmarklet">Float Retriever</a>
+            </div>
+            <p><em>Drag this link to your bookmarks bar. Use it on Steam Community Market or Bitskins pages to collect float data.</em></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    :root {
+      /* Dark theme color palette */
+      --primary-color: #3b82f6;
+      --secondary-color: #1e40af;
+      --success-color: #10b981;
+      --danger-color: #ef4444;
+      --warning-color: #f59e0b;
+      --info-color: #06b6d4;
+      
+      /* Dark theme backgrounds and surfaces */
+      --bg-primary: #111827;        /* Darkest background */
+      --bg-secondary: #1f2937;      /* Secondary dark background */
+      --bg-tertiary: #374151;       /* Lighter dark background */
+      --bg-card: #1f2937;          /* Card backgrounds */
+      --bg-elevated: #374151;       /* Elevated surfaces */
+      
+      /* Text colors for dark theme */
+      --text-primary: #f9fafb;      /* Primary text */
+      --text-secondary: #d1d5db;    /* Secondary text */
+      --text-muted: #9ca3af;        /* Muted text */
+      
+      /* Border colors for dark theme */
+      --border-color: #374151;
+      --border-light: #4b5563;
+      
+      /* Shadows optimized for dark theme */
+      --shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.3);
+      --shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.4);
+      --shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.5);
+      --shadow-glow: 0 0 20px rgba(59, 130, 246, 0.3);
+      
+      /* Border radius and transitions */
+      --border-radius: 0.5rem;
+      --border-radius-sm: 0.25rem;
+      --border-radius-lg: 0.75rem;
+      --transition: all 0.15s ease-in-out;
+    }
+
+    #app {
+      height: var(--content-height);
+      width: 100%;
+      /* Let ProjectPageLayout handle background - no background here */
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--text-primary);
+      overflow: hidden;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Enhanced Navigation Menu */
+    #linksContainer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 24px;
+      background: radial-gradient(ellipse at center, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+      height: 100%;
+    }
+
+    .nav-link {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+      color: var(--text-primary);
+      border: none;
+      padding: 18px 36px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: var(--transition);
+      min-width: 280px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav-link::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .nav-link:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+      background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+    }
+
+    .nav-link:hover::before {
+      left: 100%;
+    }
+
+    .nav-link:active {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow);
+    }
+
+    /* Enhanced Section Styling */
+    .section {
+      padding: 32px;
+      height: 100%;
+      background: var(--bg-secondary);
+      backdrop-filter: blur(10px);
+      border-radius: var(--border-radius-lg);
+      margin: 0;
+      box-shadow: var(--shadow);
+      overflow-y: auto;
+    }
+
+    /* Modern Back Button */
+    .back-btn {
+      background: linear-gradient(135deg, var(--bg-tertiary) 0%, #495057 100%);
+      color: var(--text-primary);
+      border: none;
+      padding: 12px 24px;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      margin-bottom: 24px;
+      font-weight: 600;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .back-btn::before {
+      content: '←';
+      font-weight: bold;
+    }
+
+    .back-btn:hover {
+      background: linear-gradient(135deg, #495057 0%, var(--bg-tertiary) 100%);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow);
+    }
+
+    /* Enhanced IEEE754 Converter Styling */
+    #ieee-content {
+      max-width: 700px;
+      margin: 0 auto;
+      background: var(--bg-card);
+      padding: 32px;
+      border-radius: var(--border-radius-lg);
+      box-shadow: var(--shadow);
+    }
+
+    #ieee-content h2 {
+      text-align: center;
+      margin-bottom: 32px;
+      color: var(--text-primary);
+      font-weight: 700;
+      font-size: 2rem;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    #ieee-content div {
+      margin-bottom: 24px;
+    }
+
+    #ieee-content label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    #ieee-content input {
+      width: 100%;
+      padding: 16px 20px;
+      font-size: 16px;
+      /* Other properties inherited from base input styling */
+    }
+
+    #ieee-content input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      background: var(--bg-primary);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+      transform: translateY(-1px);
+    }
+
+    #ieee-content input[readonly] {
+      background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-elevated) 100%);
+      color: var(--success-color);
+      font-weight: 600;
+    }
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Modern Base Input Styling */
+    input {
+      padding: 12px 16px;
+      border: 2px solid var(--border-color);
+      border-radius: var(--border-radius);
+      font-size: 14px;
+      font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+      outline: none;
+    }
+
+    input:focus {
+      border-color: var(--primary-color);
+      background: var(--bg-primary);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+      transform: translateY(-1px);
+    }
+
+    input::placeholder {
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* Enhanced Tradeup Calculator Styles */
+    .row {
+      display: flex;
+      flex-direction: row;
+      gap: 24px;
+    }
+
+    .column {
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-card);
+      border-radius: var(--border-radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .marginleft1 {
+      margin-left: 1%;
+    }
+
+    .marginright1 {
+      margin-right: 1%;
+    }
+
+    .flex1 {
+      flex: 1;
+    }
+
+    /* Enhanced Search Input */
+    #searchInput {
+      padding: 16px 20px;
+      margin-bottom: 16px;
+      font-size: 16px;
+      /* Other properties inherited from base input styling */
+    }
+
+    #searchInput:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      background: var(--bg-primary);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+
+    #searchInput::placeholder {
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* Modern Search List */
+    #searchList {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      height: 500px;
+      overflow-y: auto;
+      border: 2px solid var(--border-color);
+      border-radius: var(--border-radius);
+      background: var(--bg-elevated);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    #searchList::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    #searchList::-webkit-scrollbar-track {
+      background: var(--bg-secondary);
+      border-radius: var(--border-radius-sm);
+    }
+
+    #searchList::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: var(--border-radius-sm);
+    }
+
+    #searchList::-webkit-scrollbar-thumb:hover {
+      background: var(--border-light);
+    }
+
+    #searchList li {
+      padding: 0;
+      border-bottom: 1px solid var(--border-color);
+      transition: var(--transition);
+    }
+
+    #searchList li:last-child {
+      border-bottom: none;
+    }
+
+    #searchList li:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(30, 64, 175, 0.1) 100%);
+    }
+
+    /* Enhanced Added Skins List */
+    #addedSkinsList {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      margin-top: 16px;
+    }
+
+    #addedSkinsList li {
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      padding: 8px;
+      background: var(--bg-elevated);
+      border-radius: var(--border-radius);
+      border: 1px solid var(--border-color);
+      transition: var(--transition);
+    }
+
+    #addedSkinsList li:hover {
+      box-shadow: var(--shadow-sm);
+      transform: translateY(-1px);
+    }
+
+    /* Modern Action Buttons */
+    #go, #resetAll {
+      padding: 14px 28px;
+      margin-right: 12px;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--success-color) 0%, #20c997 100%);
+      color: var(--text-primary);
+      border: none;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 16px;
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    #go::before, #resetAll::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    #go:hover, #resetAll:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    #go:hover::before, #resetAll:hover::before {
+      left: 100%;
+    }
+
+    #resetAll {
+      background: linear-gradient(135deg, var(--danger-color) 0%, #c82333 100%);
+    }
+
+    /* Enhanced Outcomes Area */
+    #outcomesArea {
+      width: 100%;
+      font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+      background: linear-gradient(135deg, var(--bg-elevated) 0%, var(--bg-primary) 100%);
+      color: var(--text-primary);
+      border: 2px solid var(--border-color);
+      border-radius: var(--border-radius);
+      padding: 20px;
+      font-size: 14px;
+      line-height: 1.6;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+      resize: vertical;
+    }
+
+    #outcomesArea:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+
+    /* Enhanced Skin Items */
+    .skin-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      margin: 4px 0;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+      border: 1px solid transparent;
+    }
+
+    .skin-item:hover {
+      transform: translateX(4px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Modern Skin Buttons */
+    .skin-add-btn, .skin-remove-btn {
+      margin-right: 12px;
+      padding: 8px 12px;
+      border: none;
+      cursor: pointer;
+      min-width: 36px;
+      border-radius: var(--border-radius-sm);
+      font-weight: 700;
+      font-size: 18px;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skin-add-btn {
+      background: linear-gradient(135deg, var(--success-color) 0%, #20c997 100%);
+      color: var(--text-primary);
+    }
+
+    .skin-remove-btn {
+      background: linear-gradient(135deg, var(--danger-color) 0%, #c82333 100%);
+      color: var(--text-primary);
+    }
+
+    .skin-add-btn:hover, .skin-remove-btn:hover {
+      transform: scale(1.05);
+      box-shadow: var(--shadow);
+    }
+
+    .skin-add-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+      background: var(--text-muted);
+    }
+
+    .skin-name {
+      flex: 1;
+      padding: 12px 16px;
+      margin-right: 12px;
+      border: 2px solid var(--border-color);
+      border-radius: var(--border-radius);
+      font-weight: 600;
+      font-size: 14px;
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+      font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+    }
+
+    .skin-name:hover {
+      border-color: var(--border-light);
+      box-shadow: var(--shadow);
+      transform: translateY(-1px);
+    }
+
+    .float-input {
+      width: 200px;
+      /* Other properties inherited from base input styling */
+    }
+
+    .float-input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+
+    /* Enhanced CS:GO Rarity Colors with Modern Styling */
+    .consumer {
+      background: linear-gradient(135deg, #c0c0c0 0%, #a8a8a8 100%);
+      color: #2c2c2c;
+      border-color: #999999;
+      box-shadow: 0 2px 8px rgba(192, 192, 192, 0.3);
+    }
+
+    .industrial {
+      background: linear-gradient(135deg, #99ccff 0%, #7db8ff 100%);
+      color: #1a365d;
+      border-color: #6ba3ff;
+      box-shadow: 0 2px 8px rgba(153, 204, 255, 0.4);
+    }
+
+    .mil-spec {
+      background: linear-gradient(135deg, #0000ff 0%, #0000cc 100%);
+      color: #e6e6e6;
+      border-color: #3333ff;
+      box-shadow: 0 2px 8px rgba(0, 0, 255, 0.4);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .restricted {
+      background: linear-gradient(135deg, #800080 0%, #6b006b 100%);
+      color: #f0e6ff;
+      border-color: #9933cc;
+      box-shadow: 0 2px 8px rgba(128, 0, 128, 0.4);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .classified {
+      background: linear-gradient(135deg, #ff00ff 0%, #e600e6 100%);
+      color: #2c1a2c;
+      border-color: #ff33ff;
+      box-shadow: 0 2px 8px rgba(255, 0, 255, 0.4);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    .covert {
+      background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+      color: var(--text-primary);
+      border-color: #ff3333;
+      box-shadow: 0 2px 8px rgba(255, 0, 0, 0.4);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Hover effects for rarity items */
+    .consumer:hover { box-shadow: 0 4px 16px rgba(192, 192, 192, 0.5); }
+    .industrial:hover { box-shadow: 0 4px 16px rgba(153, 204, 255, 0.6); }
+    .mil-spec:hover { box-shadow: 0 4px 16px rgba(0, 0, 255, 0.6); }
+    .restricted:hover { box-shadow: 0 4px 16px rgba(128, 0, 128, 0.6); }
+    .classified:hover { box-shadow: 0 4px 16px rgba(255, 0, 255, 0.6); }
+    .covert:hover { box-shadow: 0 4px 16px rgba(255, 0, 0, 0.6); }
+
+    /* Enhanced Simple Tradeup Styles */
+    .simple-row {
+      display: flex;
+      flex-direction: row;
+      gap: 32px;
+    }
+
+    .simple-column {
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-card);
+      border-radius: var(--border-radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      min-width: 280px;
+    }
+
+    .simple-column h1 {
+      color: var(--text-primary);
+      font-weight: 700;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      text-align: center;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .vertCent {
+      justify-content: center;
+    }
+
+    .left2 {
+      margin-left: 2%;
+    }
+
+    .margin0 {
+      margin: 0;
+    }
+
+    .w100 {
+      width: 100%;
+    }
+
+    /* Enhanced Input Styling */
+    #floatInputs input, #infoInputs input, #calcOutputs input {
+      margin-bottom: 12px;
+      width: 100%;
+      max-width: 250px;
+      /* Other properties inherited from base input styling */
+    }
+
+    #floatInputs input:focus, #infoInputs input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      background: var(--bg-primary);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+      transform: translateY(-1px);
+    }
+
+    #floatInputs input::placeholder {
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* Enhanced Section Headers */
+    #infoInputs h3, #calcOutputs h2 {
+      margin: 0 0 8px 0;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 4px;
+    }
+
+    #calcOutputs h2 {
+      font-size: 1rem;
+      color: var(--success-color);
+    }
+
+    /* Enhanced Calculation Outputs */
+    #calcOutputs input {
+      background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-elevated) 100%);
+      border: 2px solid var(--success-color);
+      color: var(--success-color);
+      font-weight: 600;
+      cursor: default;
+    }
+
+    #calcOutputs input:focus {
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+    }
+
+    /* Enhanced Help Section Styles */
+    .help-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 32px;
+      line-height: 1.7;
+      background: var(--bg-card);
+      border-radius: var(--border-radius-lg);
+      box-shadow: var(--shadow);
+    }
+
+    .help-container h2 {
+      text-align: center;
+      margin-bottom: 40px;
+      color: var(--text-primary);
+      font-weight: 700;
+      font-size: 2.5rem;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .help-section {
+      margin-bottom: 40px;
+      padding: 24px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(30, 64, 175, 0.05) 100%);
+      border-radius: var(--border-radius);
+      border: 1px solid var(--border-color);
+    }
+
+    .help-section h3 {
+      color: var(--primary-color);
+      border-bottom: 3px solid var(--primary-color);
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+      font-weight: 700;
+      font-size: 1.3rem;
+      position: relative;
+    }
+
+    .help-section h3::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: var(--secondary-color);
+    }
+
+    .help-section ul {
+      padding-left: 24px;
+    }
+
+    .help-section li {
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .help-section li::marker {
+      color: var(--primary-color);
+    }
+
+    .help-section strong {
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+
+    .help-section p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+    }
+
+    /* Enhanced Float Ranges Display */
+    .float-ranges {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
+      border: 2px solid var(--border-color);
+      border-radius: var(--border-radius);
+      padding: 24px;
+      font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+      margin: 20px 0;
+      color: #00ff00;
+      font-size: 16px;
+      line-height: 1.8;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .float-ranges::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, transparent 30%, rgba(0, 255, 0, 0.02) 50%, transparent 70%);
+      animation: matrix 3s linear infinite;
+    }
+
+    @keyframes matrix {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    /* Enhanced Bookmarklet */
+    .bookmarklet-container {
+      text-align: center;
+      margin: 32px 0;
+      padding: 24px;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%);
+      border-radius: var(--border-radius);
+      border: 2px dashed var(--success-color);
+    }
+
+    .bookmarklet {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--success-color) 0%, #20c997 100%);
+      color: var(--text-primary);
+      padding: 16px 32px;
+      border-radius: var(--border-radius);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 18px;
+      border: 2px solid #1e7e34;
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bookmarklet::before {
+      content: '🔗';
+      margin-right: 8px;
+    }
+
+    .bookmarklet::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .bookmarklet:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+      text-decoration: none;
+    }
+
+    .bookmarklet:hover::after {
+      left: 100%;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .section {
+        margin: 0;
+        padding: 20px;
+      }
+      
+      .row {
+        flex-direction: column;
+        gap: 16px;
+      }
+      
+      .simple-row {
+        flex-direction: column;
+        gap: 20px;
+      }
+      
+      .nav-link {
+        min-width: 250px;
+      }
+      
+      .help-container {
+        padding: 20px;
+      }
+      
+      .help-container h2 {
+        font-size: 2rem;
+      }
+    }
+
+    /* Accessibility Improvements */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+
+  <script>
+    import { getIEEE754 } from '../../../scripts/floats-v2/shared.js';
+    import { TradeupCalculator } from '../../../scripts/floats-v2/tradeup.js';
+    import { SimpleTradeupCalculator } from '../../../scripts/floats-v2/simpletradeup.js';
+
+    let tradeupCalc;
+    let simpleTradeupCalc;
+
+    // Navigation functions
+    window.showSection = function(sectionId) {
+      // Hide home menu
+      document.getElementById('linksContainer').classList.add('hidden');
+      
+      // Hide all sections
+      const sections = document.querySelectorAll('.section');
+      sections.forEach(section => section.classList.add('hidden'));
+      
+      // Show selected section
+      document.getElementById(sectionId).classList.remove('hidden');
+      
+      // Initialize section-specific functionality
+      if (sectionId === 'ieee') {
+        initIEEE();
+      } else if (sectionId === 'tradeup') {
+        initTradeup();
+      } else if (sectionId === 'simpletradeup') {
+        initSimpleTradeup();
+      }
+    };
+
+    window.goHome = function() {
+      // Hide all sections
+      const sections = document.querySelectorAll('.section');
+      sections.forEach(section => section.classList.add('hidden'));
+      
+      // Show home menu
+      document.getElementById('linksContainer').classList.remove('hidden');
+    };
+
+    // IEEE754 Converter functionality
+    function initIEEE() {
+      const inputFloat = document.getElementById('inputFloat');
+      const outputFloat = document.getElementById('outputFloat');
+
+      function updateOutput() {
+        try {
+          const value = Number(inputFloat.value);
+          outputFloat.value = getIEEE754(value);
+        } catch (error) {
+          outputFloat.value = 'Invalid input';
+        }
+      }
+
+      inputFloat.addEventListener('input', updateOutput);
+      updateOutput(); // Initial calculation
+    }
+
+    // Tradeup Calculator functionality
+    function initTradeup() {
+      if (!tradeupCalc) {
+        tradeupCalc = new TradeupCalculator();
+        
+        const searchInput = document.getElementById('searchInput');
+        const goBtn = document.getElementById('go');
+        const resetBtn = document.getElementById('resetAll');
+
+        // Search functionality
+        searchInput.addEventListener('input', (e) => {
+          tradeupCalc.data.searchTerm = e.target.value;
+          tradeupCalc.search();
+          renderSkinsList();
+        });
+
+        // Button event listeners
+        goBtn.addEventListener('click', () => {
+          tradeupCalc.go();
+          renderOutcomes();
+        });
+
+        resetBtn.addEventListener('click', () => {
+          tradeupCalc.resetAll();
+          searchInput.value = '';
+          renderSkinsList();
+          renderAddedSkins();
+          hideOutcomes();
+        });
+      }
+      
+      renderSkinsList();
+      renderAddedSkins();
+    }
+
+    function renderSkinsList() {
+      const searchList = document.getElementById('searchList');
+      searchList.innerHTML = '';
+      
+      tradeupCalc.data.skins.forEach((skin, index) => {
+        if (!skin.hidden) {
+          const li = document.createElement('li');
+          li.className = 'skin-item';
+          
+          li.innerHTML = `
+            <button class="skin-add-btn ${skin.rarity}" ${skin.disabled ? 'disabled' : ''} 
+                    onclick="addSkinToTradeup(${index})">+</button>
+            <span class="skin-name ${skin.rarity}">${skin.skin}</span>
+          `;
+          
+          searchList.appendChild(li);
+        }
+      });
+    }
+
+    function renderAddedSkins() {
+      const addedList = document.getElementById('addedSkinsList');
+      addedList.innerHTML = '';
+      
+      tradeupCalc.data.addedSkins.forEach((skin, index) => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <button class="skin-remove-btn ${skin.rarity}" onclick="removeSkinFromTradeup(${index})">-</button>
+          <span class="skin-name ${skin.rarity}">${skin.skin}</span>
+          <input class="float-input" type="text" placeholder="${skin.floatPlaceholder}" 
+                 value="${skin.float}" onchange="updateSkinFloat(${index}, this.value)">
+        `;
+        addedList.appendChild(li);
+      });
+    }
+
+    function renderOutcomes() {
+      const outcomesContainer = document.getElementById('outcomesContainer');
+      const outcomesArea = document.getElementById('outcomesArea');
+      
+      if (!tradeupCalc.data.outcomesHidden) {
+        outcomesContainer.classList.remove('hidden');
+        outcomesArea.value = tradeupCalc.data.outcomes;
+      }
+    }
+
+    function hideOutcomes() {
+      document.getElementById('outcomesContainer').classList.add('hidden');
+    }
+
+    // Global functions for onclick handlers
+    window.addSkinToTradeup = function(index) {
+      tradeupCalc.addSkin(index);
+      renderSkinsList();
+      renderAddedSkins();
+    };
+
+    window.removeSkinFromTradeup = function(index) {
+      tradeupCalc.removeSkin(index);
+      renderSkinsList();
+      renderAddedSkins();
+    };
+
+    window.updateSkinFloat = function(index, value) {
+      tradeupCalc.data.addedSkins[index].float = value;
+    };
+
+    // Simple Tradeup Calculator functionality
+    function initSimpleTradeup() {
+      if (!simpleTradeupCalc) {
+        simpleTradeupCalc = new SimpleTradeupCalculator();
+      }
+      
+      renderSimpleTradeupUI();
+    }
+
+    function renderSimpleTradeupUI() {
+      const floatInputs = document.getElementById('floatInputs');
+      const infoInputs = document.getElementById('infoInputs');
+      const calcOutputs = document.getElementById('calcOutputs');
+
+      // Render float inputs
+      floatInputs.innerHTML = '';
+      simpleTradeupCalc.data.skins.forEach((skin, index) => {
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.placeholder = 'input a float';
+        input.value = skin.float;
+        input.addEventListener('input', (e) => {
+          simpleTradeupCalc.updateSkinFloat(index, e.target.value);
+          updateSimpleTradeupOutputs();
+        });
+        floatInputs.appendChild(input);
+      });
+
+      // Render info inputs
+      infoInputs.innerHTML = '';
+      simpleTradeupCalc.data.info.forEach((info, index) => {
+        const div = document.createElement('div');
+        const h3 = document.createElement('h3');
+        h3.textContent = info.ph;
+        h3.className = 'margin0';
+        
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = info.entered;
+        input.addEventListener('input', (e) => {
+          simpleTradeupCalc.updateInfo(index, e.target.value);
+          updateSimpleTradeupOutputs();
+        });
+        
+        div.appendChild(h3);
+        div.appendChild(input);
+        infoInputs.appendChild(div);
+      });
+
+      // Render calculation outputs
+      updateSimpleTradeupOutputs();
+    }
+
+    function updateSimpleTradeupOutputs() {
+      const calcOutputs = document.getElementById('calcOutputs');
+      calcOutputs.innerHTML = '';
+      
+      simpleTradeupCalc.data.calcs.forEach((calc) => {
+        const div = document.createElement('div');
+        const h2 = document.createElement('h2');
+        h2.textContent = calc.ph;
+        h2.className = 'margin0';
+        
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'w100';
+        input.value = typeof calc.comp === 'number' ? calc.comp.toFixed(6) : calc.comp;
+        input.readOnly = true;
+        
+        div.appendChild(h2);
+        div.appendChild(input);
+        calcOutputs.appendChild(div);
+      });
+    }
+
+    // Show home by default
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('linksContainer').classList.remove('hidden');
+    });
+  </script>
+</ProjectPageLayout>
