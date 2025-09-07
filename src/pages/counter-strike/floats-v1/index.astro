@@ -8,6 +8,7 @@ import calculatorUrl from '../../../scripts/floats-v1/calculator.js?url';
 import ieeeUrl from '../../../scripts/floats-v1/ieee.js?url';
 import combinationsUrl from '../../../scripts/floats-v1/combinations.js?url';
 import floatPyramidUrl from '../../../scripts/floats-v1/floatpyramid.js?url';
+import downarrowUrl from '../../../scripts/floats-v1/downarrow.png?url';
 
 const colors = getProjectColor('counter-strike', 'floats-v1');
 ---
@@ -1027,7 +1028,7 @@ const colors = getProjectColor('counter-strike', 'floats-v1');
     }
   </style>
 
-  <img src="/assets/floats-v1/downarrow.png" alt="Look Below" id="arrowPop">
+  <img src={downarrowUrl} alt="Look Below" id="arrowPop">
 
   <div class="tab">
     <button id="tfDivbtn" class="tablinks tabButton" onclick="openTab('tfDiv')">Simple Calculator for 10 Floats</button>

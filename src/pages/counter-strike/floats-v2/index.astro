@@ -758,25 +758,11 @@ localStorage.setItem('itemData',JSON.stringify(itemData))});floatDiv.appendChild
       width: 100%;
     }
 
-    /* Enhanced Input Styling */
-    #floatInputs input, #infoInputs input, #calcOutputs input {
+    /* Container-level styling for Simple Tradeup Calculator */
+    #floatInputs input, #infoInputs input {
       margin-bottom: 12px;
       width: 100%;
       max-width: 250px;
-      /* Other properties inherited from base input styling */
-    }
-
-    #floatInputs input:focus, #infoInputs input:focus {
-      outline: none;
-      border-color: var(--primary-color);
-      background: var(--bg-primary);
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-      transform: translateY(-1px);
-    }
-
-    #floatInputs input::placeholder {
-      color: var(--text-muted);
-      font-style: italic;
     }
 
     /* Enhanced Section Headers */
