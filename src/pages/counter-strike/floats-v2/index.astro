@@ -155,7 +155,7 @@ localStorage.setItem('itemData',JSON.stringify(itemData))});floatDiv.appendChild
     </div>
   </div>
 
-  <style>
+  <style is:global>
     :root {
       /* Dark theme color palette */
       --primary-color: #3b82f6;
@@ -497,6 +497,7 @@ localStorage.setItem('itemData',JSON.stringify(itemData))});floatDiv.appendChild
       margin-bottom: 12px;
       display: flex;
       align-items: center;
+      gap: 12px;
       padding: 8px;
       background: var(--bg-elevated);
       border-radius: var(--border-radius);
@@ -576,6 +577,7 @@ localStorage.setItem('itemData',JSON.stringify(itemData))});floatDiv.appendChild
     .skin-item {
       display: flex;
       align-items: center;
+      gap: 12px;
       padding: 12px 16px;
       margin: 4px 0;
       border-radius: var(--border-radius);
@@ -590,18 +592,24 @@ localStorage.setItem('itemData',JSON.stringify(itemData))});floatDiv.appendChild
 
     /* Modern Skin Buttons */
     .skin-add-btn, .skin-remove-btn {
-      margin-right: 12px;
-      padding: 8px 12px;
+      margin-right: 0; /* Remove margin, we will use gap on parent */
+      padding: 0;      /* Remove padding, we will use flex centering */
       border: none;
       cursor: pointer;
-      min-width: 36px;
+      width: 36px;     /* Set explicit width */
+      height: 36px;    /* Set explicit height */
       border-radius: var(--border-radius-sm);
       font-weight: 700;
-      font-size: 18px;
+      font-size: 20px;   /* Slightly increase font size for visibility */
       transition: var(--transition);
       box-shadow: var(--shadow-sm);
       position: relative;
       overflow: hidden;
+      /* Add flex properties for perfect centering */
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1; /* Ensure consistent line height */
     }
 
     .skin-add-btn {
@@ -649,6 +657,7 @@ localStorage.setItem('itemData',JSON.stringify(itemData))});floatDiv.appendChild
 
     .float-input {
       width: 200px;
+      padding: 8px 12px; /* Reduce padding for a more compact look */
       /* Other properties inherited from base input styling */
     }
 
