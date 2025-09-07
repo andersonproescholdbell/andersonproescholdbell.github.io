@@ -1,4 +1,5 @@
 ---
+import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
 import { getProjectColor } from '../../../config/projectUtils';
 
 // Import JavaScript files as URLs
@@ -13,22 +14,29 @@ import downarrowUrl from '../../../scripts/floats-v1/downarrow.png?url';
 const colors = getProjectColor('counter-strike', 'floats-v1');
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="initial-scale=1"/>
-  <title>Float Creator V1</title>
-  <meta name="description" content="Counter-Strike trade-up calculator - version 1. Calculate float values for CS trade-ups with precision.">
-</head>
-<body>
-  <style>
+<ProjectPageLayout
+  title="Float Creator V1"
+  description="Counter-Strike trade-up calculator - version 1. Calculate float values for CS trade-ups with precision."
+  backText="← Back to Counter-Strike"
+  backHref="/counter-strike/"
+>
+  <style is:global>
+    @import '/src/config/design-tokens.css';
+    
     * {box-sizing: border-box}
     body {
       font-family: "Lato", sans-serif;
       background-color: #8f91ff;
       margin: 0;
       padding: 0;
+    }
+    
+    #app-container {
+      height: var(--content-height);
+      width: 100%;
+      overflow-y: auto;
+      padding: 20px;
+      box-sizing: border-box;
     }
 
     input::-webkit-outer-spin-button,
@@ -1028,7 +1036,8 @@ const colors = getProjectColor('counter-strike', 'floats-v1');
     }
   </style>
 
-  <img src={downarrowUrl} alt="Look Below" id="arrowPop">
+  <div id="app-container">
+    <img src={downarrowUrl} alt="Look Below" id="arrowPop">
 
   <div class="tab">
     <button id="tfDivbtn" class="tablinks tabButton" onclick="openTab('tfDiv')">Simple Calculator for 10 Floats</button>
@@ -1455,6 +1464,7 @@ const colors = getProjectColor('counter-strike', 'floats-v1');
       </div>
     </div>
   </div>
+  </div>
 
   <!-- Load External Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/async/2.6.0/async.min.js"></script>
@@ -1475,6 +1485,4 @@ const colors = getProjectColor('counter-strike', 'floats-v1');
       }
     });
   </script>
-
-</body>
-</html>
+</ProjectPageLayout>
