@@ -253,17 +253,17 @@ function drawMap(coords, vertToVert, ctx, scale) {
     }
   }
 
-  let images = {forest: '/src/scripts/catan-board-generator/img/forest.svg', stone: '/src/scripts/catan-board-generator/img/stone.svg', water: '/src/scripts/catan-board-generator/img/water.svg',
-                brick: '/src/scripts/catan-board-generator/img/brick.svg', sheep: '/src/scripts/catan-board-generator/img/sheep.svg', wheat: '/src/scripts/catan-board-generator/img/wheat.svg',
-                desert: '/src/scripts/catan-board-generator/img/desert.svg',
-                portrampr: '/src/scripts/catan-board-generator/img/portrampr.svg', portrampl: '/src/scripts/catan-board-generator/img/portrampl.svg',
-                portrampbr: '/src/scripts/catan-board-generator/img/portrampbr.svg', portrampbl: '/src/scripts/catan-board-generator/img/portrampbl.svg',
-                portramptr: '/src/scripts/catan-board-generator/img/portramptr.svg', portramptl: '/src/scripts/catan-board-generator/img/portramptl.svg',
-                port3to1: '/src/scripts/catan-board-generator/img/3to1port.svg', brickport: '/src/scripts/catan-board-generator/img/brickport.svg', lumberport: '/src/scripts/catan-board-generator/img/lumberport.svg',
-                stoneport: '/src/scripts/catan-board-generator/img/stoneport.svg', wheatport: '/src/scripts/catan-board-generator/img/wheatport.svg', woolport: '/src/scripts/catan-board-generator/img/woolport.svg',
-                roll2: '/src/scripts/catan-board-generator/img/roll2.svg', roll3: '/src/scripts/catan-board-generator/img/roll3.svg', roll4: '/src/scripts/catan-board-generator/img/roll4.svg', roll5: '/src/scripts/catan-board-generator/img/roll5.svg', 
-                roll6: '/src/scripts/catan-board-generator/img/roll6.svg', roll8: '/src/scripts/catan-board-generator/img/roll8.svg', roll9: '/src/scripts/catan-board-generator/img/roll9.svg', roll10: '/src/scripts/catan-board-generator/img/roll10.svg', 
-                roll11: '/src/scripts/catan-board-generator/img/roll11.svg', roll12: '/src/scripts/catan-board-generator/img/roll12.svg'};
+  let images = {forest: '/scripts/catan-board-generator/img/forest.svg', stone: '/scripts/catan-board-generator/img/stone.svg', water: '/scripts/catan-board-generator/img/water.svg',
+                brick: '/scripts/catan-board-generator/img/brick.svg', sheep: '/scripts/catan-board-generator/img/sheep.svg', wheat: '/scripts/catan-board-generator/img/wheat.svg',
+                desert: '/scripts/catan-board-generator/img/desert.svg',
+                portrampr: '/scripts/catan-board-generator/img/portrampr.svg', portrampl: '/scripts/catan-board-generator/img/portrampl.svg',
+                portrampbr: '/scripts/catan-board-generator/img/portrampbr.svg', portrampbl: '/scripts/catan-board-generator/img/portrampbl.svg',
+                portramptr: '/scripts/catan-board-generator/img/portramptr.svg', portramptl: '/scripts/catan-board-generator/img/portramptl.svg',
+                port3to1: '/scripts/catan-board-generator/img/3to1port.svg', brickport: '/scripts/catan-board-generator/img/brickport.svg', lumberport: '/scripts/catan-board-generator/img/lumberport.svg',
+                stoneport: '/scripts/catan-board-generator/img/stoneport.svg', wheatport: '/scripts/catan-board-generator/img/wheatport.svg', woolport: '/scripts/catan-board-generator/img/woolport.svg',
+                roll2: '/scripts/catan-board-generator/img/roll2.svg', roll3: '/scripts/catan-board-generator/img/roll3.svg', roll4: '/scripts/catan-board-generator/img/roll4.svg', roll5: '/scripts/catan-board-generator/img/roll5.svg', 
+                roll6: '/scripts/catan-board-generator/img/roll6.svg', roll8: '/scripts/catan-board-generator/img/roll8.svg', roll9: '/scripts/catan-board-generator/img/roll9.svg', roll10: '/scripts/catan-board-generator/img/roll10.svg', 
+                roll11: '/scripts/catan-board-generator/img/roll11.svg', roll12: '/scripts/catan-board-generator/img/roll12.svg'};
       
   let toDraw = [];
   //terrain
@@ -354,7 +354,7 @@ function drawMap(coords, vertToVert, ctx, scale) {
       let y = (coords.centers[i].y - vertToVert/4) * scale;
 
       let img = new Image();
-      img.src = '/src/scripts/catan-board-generator/img/roll' + roll + '.svg';
+      img.src = '/scripts/catan-board-generator/img/roll' + roll + '.svg';
       let w = 500;
       let h = 300;
       let apothem = vertToVert/2 * Math.sin(Math.PI/3);

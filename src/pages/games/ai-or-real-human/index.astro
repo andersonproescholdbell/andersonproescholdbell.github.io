@@ -281,20 +281,13 @@ import ProjectPageLayout from '../../../layouts/ProjectPageLayout.astro';
     function getAIFace() {
       const imageNumber = getRndInteger(1, totalAIFaces);
       const filename = `ai-face-${imageNumber.toString().padStart(3, '0')}.jpg`;
-      return `/src/scripts/ai-or-real-human/ai-faces/${filename}`;
+      return `/scripts/ai-or-real-human/ai-faces/${filename}`;
     }
 
     function getRealFace() {
-      const imageNumber = getRndInteger(0, 300);
-      let filename;
-      if (imageNumber >= 100) {
-        filename = `00${imageNumber}.png`;
-      } else if (imageNumber >= 10) {
-        filename = `000${imageNumber}.png`;
-      } else {
-        filename = `0000${imageNumber}.png`;
-      }
-      return `/src/scripts/ai-or-real-human/real-faces/${filename}`;
+      const imageNumber = getRndInteger(0, 49);
+      const filename = imageNumber.toString().padStart(5, '0') + '.png';
+      return `/scripts/ai-or-real-human/real-faces/${filename}`;
     }
 
     function setFaces() {
