@@ -1,4 +1,4 @@
-import * as util from './shared.js';
+import * as util from '/scripts/floats-v2/shared.js';
 
 export class SimpleTradeupCalculator {
   constructor() {

@@ -1,5 +1,5 @@
 // Simple state management replacement for Vuex store
-import itemDataJson from './itemData.json';
+import itemDataJson from '/scripts/floats-v2/itemData.json';
 
 class FloatsStore {
   constructor() {

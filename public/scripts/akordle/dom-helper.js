@@ -1,7 +1,7 @@
 // DOM Helper Utility for Wordle Enhanced
 // Centralizes DOM creation and scoped CSS attribute handling
 
-import { CSS_CLASSES, ELEMENT_IDS, DATA_ATTRIBUTES } from './game-constants.js';
+import { CSS_CLASSES, ELEMENT_IDS, DATA_ATTRIBUTES } from '/scripts/akordle/game-constants.js';
 
 export class DOMHelper {
     constructor() {

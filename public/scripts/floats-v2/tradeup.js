@@ -1,5 +1,5 @@
-import * as util from './shared.js';
-import { store } from './store.js';
+import * as util from '/scripts/floats-v2/shared.js';
+import { store } from '/scripts/floats-v2/store.js';
 
 export class TradeupCalculator {
   constructor() {

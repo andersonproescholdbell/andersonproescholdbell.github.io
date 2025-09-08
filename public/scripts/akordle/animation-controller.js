@@ -1,7 +1,7 @@
 // Animation Controller for Wordle Enhanced
 // Handles Promise-based animations replacing brittle setTimeout chains
 
-import { TILE_STATE, GAME_CONFIG } from './game-constants.js';
+import { TILE_STATE, GAME_CONFIG } from '/scripts/akordle/game-constants.js';
 
 export class AnimationController {
     constructor(domHelper) {
