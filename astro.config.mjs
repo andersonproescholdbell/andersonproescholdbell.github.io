@@ -6,6 +6,9 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
+  // 👇 Add this line with your GitHub Pages URL
+  site: 'https://andersonproescholdbell.github.io',
+
   redirects: {
     // Legacy urls
     '/floatsV1/index.html': '/counter-strike/floats-v1/',
