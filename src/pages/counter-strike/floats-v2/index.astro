@@ -1254,7 +1254,7 @@ localStorage.setItem('itemData',JSON.stringify(itemData))});floatDiv.appendChild
         const input = document.createElement('input');
         input.type = 'text';
         input.className = 'w100';
-        input.value = typeof calc.comp === 'number' ? calc.comp.toFixed(6) : calc.comp;
+        input.value = typeof calc.comp === 'number' ? calc.comp.toString() : calc.comp;
         input.readOnly = true;
         
         div.appendChild(h2);

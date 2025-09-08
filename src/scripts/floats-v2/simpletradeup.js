@@ -1,4 +1,4 @@
-import * as util from '/scripts/floats-v2/shared.js';
+import * as util from './shared.js';
 
 export class SimpleTradeupCalculator {
   constructor() {
@@ -39,10 +39,10 @@ export class SimpleTradeupCalculator {
       if (this.data.skins[i].float !== '') {
         floatsList.push(Number(this.data.skins[i].float));
         inputted++;
-        sum += Number(this.data.skins[i].float);
       } else {
         floatsList.push(0);
       }
+      sum += Number(this.data.skins[i].float);
     }
     
     var maxWear = Number(this.data.info[0].entered),
