@@ -253,9 +253,41 @@ const colors = getProjectColor('counter-strike', 'floats-v3');
       display: none;
       min-height: 100%;
     }
+
+    /*-----------------------------------construction banner--------------------------*/
+    #construction-banner {
+      width: 100%;
+      background-color: #ffc107;
+      padding: 12px 20px;
+      box-sizing: border-box;
+      margin-bottom: 20px;
+    }
+
+    #construction-banner-text {
+      color: #1a1a1a;
+      font-size: 30px;
+      font-weight: 600;
+      text-align: center;
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+      #construction-banner {
+        padding: 10px 15px;
+      }
+
+      #construction-banner-text {
+        font-size: 24px;
+      }
+    }
   </style>
 
   <div id="app-container">
+    <div id="construction-banner">
+      <p id="construction-banner-text"><u>New website under construction</u><br>Valve recently updated the tradeup formula making this site inaccurate. A new project will be released soon.</p>
+    </div>
+
     <div id="chooseSkin" class="col centered">
     <h1 class="instructionText">Choose a skin to craft</h1>
     <input id="search" onkeyup="search()" placeholder="search skin name"/>
