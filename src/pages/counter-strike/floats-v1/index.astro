@@ -26,7 +26,7 @@ const colors = getProjectColor('counter-strike', 'floats-v1');
     * {box-sizing: border-box}
     body {
       font-family: "Lato", sans-serif;
-      background-color: #8f91ff;
+      background-color: #b4b4b4;
       margin: 0;
       padding: 0;
     }
@@ -76,14 +76,15 @@ const colors = getProjectColor('counter-strike', 'floats-v1');
 
     .tab {
       float: left;
-      background-color: #a2a2a2;
+      background-color: #1a1a1a;
       width: 10%;
     }
 
     .tabButton {
       display: block;
       background-color: inherit;
-      background-color: #2196F3;
+      background-color: #404040;
+      color: #ffffff;
       padding: 22px 16px;
       width: 100%;
       border: none;
@@ -95,7 +96,7 @@ const colors = getProjectColor('counter-strike', 'floats-v1');
     }
 
     .tab button:hover {
-      background-color: #5cd6ff;
+      background-color: #505050;
     }
 
     .tabcontent {
@@ -108,7 +109,7 @@ const colors = getProjectColor('counter-strike', 'floats-v1');
     }
 
     #creatorInfo {
-      background-color: #8f91ff;
+      background-color: #2d2d2d;
     }
 
     #steam {
@@ -1034,9 +1035,42 @@ const colors = getProjectColor('counter-strike', 'floats-v1');
       transform: translate(-50%,-50%);
       -ms-transform: translate(-50%,-50%);
     }
+
+    /*-----------------------------------construction banner--------------------------*/
+    #construction-banner {
+      width: 100%;
+      background-color: #ffc107;
+      border-bottom: 2px solid #ff9800;
+      padding: 12px 20px;
+      box-sizing: border-box;
+      margin-bottom: 20px;
+    }
+
+    #construction-banner-text {
+      color: #1a1a1a;
+      font-size: 30px;
+      font-weight: 600;
+      text-align: center;
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+      #construction-banner {
+        padding: 10px 15px;
+      }
+
+      #construction-banner-text {
+        font-size: 24px;
+      }
+    }
   </style>
 
   <div id="app-container">
+    <div id="construction-banner">
+      <p id="construction-banner-text"><u>New website under construction</u><br>Valve recently updated the tradeup formula making this site inaccurate. A new project will be released soon.</p>
+    </div>
+
     <img src={downarrowUrl} alt="Look Below" id="arrowPop">
 
   <div class="tab">

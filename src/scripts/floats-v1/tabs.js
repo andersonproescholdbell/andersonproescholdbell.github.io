@@ -5,10 +5,10 @@ function openTab(tabName) {
   tabbutton = document.getElementsByClassName("tabButton");
   for (i = 0; i < tabcontent.length; i++) {
     tabcontent[i].style.display = "none";
-    tabbutton[i].style.backgroundColor = "#2196F3";
+    tabbutton[i].style.backgroundColor = "#404040";
   }
   document.getElementById(tabName).style.display = "block";
-  document.getElementById(tabName+"btn").style.backgroundColor = "#90CAF9";
+  document.getElementById(tabName+"btn").style.backgroundColor = "#606060";
   document.cookie = "activeTab=" + tabName;
 }
 
@@ -44,6 +44,6 @@ function lastActive() {
     tabcontent[i].style.display = "none";
   }
   document.getElementById(lastActive).style.display = "block";
-  document.getElementById(lastActive+"btn").style.backgroundColor = "#90CAF9";
+  document.getElementById(lastActive+"btn").style.backgroundColor = "#606060";
   document.cookie = "activeTab=" + lastActive;
 }
