@@ -257,7 +257,7 @@ const colors = getProjectColor('counter-strike', 'floats-v3');
     /*-----------------------------------construction banner--------------------------*/
     #construction-banner {
       width: 100%;
-      background-color: #ffc107;
+      background-color: #ffb3b3;
       padding: 12px 20px;
       box-sizing: border-box;
       margin-bottom: 20px;
@@ -270,6 +270,23 @@ const colors = getProjectColor('counter-strike', 'floats-v3');
       text-align: center;
       margin: 0;
       line-height: 1.5;
+    }
+
+    #construction-banner-text a {
+      color: #0048ff;
+      font-weight: 700;
+      text-decoration: underline;
+      transition: color 0.3s ease;
+    }
+
+    #construction-banner-text a:hover {
+      color: #0033cc;
+      text-decoration: underline;
+    }
+
+    .banner-disclaimer {
+      font-size: 18px;
+      font-weight: 500;
     }
 
     @media (max-width: 768px) {
@@ -285,7 +302,7 @@ const colors = getProjectColor('counter-strike', 'floats-v3');
 
   <div id="app-container">
     <div id="construction-banner">
-      <p id="construction-banner-text"><u>New website under construction</u><br>Valve recently updated the tradeup formula making this site inaccurate. A new project will be released soon.</p>
+      <p id="construction-banner-text">View our new project, <a href="http://localhost:5173/combinations?contract=eJxVkT1uxFAIhO%252BytRPB8J%252BrWC63S5cyyt2DeS%252BR1oUl83kGGL4fX4%252BP08EHvRND1Fz8iOt4fHb9ZMlsAqN%252B3JJCFCYHXcfJAbtVpAYvEhKBuQkvqkZDORMsVa0tVBUWptLBYp4ucGoPdiMb3EYzkIBUU6g4hUGxtTFaNitJukUggS4KiTFOrrDoHyR7%252BsqBWmtk97ZzpSJrB9irL5RDrftmGEJ9aMlIoVDv3dDdI2nZsqncUFi1F%252FWOA%252BzkG%252FLYKnkYadAdhvmGsIkeEzCpl7jxzsic17Tjav3qC7HX0GnY40tfpMvd29m3MFcEdwi9JKozVpH4w8i9Z4egU3JgHevlq7naf4Wfb%252Fci1%252FXzC37jdwY%253D" target="_blank" rel="noopener noreferrer">CS Athanor</a>, which is updated to function with the October 2025 CS2 Trade Up update.<br><span class="banner-disclaimer">Trade Up calculations on this site are no longer accurate.</span></p>
     </div>
 
     <div id="chooseSkin" class="col centered">
